@@ -54,13 +54,16 @@ def load_monthly_fees():
         # Get students sorted by roll number from most recent monthly exam
         from models import MonthlyExam, MonthlyRanking
         
-        # Find most recent monthly exam for this batch
-        most_recent_exam = MonthlyExam.query.filter_by(
-            batch_id=batch_id
-        ).order_by(
-            MonthlyExam.year.desc(),
-            MonthlyExam.month.desc()
-        ).first()
+        # Find most recent monthly exam for this batch that has finalized rankings
+        most_recent_exam = (
+            MonthlyExam.query.join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id)
+            .filter(
+                MonthlyExam.batch_id == batch_id,
+                MonthlyRanking.is_final == True
+            )
+            .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc())
+            .first()
+        )
         
         # Build roll number map
         roll_map = {}
