@@ -45,18 +45,27 @@ def get_global_latest_rank_map(candidate_user_ids):
 
     # Iterate through prioritized exams to find the first valid map
     for exam in prioritized_exams:
+        is_historic = (exam.year < now.year or (exam.year == now.year and exam.month < now.month))
+        
         # A. Check Rankings
-        rankings = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
+        # Historic exams: Use any rankings. Current exams: Only finalized rankings.
+        if is_historic:
+            rankings = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
+        else:
+            rankings = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id, is_final=True).all()
+        
         rank_map = {}
         for row in rankings:
-            current_rank = row.position
+            current_rank = row.position or row.roll_number
             if current_rank:
                 rank_map[row.user_id] = current_rank
         
         if rank_map:
             return rank_map, exam
 
-        # B. Check Marks
+        # B. Check Marks (only for historic exams to avoid using incomplete current-month data)
+        if not is_historic:
+            continue
         mark_rows = (
             db.session.query(
                 MonthlyMark.user_id,
@@ -144,30 +153,42 @@ def get_batch_latest_rank_map(batch_id):
 
     # 1/2: Try ranking table first
     for exam in prioritized_exams:
-        finalized_rows = MonthlyRanking.query.filter_by(
-            monthly_exam_id=exam.id,
-            is_final=True
-        ).all()
-
-        candidate_rows = finalized_rows
-        # Only check non-finalized rankings if we don't have finalized ones?
-        # Actually, let's stick to the prioritized order.
-        if not candidate_rows:
-             candidate_rows = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
+        is_historic = (exam.year < now.year or (exam.year == now.year and exam.month < now.month))
+        
+        # Historic exams: Use any rankings. Current exams: Only finalized rankings.
+        if is_historic:
+            # Historic exam: Check finalized first, then non-finalized
+            finalized_rows = MonthlyRanking.query.filter_by(
+                monthly_exam_id=exam.id,
+                is_final=True
+            ).all()
+            
+            candidate_rows = finalized_rows
+            if not candidate_rows:
+                candidate_rows = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
+        else:
+            # Current/future exam: Only finalized rankings
+            candidate_rows = MonthlyRanking.query.filter_by(
+                monthly_exam_id=exam.id,
+                is_final=True
+            ).all()
 
         rank_map = {}
         for row in candidate_rows:
-            # STRICT: Only accept 'position' (Merit Rank). 
-            # Do NOT fallback to 'roll_number' because new exams have rolls but no merit rank.
-            current_rank = row.position
+            current_rank = row.position or row.roll_number
             if current_rank:
                 rank_map[row.user_id] = current_rank
 
         if rank_map:
             return rank_map, exam
 
-    # 3: Fallback to exam marks
+    # 3: Fallback to exam marks (only for historic exams)
     for exam in prioritized_exams:
+        is_historic = (exam.year < now.year or (exam.year == now.year and exam.month < now.month))
+        
+        # Skip current-month exams for marks-based ranking
+        if not is_historic:
+            continue
         mark_rows = (
             db.session.query(
                 MonthlyMark.user_id,
