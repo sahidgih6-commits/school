@@ -353,34 +353,24 @@ def get_comprehensive_monthly_ranking(exam_id):
                     }
                     total_possible_marks += exam.marks
             
-            # Calculate attendance marks (1 mark per present OR leave day in the month)
-            # Only count attendance from the SAME MONTH as the exam
+            # Calculate attendance marks (1 mark per present OR leave day)
+            # Count only attendance inside this exam period (start_date -> end_date)
             attendance_marks = 0
             total_days = 0
             max_attendance_marks = 0
             
             if monthly_exam.start_date and monthly_exam.end_date:
-                # Get the first and last day of the exam's month
-                exam_month = monthly_exam.month
-                exam_year = monthly_exam.year
+                period_start = monthly_exam.start_date.date() if hasattr(monthly_exam.start_date, 'date') else monthly_exam.start_date
+                period_end = monthly_exam.end_date.date() if hasattr(monthly_exam.end_date, 'date') else monthly_exam.end_date
                 
-                # First day of the month
-                month_start = datetime(exam_year, exam_month, 1).date()
-                
-                # Last day of the month
-                if exam_month == 12:
-                    month_end = datetime(exam_year + 1, 1, 1).date() - timedelta(days=1)
-                else:
-                    month_end = datetime(exam_year, exam_month + 1, 1).date() - timedelta(days=1)
-                
-                # Count ACTUAL attendance-taking days for this batch in this month
+                # Count ACTUAL attendance-taking days for this batch in exam period
                 # Get distinct dates where attendance was recorded
                 total_days = db.session.query(
                     db.func.count(db.func.distinct(Attendance.date))
                 ).filter(
                     Attendance.batch_id == monthly_exam.batch_id,
-                    Attendance.date >= month_start,
-                    Attendance.date <= month_end
+                    Attendance.date >= period_start,
+                    Attendance.date <= period_end
                 ).scalar() or 0
                 
                 max_attendance_marks = total_days  # Maximum possible attendance marks (actual days taken)
@@ -390,8 +380,8 @@ def get_comprehensive_monthly_ranking(exam_id):
                 attended_count = Attendance.query.filter(
                     Attendance.user_id == student.id,
                     Attendance.batch_id == monthly_exam.batch_id,
-                    Attendance.date >= month_start,
-                    Attendance.date <= month_end,
+                    Attendance.date >= period_start,
+                    Attendance.date <= period_end,
                     or_(Attendance.status == AttendanceStatus.PRESENT, 
                         Attendance.status == AttendanceStatus.LEAVE)
                 ).count()
