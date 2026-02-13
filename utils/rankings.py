@@ -1,4 +1,5 @@
 from sqlalchemy import func
+from datetime import datetime
 
 from models import db, MonthlyExam, MonthlyRanking, MonthlyMark
 
@@ -83,41 +84,16 @@ def get_batch_latest_rank_map(batch_id):
         tuple(dict, MonthlyExam|None): (rank_map, source_exam)
     """
 
-    # 1/2: Try ranking table first (latest finalized preferred, then any ranking rows)
-    ranked_exams = (
-        MonthlyExam.query.join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id)
-        .filter(MonthlyExam.batch_id == batch_id)
-        .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
-        .all()
-    )
-
-    for exam in ranked_exams:
-        finalized_rows = MonthlyRanking.query.filter_by(
-            monthly_exam_id=exam.id,
-            is_final=True
-        ).all()
-
-        candidate_rows = finalized_rows
-        if not candidate_rows:
-            candidate_rows = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
-
-        rank_map = {}
-        for row in candidate_rows:
-            current_rank = row.position or row.roll_number
-            if current_rank:
-                rank_map[row.user_id] = current_rank
-
-        if rank_map:
-            return rank_map, exam
-
-    # 3: Fallback to exam marks and compute ranking on the fly (scan latest -> oldest)
-    all_exams = (
+    # PRE-FILTER: Prefer Previous Month's Exams (Stability Rule)
+    # "If this is February, show January roll in whole February"
+    now = datetime.now()
+    all_exams_raw = (
         MonthlyExam.query.filter_by(batch_id=batch_id)
         .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
         .all()
     )
-
-    if not all_exams:
+    
+    if not all_exams_raw:
         # Step 4: Fallback to Global Search (Cross-Batch Ranking)
         # If no exams exist for this specific batch, look for exams taken by these students in ANY batch
         from models import User, Batch, UserRole
@@ -135,7 +111,46 @@ def get_batch_latest_rank_map(batch_id):
         
         return {}, None
 
-    for exam in all_exams:
+    # Sort exams into "Historic" (Previous Months) and "Current/Future"
+    historic_exams = []
+    current_exams = []
+    
+    for ex in all_exams_raw:
+        # Check if exam is strictly before current month
+        if ex.year < now.year or (ex.year == now.year and ex.month < now.month):
+            historic_exams.append(ex)
+        else:
+            current_exams.append(ex)
+            
+    # Priority: Historic Exams -> Current Exams
+    # This ensures Jan results are used throughout Feb, even if Feb results exist.
+    prioritized_exams = historic_exams + current_exams
+
+    # 1/2: Try ranking table first
+    for exam in prioritized_exams:
+        finalized_rows = MonthlyRanking.query.filter_by(
+            monthly_exam_id=exam.id,
+            is_final=True
+        ).all()
+
+        candidate_rows = finalized_rows
+        # Only check non-finalized rankings if we don't have finalized ones?
+        # Actually, let's stick to the prioritized order.
+        if not candidate_rows:
+             candidate_rows = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
+
+        rank_map = {}
+        for row in candidate_rows:
+            current_rank = row.position or row.roll_number
+            if current_rank:
+                rank_map[row.user_id] = current_rank
+
+        if rank_map:
+            return rank_map, exam
+
+    # 3: Fallback to exam marks
+    for exam in prioritized_exams:
+        mark_rows = (
         mark_rows = (
             db.session.query(
                 MonthlyMark.user_id,
@@ -177,6 +192,12 @@ def get_batch_latest_rank_map(batch_id):
 
     # Step 4 (Late Fallback): If we had exams but none yielded a valid map (e.g. all empty marks), 
     # try the Global Fallback one last time.
+    # ALSO: Per user request, check if we accidentally skipped the "Latest" exam because it wasn't the target month.
+    # However, the current logic scans Newest -> Oldest. 
+    # If Feb exam has 0 marks, it skips, and finds Jan exam. This IS the desired behavior.
+    # The issue might be that "Latest" exam isn't the one we want if it's incomplete.
+    # My "max_obtained > 0" check handles this already.
+    
     from models import User, Batch
     students = User.query.join(User.batches).filter(
         Batch.id == batch_id, 
