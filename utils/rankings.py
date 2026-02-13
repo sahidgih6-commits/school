@@ -118,6 +118,21 @@ def get_batch_latest_rank_map(batch_id):
     )
 
     if not all_exams:
+        # Step 4: Fallback to Global Search (Cross-Batch Ranking)
+        # If no exams exist for this specific batch, look for exams taken by these students in ANY batch
+        from models import User, Batch, UserRole
+        students = User.query.join(User.batches).filter(
+            Batch.id == batch_id, 
+            User.is_active == True,
+            User.is_archived == False
+        ).all()
+        
+        if students:
+            student_ids = [s.id for s in students]
+            global_rank_map, source_exam = get_global_latest_rank_map(student_ids)
+            if global_rank_map:
+                return global_rank_map, source_exam
+        
         return {}, None
 
     for exam in all_exams:
@@ -160,4 +175,21 @@ def get_batch_latest_rank_map(batch_id):
 
         return rank_map, exam
 
-    return {}, all_exams[0]
+    # Step 4 (Late Fallback): If we had exams but none yielded a valid map (e.g. all empty marks), 
+    # try the Global Fallback one last time.
+    from models import User, Batch
+    students = User.query.join(User.batches).filter(
+        Batch.id == batch_id, 
+        User.is_active == True,
+        User.is_archived == False
+    ).all()
+    
+    if students:
+        student_ids = [s.id for s in students]
+        global_rank_map, source_exam = get_global_latest_rank_map(student_ids)
+        if global_rank_map:
+            return global_rank_map, source_exam
+
+    if all_exams:
+         return {}, all_exams[0]
+    return {}, None
