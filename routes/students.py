@@ -85,8 +85,9 @@ def get_students():
                 ).all()
                 
                 for ranking in rankings:
-                    if ranking.roll_number:
-                        roll_map[ranking.user_id] = ranking.roll_number
+                    current_rank = ranking.position or ranking.roll_number
+                    if current_rank:
+                        roll_map[ranking.user_id] = current_rank
         
         # Sort by roll number (students without roll go to end)
         students.sort(key=lambda s: (s.id not in roll_map, roll_map.get(s.id, 999999), s.first_name))

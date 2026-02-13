@@ -74,8 +74,9 @@ def load_monthly_fees():
             ).all()
             
             for ranking in rankings:
-                if ranking.roll_number:
-                    roll_map[ranking.user_id] = ranking.roll_number
+                current_rank = ranking.position or ranking.roll_number
+                if current_rank:
+                    roll_map[ranking.user_id] = current_rank
         
         students = User.query.filter(
             User.role == UserRole.STUDENT,

@@ -339,8 +339,9 @@ def get_batch_students(batch_id):
             ).all()
             
             for ranking in rankings:
-                if ranking.roll_number:
-                    rank_map[ranking.user_id] = ranking.roll_number  # Use roll number
+                current_rank = ranking.position or ranking.roll_number
+                if current_rank:
+                    rank_map[ranking.user_id] = current_rank  # Use current rank from latest finalized exam
         
         students = []
         for student in batch.students:

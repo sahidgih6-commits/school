@@ -479,8 +479,9 @@ def get_monthly_attendance():
             ).all()
             
             for ranking in rankings:
-                if ranking.roll_number:
-                    roll_map[ranking.user_id] = ranking.roll_number
+                current_rank = ranking.position or ranking.roll_number
+                if current_rank:
+                    roll_map[ranking.user_id] = current_rank
         
         students = User.query.join(User.batches).filter(
             User.role == UserRole.STUDENT,
@@ -677,8 +678,9 @@ def download_monthly_attendance():
             ).all()
             
             for ranking in rankings:
-                if ranking.roll_number:
-                    roll_map[ranking.user_id] = ranking.roll_number
+                current_rank = ranking.position or ranking.roll_number
+                if current_rank:
+                    roll_map[ranking.user_id] = current_rank
         
         students = User.query.join(User.batches).filter(
             User.role == UserRole.STUDENT,
