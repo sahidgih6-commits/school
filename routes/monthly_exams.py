@@ -353,7 +353,7 @@ def get_comprehensive_monthly_ranking(exam_id):
                     }
                     total_possible_marks += exam.marks
             
-            # Calculate attendance marks (1 mark per present day in the month)
+            # Calculate attendance marks (1 mark per present OR leave day in the month)
             # Only count attendance from the SAME MONTH as the exam
             attendance_marks = 0
             total_days = 0
@@ -373,26 +373,28 @@ def get_comprehensive_monthly_ranking(exam_id):
                 else:
                     month_end = datetime(exam_year, exam_month + 1, 1).date() - timedelta(days=1)
                 
-                # Count total working days in this specific month (Monday to Friday)
-                current_date = month_start
+                # Count ACTUAL attendance-taking days for this batch in this month
+                # Get distinct dates where attendance was recorded
+                total_days = db.session.query(
+                    db.func.count(db.func.distinct(Attendance.date))
+                ).filter(
+                    Attendance.batch_id == monthly_exam.batch_id,
+                    Attendance.date >= month_start,
+                    Attendance.date <= month_end
+                ).scalar() or 0
                 
-                while current_date <= month_end:
-                    # Count only weekdays (Monday to Friday)
-                    if current_date.weekday() < 5:  # 0-4 are Monday to Friday
-                        total_days += 1
-                    current_date += timedelta(days=1)
+                max_attendance_marks = total_days  # Maximum possible attendance marks (actual days taken)
                 
-                max_attendance_marks = total_days  # Maximum possible attendance marks for the month
-                
-                # Count present days ONLY in this specific month
-                present_count = Attendance.query.filter(
+                # Count present OR leave days (both get 1 mark)
+                # PRESENT and LEAVE both count as attendance
+                attended_count = Attendance.query.filter(
                     Attendance.user_id == student.id,
                     Attendance.batch_id == monthly_exam.batch_id,
                     Attendance.date >= month_start,
                     Attendance.date <= month_end,
-                    Attendance.status == AttendanceStatus.PRESENT
+                    Attendance.status.in_([AttendanceStatus.PRESENT, AttendanceStatus.LEAVE])
                 ).count()
-                attendance_marks = present_count
+                attendance_marks = attended_count
             
             # Calculate attendance percentage
             attendance_percentage = (attendance_marks / total_days * 100) if total_days > 0 else 0
