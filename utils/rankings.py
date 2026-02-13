@@ -42,29 +42,15 @@ def get_batch_latest_rank_map(batch_id):
         if rank_map:
             return rank_map, exam
 
-    # 3: Fallback to latest exam marks and compute ranking on the fly
-    latest_exam = (
+    # 3: Fallback to exam marks and compute ranking on the fly (scan latest -> oldest)
+    all_exams = (
         MonthlyExam.query.filter_by(batch_id=batch_id)
         .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
-        .first()
-    )
-
-    if not latest_exam:
-        return {}, None
-
-    mark_rows = (
-        db.session.query(
-            MonthlyMark.user_id,
-            func.sum(MonthlyMark.marks_obtained).label('total_obtained'),
-            func.sum(MonthlyMark.total_marks).label('total_possible')
-        )
-        .filter(MonthlyMark.monthly_exam_id == latest_exam.id)
-        .group_by(MonthlyMark.user_id)
         .all()
     )
 
-    if not mark_rows:
-        return {}, latest_exam
+    if not all_exams:
+        return {}, None
 
     # Keep only active, non-archived students from this batch
     active_student_ids = {
@@ -77,19 +63,39 @@ def get_batch_latest_rank_map(batch_id):
         ).all()
     }
 
-    scored = []
-    for row in mark_rows:
-        if row.user_id not in active_student_ids:
+    for exam in all_exams:
+        mark_rows = (
+            db.session.query(
+                MonthlyMark.user_id,
+                func.sum(MonthlyMark.marks_obtained).label('total_obtained'),
+                func.sum(MonthlyMark.total_marks).label('total_possible')
+            )
+            .filter(MonthlyMark.monthly_exam_id == exam.id)
+            .group_by(MonthlyMark.user_id)
+            .all()
+        )
+
+        if not mark_rows:
             continue
-        obtained = float(row.total_obtained or 0)
-        possible = float(row.total_possible or 0)
-        percentage = (obtained / possible * 100) if possible > 0 else 0
-        scored.append((row.user_id, percentage, obtained))
 
-    scored.sort(key=lambda item: (-item[1], -item[2], item[0]))
+        scored = []
+        for row in mark_rows:
+            if row.user_id not in active_student_ids:
+                continue
+            obtained = float(row.total_obtained or 0)
+            possible = float(row.total_possible or 0)
+            percentage = (obtained / possible * 100) if possible > 0 else 0
+            scored.append((row.user_id, percentage, obtained))
 
-    rank_map = {}
-    for index, item in enumerate(scored, start=1):
-        rank_map[item[0]] = index
+        if not scored:
+            continue
 
-    return rank_map, latest_exam
+        scored.sort(key=lambda item: (-item[1], -item[2], item[0]))
+
+        rank_map = {}
+        for index, item in enumerate(scored, start=1):
+            rank_map[item[0]] = index
+
+        return rank_map, exam
+
+    return {}, all_exams[0]
