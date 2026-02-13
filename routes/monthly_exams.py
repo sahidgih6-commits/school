@@ -392,7 +392,8 @@ def get_comprehensive_monthly_ranking(exam_id):
                     Attendance.batch_id == monthly_exam.batch_id,
                     Attendance.date >= month_start,
                     Attendance.date <= month_end,
-                    Attendance.status.in_([AttendanceStatus.PRESENT, AttendanceStatus.LEAVE])
+                    or_(Attendance.status == AttendanceStatus.PRESENT, 
+                        Attendance.status == AttendanceStatus.LEAVE)
                 ).count()
                 attendance_marks = attended_count
             
