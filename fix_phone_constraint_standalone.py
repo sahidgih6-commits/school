@@ -86,6 +86,7 @@ def fix_phone_constraint(db_path):
         cursor.execute("BEGIN TRANSACTION")
         
         # 4. Create new table without UNIQUE constraint
+        # Match production schema exactly
         cursor.execute("""
             CREATE TABLE users_new (
                 id INTEGER NOT NULL PRIMARY KEY,
@@ -100,22 +101,21 @@ def fix_phone_constraint(db_path):
                 address TEXT,
                 guardian_name VARCHAR(200),
                 guardian_phone VARCHAR(20),
-                mother_name VARCHAR(200),
                 emergency_contact VARCHAR(20),
-                admission_date DATE,
-                exam_fee NUMERIC(10, 2),
-                others_fee NUMERIC(10, 2),
                 sms_count INTEGER,
                 is_active BOOLEAN,
                 last_login DATETIME,
-                is_archived BOOLEAN NOT NULL,
-                archived_at DATETIME,
-                archived_by INTEGER,
-                archive_reason TEXT,
                 created_at DATETIME NOT NULL,
                 updated_at DATETIME,
-                UNIQUE (email),
-                FOREIGN KEY(archived_by) REFERENCES users (id)
+                is_archived BOOLEAN DEFAULT 0 NOT NULL,
+                archived_at DATETIME NULL,
+                archived_by INTEGER NULL,
+                archive_reason TEXT NULL,
+                mother_name VARCHAR(200),
+                admission_date TEXT,
+                exam_fee NUMERIC(10, 2) DEFAULT 0.00,
+                others_fee NUMERIC(10, 2) DEFAULT 0.00,
+                UNIQUE (email)
             )
         """)
         print("  ✅ Created new table structure")
