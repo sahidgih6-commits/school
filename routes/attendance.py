@@ -493,6 +493,35 @@ def get_monthly_attendance():
                 current_rank = ranking.position or ranking.roll_number
                 if current_rank:
                     roll_map[ranking.user_id] = current_rank
+
+        # Fallback: if latest exam has no usable ranks, scan older exams and pick first valid rank map
+        if not roll_map:
+            candidate_exams = (
+                MonthlyExam.query.join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id)
+                .filter(MonthlyExam.batch_id == batch_id)
+                .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
+                .all()
+            )
+
+            for candidate_exam in candidate_exams:
+                candidate_rankings = MonthlyRanking.query.filter_by(
+                    monthly_exam_id=candidate_exam.id,
+                    is_final=True
+                ).all()
+                if not candidate_rankings:
+                    candidate_rankings = MonthlyRanking.query.filter_by(
+                        monthly_exam_id=candidate_exam.id
+                    ).all()
+
+                candidate_map = {}
+                for ranking in candidate_rankings:
+                    current_rank = ranking.position or ranking.roll_number
+                    if current_rank:
+                        candidate_map[ranking.user_id] = current_rank
+
+                if candidate_map:
+                    roll_map = candidate_map
+                    break
         
         students = User.query.join(User.batches).filter(
             User.role == UserRole.STUDENT,
@@ -703,6 +732,35 @@ def download_monthly_attendance():
                 current_rank = ranking.position or ranking.roll_number
                 if current_rank:
                     roll_map[ranking.user_id] = current_rank
+
+        # Fallback: if latest exam has no usable ranks, scan older exams and pick first valid rank map
+        if not roll_map:
+            candidate_exams = (
+                MonthlyExam.query.join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id)
+                .filter(MonthlyExam.batch_id == batch_id)
+                .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
+                .all()
+            )
+
+            for candidate_exam in candidate_exams:
+                candidate_rankings = MonthlyRanking.query.filter_by(
+                    monthly_exam_id=candidate_exam.id,
+                    is_final=True
+                ).all()
+                if not candidate_rankings:
+                    candidate_rankings = MonthlyRanking.query.filter_by(
+                        monthly_exam_id=candidate_exam.id
+                    ).all()
+
+                candidate_map = {}
+                for ranking in candidate_rankings:
+                    current_rank = ranking.position or ranking.roll_number
+                    if current_rank:
+                        candidate_map[ranking.user_id] = current_rank
+
+                if candidate_map:
+                    roll_map = candidate_map
+                    break
         
         students = User.query.join(User.batches).filter(
             User.role == UserRole.STUDENT,
