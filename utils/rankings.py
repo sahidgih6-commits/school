@@ -6,52 +6,68 @@ from models import db, MonthlyExam, MonthlyRanking, MonthlyMark
 
 def get_global_latest_rank_map(candidate_user_ids):
     """
-    Find the latest exam rank map for a set of users across ALL batches.
-    Useful fallback when a specific batch has no exams.
+    Find the best exam rank map for a set of users across ALL batches.
+    Prioritizes Previous Month (Historic) exams over Current Month exams.
     """
     if not candidate_user_ids:
         return {}, None
 
-    # 1. Try Rankings first (Finalized or otherwise)
-    latest_ranked_exam = (
+    # Get all potential exams for these students (Marks OR Rankings)
+    # We query exams that have either marks or rankings for these users
+    candidates_query = (
         MonthlyExam.query
-        .join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id)
-        .filter(MonthlyRanking.user_id.in_(candidate_user_ids))
+        .join(MonthlyMark, MonthlyMark.monthly_exam_id == MonthlyExam.id, isouter=True)
+        .join(MonthlyRanking, MonthlyRanking.monthly_exam_id == MonthlyExam.id, isouter=True)
+        .filter(
+            (MonthlyMark.user_id.in_(candidate_user_ids)) | 
+            (MonthlyRanking.user_id.in_(candidate_user_ids))
+        )
         .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
-        .first()
+        .limit(20) # Optimize: Check last 20 relevant exams
     )
+    
+    all_candidates = candidates_query.all()
+    if not all_candidates:
+        return {}, None
 
-    if latest_ranked_exam:
-        rankings = MonthlyRanking.query.filter_by(monthly_exam_id=latest_ranked_exam.id).all()
+    # Sort into Historic vs Current
+    now = datetime.now()
+    historic_exams = []
+    current_exams = []
+    
+    for ex in all_candidates:
+        if ex.year < now.year or (ex.year == now.year and ex.month < now.month):
+            historic_exams.append(ex)
+        else:
+            current_exams.append(ex)
+            
+    prioritized_exams = historic_exams + current_exams
+
+    # Iterate through prioritized exams to find the first valid map
+    for exam in prioritized_exams:
+        # A. Check Rankings
+        rankings = MonthlyRanking.query.filter_by(monthly_exam_id=exam.id).all()
         rank_map = {}
         for row in rankings:
             current_rank = row.position or row.roll_number
             if current_rank:
                 rank_map[row.user_id] = current_rank
+        
         if rank_map:
-            return rank_map, latest_ranked_exam
+            return rank_map, exam
 
-    # 2. Fallback to Marks
-    latest_marked_exam = (
-        MonthlyExam.query
-        .join(MonthlyMark, MonthlyMark.monthly_exam_id == MonthlyExam.id)
-        .filter(MonthlyMark.user_id.in_(candidate_user_ids))
-        .order_by(MonthlyExam.year.desc(), MonthlyExam.month.desc(), MonthlyExam.id.desc())
-        .first()
-    )
-
-    if latest_marked_exam:
+        # B. Check Marks
         mark_rows = (
             db.session.query(
                 MonthlyMark.user_id,
                 func.sum(MonthlyMark.marks_obtained).label('total_obtained'),
                 func.sum(MonthlyMark.total_marks).label('total_possible')
             )
-            .filter(MonthlyMark.monthly_exam_id == latest_marked_exam.id)
+            .filter(MonthlyMark.monthly_exam_id == exam.id)
             .group_by(MonthlyMark.user_id)
             .all()
         )
-
+        
         scored = []
         max_obtained = 0
         for row in mark_rows:
@@ -67,7 +83,7 @@ def get_global_latest_rank_map(candidate_user_ids):
             rank_map = {}
             for index, item in enumerate(scored, start=1):
                 rank_map[item[0]] = index
-            return rank_map, latest_marked_exam
+            return rank_map, exam
 
     return {}, None
 
