@@ -110,9 +110,18 @@ else
     
     if [ $? -eq 0 ]; then
         echo "${GREEN}✅ Gunicorn processes killed${NC}"
-        echo "${YELLOW}⚠️  Please start your application manually${NC}"
+        
+        # Try to restart manually
+        echo "${YELLOW}🔄 Attempting manual restart...${NC}"
+        if [ -f "app.py" ]; then
+            nohup python3 app.py > logs/app.log 2>&1 &
+            echo "${GREEN}✅ Attempted to start python app.py${NC}"
+        else
+            echo "${RED}🛑 Could not find app.py to restart${NC}"
+            echo "${YELLOW}⚠️  Please start your application manually${NC}"
+        fi
     else
-        echo "${YELLOW}⚠️  Could not detect application process${NC}"
+        echo "${YELLOW}⚠️  Could not detect application process (maybe already stopped)${NC}"
         echo "Please restart your application manually"
     fi
 fi
