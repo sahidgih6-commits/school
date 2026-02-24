@@ -258,15 +258,17 @@ def admit_cards_print():
         for i, info in enumerate(infos, 1):
             s = info.student
             student_cards.append({
-                'serial':       i,
-                'id':           s.id,
-                'student_id':   f"STU{year}{s.id:05d}",
-                'full_name':    s.full_name,
-                'date_of_birth':s.date_of_birth.strftime('%d %b %Y') if s.date_of_birth else '',
-                'profile_image':s.profile_image or '',
-                'roll':         info.roll_number or '',
-                'guardian_name':s.guardian_name or '',
-                'section':      info.section.name if info.section else '',
+                'serial':          i,
+                'id':              s.id,
+                'student_id':      f"STU{year}{s.id:05d}",
+                'full_name':       s.full_name,
+                'date_of_birth':   s.date_of_birth.strftime('%d %b %Y') if s.date_of_birth else '',
+                'profile_image':   s.profile_image or '',
+                'roll':            info.roll_number or '',
+                'guardian_name':   s.guardian_name or '',
+                'guardian_phone':  s.guardian_phone or s.phoneNumber or '',
+                'mother_name':     s.mother_name or '',
+                'section':         info.section.name if info.section else '',
             })
 
     school = _get_school_info()
