@@ -1,274 +1,537 @@
 {% extends "base.html" %}
-{% block title %}Marks Entry - Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}Marks Entry – Modern Ideal Non Government Primary School{% endblock %}
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{font-family:'Poppins',sans-serif;}
-.bn{font-family:'Hind Siliguri',sans-serif;}
-.input-mark{width:70px;border:1px solid #e5e7eb;border-radius:6px;padding:4px 8px;text-align:center;font-size:14px;}
-.input-mark:focus{border-color:#3b82f6;outline:none;box-shadow:0 0 0 3px rgba(59,130,246,.15);}
-.input-mark.absent{background:#fef2f2;border-color:#fca5a5;}
-.row-pass{background:#f0fdf4;}
-.row-fail{background:#fff7f7;}
+  [x-cloak]{display:none!important}
+  body{font-family:'Poppins',sans-serif}
+  .bn{font-family:'Hind Siliguri',sans-serif}
+  .mk{width:68px;border:1.5px solid #d1d5db;border-radius:6px;padding:5px 6px;text-align:center;font-size:13px;font-weight:600;background:#fff;outline:none;transition:border .15s,box-shadow .15s}
+  .mk:focus{border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.18);z-index:1;position:relative}
+  .mk:hover:not(:disabled){border-color:#93c5fd}
+  .mk:disabled{background:#f9fafb;color:#9ca3af;cursor:not-allowed}
+  .mk.absent-inp{background:#fff1f2;border-color:#fca5a5;color:#dc2626}
+  .mk.over-limit{border-color:#f97316;background:#fff7ed}
+  .row-pass{background:#f0fdf4}
+  .row-fail{background:#fff7f7}
+  .scol1{position:sticky;left:0;z-index:2;background:inherit}
+  .scol2{position:sticky;left:36px;z-index:2;background:inherit}
+  .gb{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px}
+  .g-Ap{background:#dcfce7;color:#15803d}.g-A{background:#d1fae5;color:#065f46}
+  .g-Am{background:#e0f2fe;color:#0369a1}.g-B{background:#fef3c7;color:#92400e}
+  .g-C{background:#fff7ed;color:#c2410c}.g-D{background:#fee2e2;color:#b91c1c}
+  .g-F{background:#f1f5f9;color:#64748b}
+  .exam-banner{background:linear-gradient(135deg,#1a56db,#0a2d7a);color:#fff;padding:12px 20px;border-radius:12px;margin-bottom:14px}
+  .unsaved-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;animation:blink 1.2s infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  @media print{
+    header,.controls-bar,.no-print{display:none!important}
+    .exam-banner{background:#1a56db!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{background:#fff}.mk{border:1px solid #ccc}
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div x-data="marksEntry()" class="min-h-screen bg-gray-50">
-  <!-- Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-        <a href="/" class="text-gray-400 hover:text-blue-600 transition"><i class="fas fa-home text-xl"></i></a>
+<div x-data="marksEntry()" x-cloak class="min-h-screen bg-gray-50">
+
+  <!-- HEADER -->
+  <header class="bg-white shadow border-b border-gray-200 no-print">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-3 justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="text-gray-400 hover:text-blue-600 transition p-1"><i class="fas fa-home text-lg"></i></a>
         <div>
-          <h1 class="text-xl font-bold text-gray-900">Marks Entry</h1>
+          <h1 class="text-lg font-bold text-gray-900">Marks Entry</h1>
           <p class="text-xs text-gray-400 bn">নম্বর প্রবেশ</p>
         </div>
+        <span x-show="unsaved" class="flex items-center gap-1.5 text-xs text-red-500 font-semibold bg-red-50 px-2.5 py-1 rounded-full border border-red-200">
+          <span class="unsaved-dot"></span> Unsaved changes
+        </span>
       </div>
-      <div class="flex items-center gap-3">
-        <span x-show="saveMsg" x-text="saveMsg" class="text-sm font-medium" :class="saveOk?'text-green-600':'text-red-600'"></span>
-        <button @click="saveAllMarks()" :disabled="saving||!examId" class="bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 transition flex items-center gap-2">
-          <i class="fas fa-save"></i> <span x-show="!saving">Save All Marks</span><span x-show="saving">Saving…</span>
+
+      <div class="flex items-center gap-2 flex-wrap">
+        <span x-show="saveMsg" x-text="saveMsg" class="text-sm font-semibold px-3 py-1.5 rounded-lg"
+          :class="saveOk?'bg-green-50 text-green-700 border border-green-200':'bg-red-50 text-red-600 border border-red-200'"></span>
+
+        <button @click="saveAllMarks()" :disabled="saving || !examId"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition disabled:opacity-40"
+          :class="unsaved?'bg-blue-600 text-white hover:bg-blue-700 shadow':'bg-gray-100 text-gray-600 hover:bg-gray-200'">
+          <i class="fas" :class="saving?'fa-spinner fa-spin':'fa-save'"></i>
+          <span x-show="!saving">Save All Marks</span>
+          <span x-show="saving">Saving…</span>
         </button>
-        <button @click="publishResult()" x-show="examId&&!examPublished" class="bg-green-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 transition flex items-center gap-2">
+
+        <button x-show="examId && !examPublished" @click="togglePublish()"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-emerald-600 text-white hover:bg-emerald-700 transition">
           <i class="fas fa-upload"></i> Publish Result
         </button>
-        <span x-show="examPublished" class="bg-green-50 text-green-700 px-3 py-1.5 rounded-lg text-sm font-semibold border border-green-200"><i class="fas fa-check-circle mr-1"></i> Published</span>
-        <button @click="window.print()" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-gray-200 transition flex items-center gap-2"><i class="fas fa-print"></i> Print</button>
+        <button x-show="examId && examPublished" @click="togglePublish()"
+          class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-orange-100 text-orange-700 border border-orange-300 hover:bg-orange-200 transition">
+          <i class="fas fa-eye-slash"></i> Unpublish
+        </button>
+
+        <button @click="window.print()" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+          <i class="fas fa-print"></i> Print
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Controls -->
-  <div class="bg-white border-b border-gray-100 shadow-sm">
-    <div class="max-w-7xl mx-auto px-4 py-4">
-      <div class="flex flex-wrap gap-4 items-end">
+  <!-- FILTERS -->
+  <div class="controls-bar bg-white border-b border-gray-100 shadow-sm no-print">
+    <div class="max-w-7xl mx-auto px-4 py-3">
+      <div class="flex flex-wrap gap-3 items-end">
+
         <div>
-          <label class="block text-xs font-semibold text-gray-500 mb-1.5">Year</label>
-          <select x-model="selYear" @change="selClass&&onClassChange()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
-            <template x-for="y in [2027,2026,2025,2024]" :key="y"><option :value="y" x-text="y"></option></template>
+          <label class="block text-xs font-semibold text-gray-500 mb-1">Year</label>
+          <select x-model.number="selYear" @change="selClass && onClassChange()"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 w-24">
+            <template x-for="y in yearOptions" :key="y"><option :value="y" x-text="y"></option></template>
           </select>
         </div>
+
         <div>
-          <label class="block text-xs font-semibold text-gray-500 mb-1.5">Class</label>
-          <select x-model="selClass" @change="onClassChange()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-32">
+          <label class="block text-xs font-semibold text-gray-500 mb-1">Class</label>
+          <select x-model.number="selClass" @change="onClassChange()"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-32">
             <option value="">-- Class --</option>
             <template x-for="c in classes" :key="c.id"><option :value="c.id" x-text="c.name"></option></template>
           </select>
         </div>
+
         <div>
-          <label class="block text-xs font-semibold text-gray-500 mb-1.5">Term</label>
-          <select x-model="selTermExam" @change="loadExamData()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-40">
-            <option value="">-- Select Term --</option>
-            <template x-for="e in termExams" :key="e.id"><option :value="e.id" x-text="e.title"></option></template>
+          <label class="block text-xs font-semibold text-gray-500 mb-1">Term Exam</label>
+          <select x-model.number="selTermExam" @change="loadExamData()"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-48"
+            :disabled="!selClass || loadingExams">
+            <option value="">-- Select Exam --</option>
+            <template x-for="e in termExams" :key="e.id">
+              <option :value="e.id" x-text="e.term_display + ' ' + e.year + (e.result_published ? ' ✓' : '')"></option>
+            </template>
           </select>
+          <div x-show="loadingExams" class="text-xs text-blue-500 mt-0.5">loading exams…</div>
+          <div x-show="!loadingExams && selClass && !termExams.length" class="text-xs text-orange-500 mt-0.5">
+            No exams for this class/year. <a href="/dashboard?tab=term-exams" class="underline font-semibold">Generate exams →</a>
+          </div>
         </div>
-        <div>
-          <label class="block text-xs font-semibold text-gray-500 mb-1.5">Section (optional)</label>
-          <select x-model="selSection" @change="filterStudents()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
+
+        <div x-show="sections.length > 1">
+          <label class="block text-xs font-semibold text-gray-500 mb-1">Section</label>
+          <select x-model.number="selSection" @change="filterStudents()"
+            class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
             <option value="">All Sections</option>
-            <template x-for="s in sections" :key="s.id"><option :value="s.id" x-text="'Section '+s.name"></option></template>
+            <template x-for="s in sections" :key="s.id"><option :value="s.id" x-text="'Section ' + s.name"></option></template>
           </select>
         </div>
-        <div x-show="examId" class="ml-auto bg-blue-50 rounded-xl px-5 py-2 text-center">
-          <div class="text-2xl font-bold text-blue-700" x-text="filteredStudents.length"></div>
-          <div class="text-xs text-blue-500 font-medium">Students</div>
+
+        <!-- Live stats -->
+        <div class="ml-auto flex items-center gap-2 flex-wrap" x-show="!!examId">
+          <div class="bg-blue-50 rounded-xl px-4 py-1.5 text-center">
+            <div class="text-lg font-bold text-blue-700" x-text="filteredStudents.length"></div>
+            <div class="text-xs text-blue-500">Students</div>
+          </div>
+          <div class="bg-green-50 rounded-xl px-4 py-1.5 text-center">
+            <div class="text-lg font-bold text-green-700" x-text="passCount"></div>
+            <div class="text-xs text-green-500">Passed</div>
+          </div>
+          <div class="bg-red-50 rounded-xl px-4 py-1.5 text-center">
+            <div class="text-lg font-bold text-red-500" x-text="filteredStudents.length - passCount"></div>
+            <div class="text-xs text-red-400">Failed</div>
+          </div>
+          <div class="bg-gray-50 rounded-xl px-4 py-1.5 text-center">
+            <div class="text-lg font-bold text-gray-700" x-text="classAvg + '%'"></div>
+            <div class="text-xs text-gray-400">Average</div>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  <!-- Grid Content -->
-  <div class="max-w-full mx-auto px-4 py-6">
-    <div x-show="loading" class="text-center py-20 text-gray-400">
-      <i class="fas fa-spinner fa-spin text-3xl block mb-4"></i>Loading data…
+  <!-- MAIN -->
+  <div class="max-w-full px-4 py-5">
+
+    <!-- Loading -->
+    <div x-show="loading" class="text-center py-24 text-gray-400">
+      <i class="fas fa-spinner fa-spin text-4xl block mb-4 text-blue-400"></i>
+      <p class="text-base font-medium">Loading exam data…</p>
     </div>
 
-    <div x-show="!loading && examId && filteredStudents.length" class="overflow-x-auto rounded-xl shadow">
-      <table class="border-collapse min-w-full bg-white text-sm">
-        <thead>
-          <tr class="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-            <th class="px-3 py-3 text-left font-semibold sticky left-0 bg-blue-700 min-w-8">#</th>
-            <th class="px-3 py-3 text-left font-semibold sticky left-8 bg-blue-700 min-w-40">Student Name</th>
-            <th class="px-3 py-3 text-center font-semibold min-w-16">Roll</th>
-            <template x-for="sub in subjects" :key="sub.id">
-              <th class="px-2 py-3 text-center font-semibold min-w-24" x-text="sub.name+'&#10;('+sub.full_marks+')'"></th>
-            </template>
-            <th class="px-3 py-3 text-center font-semibold min-w-20">Total</th>
-            <th class="px-3 py-3 text-center font-semibold min-w-16">%</th>
-            <th class="px-3 py-3 text-center font-semibold min-w-16">Grade</th>
-            <th class="px-3 py-3 text-center font-semibold min-w-16">Result</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template x-for="(student, idx) in filteredStudents" :key="student.id">
-            <tr :class="rowClass(student)" class="hover:bg-blue-50 transition border-b border-gray-100">
-              <td class="px-3 py-2 text-gray-500 text-xs sticky left-0 bg-inherit" x-text="idx+1"></td>
-              <td class="px-3 py-2 sticky left-8 bg-inherit">
-                <div class="font-semibold text-gray-800" x-text="student.name"></div>
-                <div class="text-xs text-gray-400" x-text="student.reg_number||student.username||''"></div>
-              </td>
-              <td class="px-2 py-2 text-center text-gray-600 text-xs" x-text="student.roll_number||'—'"></td>
+    <!-- Loaded state -->
+    <div x-show="!loading && !!examId">
+
+      <!-- Exam banner -->
+      <div class="exam-banner flex flex-wrap items-center gap-4 mb-4 no-print">
+        <div class="flex-1 min-w-0">
+          <div class="text-xs font-bold opacity-70 uppercase tracking-widest mb-0.5">Currently Editing</div>
+          <div class="text-lg font-bold" x-text="currentExamTitle"></div>
+        </div>
+        <div class="flex gap-4 flex-shrink-0 text-center">
+          <div>
+            <div class="text-xl font-bold" x-text="subjects.length"></div>
+            <div class="text-xs opacity-70">Subjects</div>
+          </div>
+          <div>
+            <div class="text-xl font-bold" x-text="allStudents.length"></div>
+            <div class="text-xs opacity-70">Students</div>
+          </div>
+          <div class="bg-white/20 rounded-lg px-3 py-1.5 self-center">
+            <div class="text-sm font-bold" x-text="examPublished ? '✓ Published' : 'Draft'"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Keboard tip -->
+      <div class="text-xs text-gray-400 mb-3 no-print flex items-center gap-2 flex-wrap">
+        <i class="fas fa-info-circle text-blue-400"></i>
+        <span>Tab = next subject &nbsp;|&nbsp; Enter = next student &nbsp;|&nbsp; Press <kbd class="bg-gray-100 border border-gray-300 px-1.5 rounded font-mono text-gray-600">A</kbd> while focused to toggle Absent</span>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-xl shadow border border-gray-100" x-show="filteredStudents.length">
+        <table class="border-collapse min-w-full bg-white text-sm" id="marks-table">
+          <thead>
+            <tr class="bg-gradient-to-r from-blue-700 to-blue-600 text-white">
+              <th class="scol1 px-2 py-3 w-9 text-center text-xs font-semibold">#</th>
+              <th class="scol2 px-3 py-3 text-left font-semibold min-w-44">Student</th>
+              <th class="px-2 py-3 w-12 text-center text-xs font-semibold">Roll</th>
               <template x-for="sub in subjects" :key="sub.id">
-                <td class="px-2 py-2 text-center">
-                  <input type="number" :min="0" :max="sub.full_marks"
-                    :value="getMarks(student.id, sub.id)"
-                    @change="setMarks(student.id, sub.id, $event.target.value, sub.full_marks, sub.pass_marks)"
-                    :class="isAbsent(student.id, sub.id)?'absent':''"
-                    class="input-mark">
-                  <div class="mt-0.5">
-                    <label class="flex items-center justify-center gap-1 text-xs text-gray-400 cursor-pointer">
-                      <input type="checkbox" :checked="isAbsent(student.id, sub.id)" @change="setAbsent(student.id, sub.id, $event.target.checked)" class="w-3 h-3">
-                      Absent
-                    </label>
-                  </div>
-                </td>
+                <th class="px-2 py-3 text-center font-semibold min-w-20">
+                  <div x-text="sub.name" class="text-sm"></div>
+                  <div class="text-blue-200 text-xs font-normal" x-text="'(' + sub.pass_marks + '/' + sub.full_marks + ')'"></div>
+                </th>
               </template>
-              <td class="px-2 py-2 text-center font-bold text-gray-800" x-text="studentTotal(student.id)"></td>
-              <td class="px-2 py-2 text-center" x-text="studentPct(student.id)+'%'"></td>
-              <td class="px-2 py-2 text-center">
-                <span class="text-xs font-bold px-2 py-0.5 rounded-full" :class="gradeClass(studentGrade(student.id))" x-text="studentGrade(student.id)"></span>
-              </td>
-              <td class="px-2 py-2 text-center">
-                <span class="text-xs font-bold px-2 py-0.5 rounded-full" :class="studentPass(student.id)?'bg-green-100 text-green-700':'bg-red-100 text-red-700'" x-text="studentPass(student.id)?'Pass':'Fail'"></span>
-              </td>
+              <th class="px-2 py-3 text-center font-semibold min-w-16 bg-blue-800">Total</th>
+              <th class="px-2 py-3 text-center font-semibold w-14 bg-blue-800">%</th>
+              <th class="px-2 py-3 text-center font-semibold w-14 bg-blue-800">Grade</th>
+              <th class="px-2 py-3 text-center font-semibold w-14 bg-blue-800">Result</th>
             </tr>
-          </template>
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            <template x-for="(student, idx) in filteredStudents" :key="student.id">
+              <tr :class="rowClass(student)" class="border-b border-gray-100 hover:brightness-95 transition" :id="'row-'+student.id">
+                <td class="scol1 px-2 py-2 text-gray-400 text-xs text-center w-9" x-text="idx+1"></td>
+                <td class="scol2 px-3 py-2 min-w-44">
+                  <div class="font-semibold text-gray-800 text-sm" x-text="student.name"></div>
+                  <div class="text-xs text-gray-400" x-text="'Roll: '+(student.roll_number||'—')+(student.reg_number?' · '+student.reg_number:'')"></div>
+                </td>
+                <td class="px-2 py-2 text-center text-gray-500 text-xs w-12" x-text="student.roll_number||'—'"></td>
+
+                <template x-for="(sub, sIdx) in subjects" :key="sub.id">
+                  <td class="px-1 py-1.5 text-center">
+                    <input type="number"
+                      :id="'mk-'+student.id+'-'+sub.id"
+                      :data-row="idx" :data-col="sIdx"
+                      min="0" :max="sub.full_marks" step="1"
+                      :value="getMarks(student.id, sub.id)"
+                      :disabled="isAbsent(student.id, sub.id)"
+                      @input="onMarkInput(student.id, sub.id, $event.target.value, sub.full_marks)"
+                      @blur="onRowBlur(student.id)"
+                      @keydown="handleKeyNav($event, idx, sIdx)"
+                      :class="markInputClass(student.id, sub.id, sub.full_marks)"
+                      class="mk"
+                      autocomplete="off">
+                    <label class="flex items-center justify-center gap-1 mt-0.5 cursor-pointer select-none" :title="'Absent in '+sub.name">
+                      <input type="checkbox"
+                        :checked="isAbsent(student.id, sub.id)"
+                        @change="setAbsent(student.id, sub.id, $event.target.checked)"
+                        class="w-3 h-3 accent-red-500">
+                      <span class="text-xs text-gray-400">Ab</span>
+                    </label>
+                  </td>
+                </template>
+
+                <td class="px-2 py-2 text-center bg-blue-50/60">
+                  <span class="font-bold text-gray-800" x-text="studentTotal(student.id)"></span>
+                  <span class="text-gray-400 text-xs" x-text="'/'+subjectsTotal"></span>
+                </td>
+                <td class="px-2 py-2 text-center bg-blue-50/60 font-semibold text-gray-700" x-text="studentPct(student.id)+'%'"></td>
+                <td class="px-2 py-2 text-center bg-blue-50/60">
+                  <span class="gb" :class="gradeClass(studentGrade(student.id))" x-text="studentGrade(student.id)"></span>
+                </td>
+                <td class="px-2 py-2 text-center bg-blue-50/60">
+                  <span class="gb" :class="studentPass(student.id)?'g-Ap':'g-F'" x-text="studentPass(student.id)?'Pass':'Fail'"></span>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+          <tfoot>
+            <tr class="bg-gray-50 border-t-2 border-gray-300 text-xs font-bold text-blue-800">
+              <td colspan="3" class="px-3 py-2 text-gray-500 font-bold uppercase tracking-wide">Class Average</td>
+              <template x-for="sub in subjects" :key="sub.id">
+                <td class="px-2 py-2 text-center" x-text="subjectAvg(sub.id)"></td>
+              </template>
+              <td class="px-2 py-2 text-center bg-blue-50" x-text="classAvgTotal"></td>
+              <td class="px-2 py-2 text-center bg-blue-50" x-text="classAvg+'%'"></td>
+              <td colspan="2" class="px-2 py-2 text-center bg-blue-50" x-text="passCount+' Pass / '+(filteredStudents.length-passCount)+' Fail'"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- No students message -->
+      <div x-show="!filteredStudents.length" class="text-center py-16 text-gray-400">
+        <i class="fas fa-users-slash text-5xl block mb-4"></i>
+        <p class="text-lg font-semibold">No students enrolled in this class</p>
+        <p class="text-sm mt-1">Go to <strong>Students</strong> section and assign students to this class first.</p>
+      </div>
     </div>
 
-    <div x-show="!loading && !examId" class="text-center py-20 text-gray-400">
-      <i class="fas fa-clipboard-list text-5xl block mb-4"></i>
-      <p class="text-lg font-medium">Select a class and term exam to enter marks</p>
+    <!-- Idle state -->
+    <div x-show="!loading && !examId" class="text-center py-24 text-gray-300">
+      <i class="fas fa-clipboard-list text-6xl block mb-5"></i>
+      <p class="text-xl font-semibold text-gray-500 mb-2">Select a Class and Term Exam to begin</p>
+      <p class="text-sm text-gray-400">Use the filters above. If no exams are available, go to <strong>Admin → 1st &amp; 2nd Term Exams</strong> and generate exams first.</p>
     </div>
-    <div x-show="!loading && examId && !filteredStudents.length" class="text-center py-20 text-gray-400">
-      <i class="fas fa-users text-5xl block mb-4"></i>
-      <p>No students found for this class/term.</p>
-    </div>
+
   </div>
 </div>
 
 <script>
 function marksEntry(){
+  const CY = new Date().getFullYear();
   return {
-    classes:[], selClass:'', selSection:'', selTermExam:'',
-    sections:[], subjects:[], termExams:[],
-    selYear: new Date().getFullYear(),
-    allStudents:[], filteredStudents:[],
-    marksData:{}, // {studentId_subjectId: {marks, is_absent}}
-    examId:null, examPublished:false,
-    loading:false, saving:false,
-    saveMsg:'', saveOk:true,
+    selYear: CY,
+    selClass: '',
+    selSection: '',
+    selTermExam: '',
+    yearOptions: [CY+1, CY, CY-1, CY-2],
+
+    classes: [], sections: [], subjects: [], termExams: [],
+    allStudents: [], filteredStudents: [],
+    marksData: {},
+
+    examId: null,
+    examPublished: false,
+    currentExamTitle: '',
+
+    loading: false,
+    loadingExams: false,
+    saving: false,
+    saveMsg: '',
+    saveOk: true,
+    unsaved: false,
 
     async init(){
-      // Pre-fill from URL params
-      const p = new URLSearchParams(location.search);
-      const preExamId = p.get('exam_id');
       await this.loadClasses();
-      if(preExamId){
-        // Load all exams to find which class this exam belongs to (no year filter needed here)
-        const exams = await fetch('/api/school/term-exams').then(r=>r.json());
-        const exam = exams.find(e=>e.id==preExamId);
-        if(exam){
-          this.selClass=exam.school_class_id;
-          this.selYear=exam.year;
-          await this.onClassChange();
-          this.selTermExam=preExamId;
-          await this.loadExamData();
-        }
+      const p = new URLSearchParams(location.search);
+      const preId = parseInt(p.get('exam_id'));
+      if(preId){
+        try{
+          // Search current year first, then adjacent years
+          let exam = null;
+          for(const yr of [CY, CY-1, CY+1, CY-2, CY+2]){
+            const exams = await fetch('/api/school/term-exams?year='+yr).then(r=>r.json());
+            exam = exams.find(e=>e.id===preId);
+            if(exam) break;
+          }
+          if(exam){
+            this.selYear = exam.year;
+            this.selClass = exam.school_class_id;
+            await this.onClassChange();
+            this.selTermExam = preId;
+            await this.loadExamData();
+          }
+        }catch(e){ console.warn('pre-load failed', e); }
       }
     },
-    async loadClasses(){ try{ this.classes=await fetch('/api/school/classes').then(r=>r.json()); }catch(e){} },
+
+    async loadClasses(){
+      try{ const d=await fetch('/api/school/classes').then(r=>r.json()); this.classes=Array.isArray(d)?d:[]; }
+      catch(e){ this.classes=[]; }
+    },
+
     async onClassChange(){
       this.selSection=''; this.selTermExam=''; this.examId=null;
+      this.filteredStudents=[]; this.allStudents=[]; this.subjects=[];
+      this.marksData={}; this.unsaved=false;
       if(!this.selClass) return;
-      try{ this.sections=await fetch('/api/school/classes/'+this.selClass+'/sections').then(r=>r.json()); }catch(e){}
-      try{
-        this.termExams=await fetch(`/api/school/term-exams?class_id=${this.selClass}&year=${this.selYear}`).then(r=>r.json());
-      }catch(e){}
+      try{ this.sections=await fetch('/api/school/classes/'+this.selClass+'/sections').then(r=>r.json()); }
+      catch(e){ this.sections=[]; }
+      this.loadingExams=true;
+      try{ this.termExams=await fetch(`/api/school/term-exams?class_id=${this.selClass}&year=${this.selYear}`).then(r=>r.json()); }
+      catch(e){ this.termExams=[]; }
+      this.loadingExams=false;
     },
+
     async loadExamData(){
-      if(!this.selTermExam) return;
-      this.loading=true; this.examId=this.selTermExam;
+      if(!this.selTermExam){ this.examId=null; return; }
+      this.loading=true;
+      this.marksData={}; this.unsaved=false;
       try{
-        // Load subjects for the selected class
-        this.subjects=await fetch('/api/school/classes/'+this.selClass+'/subjects').then(r=>r.json());
-        // Load existing marks for this exam
-        const marks=await fetch('/api/school/term-exams/'+this.examId+'/marks').then(r=>r.json());
-        this.marksData={};
-        if(Array.isArray(marks)) marks.forEach(m=>{ this.marksData[m.student_id+'_'+m.subject_id]={marks:m.marks_obtained,is_absent:m.is_absent}; });
-        // Load students in this class
-        const studResp=await fetch('/api/school/student-info?class_id='+this.selClass).then(r=>r.json());
-        this.allStudents=Array.isArray(studResp)?studResp:(studResp.students||[]);
-        // Check published status
-        const examInfo=(await fetch('/api/school/term-exams').then(r=>r.json())).find(e=>e.id==this.examId);
-        this.examPublished=examInfo?.result_published||false;
+        const info = this.termExams.find(e=>e.id===this.selTermExam || e.id==this.selTermExam);
+        this.examId = this.selTermExam;
+        this.examPublished = info?.result_published || false;
+        this.currentExamTitle = info?.title || ('Exam #'+this.selTermExam);
+
+        const [subs, marks, studs] = await Promise.all([
+          fetch('/api/school/classes/'+this.selClass+'/subjects').then(r=>r.json()),
+          fetch('/api/school/term-exams/'+this.examId+'/marks').then(r=>r.json()),
+          fetch('/api/school/student-info?class_id='+this.selClass).then(r=>r.json()),
+        ]);
+
+        this.subjects = Array.isArray(subs) ? subs : [];
+
+        if(Array.isArray(marks)){
+          marks.forEach(m=>{
+            this.marksData[m.student_id+'_'+m.subject_id] = {marks:m.marks_obtained, is_absent:m.is_absent};
+          });
+        }
+
+        const students = Array.isArray(studs) ? studs : (studs.students||[]);
+        this.allStudents = students.sort((a,b)=>(a.roll_number||999)-(b.roll_number||999));
         this.filterStudents();
-      }catch(e){ console.error(e); }
-      this.loading=false;
+      }catch(e){
+        console.error('loadExamData error:', e);
+        this.examId=null;
+      }finally{
+        this.loading=false;
+      }
     },
+
     filterStudents(){
-      if(!this.selSection) this.filteredStudents=[...this.allStudents];
-      else this.filteredStudents=this.allStudents.filter(s=>s.section_id==this.selSection);
+      this.filteredStudents = this.selSection
+        ? this.allStudents.filter(s=>s.section_id==this.selSection)
+        : [...this.allStudents];
     },
-    getMarks(studentId, subjectId){
-      return this.marksData[studentId+'_'+subjectId]?.marks??'';
+
+    getMarks(sid, subId){
+      const v = this.marksData[sid+'_'+subId];
+      return (v && !v.is_absent && v.marks!=null) ? v.marks : '';
     },
-    setMarks(studentId, subjectId, value, full, pass){
-      const key=studentId+'_'+subjectId;
+    onMarkInput(sid, subId, val, maxMarks){
+      const key = sid+'_'+subId;
       if(!this.marksData[key]) this.marksData[key]={marks:null,is_absent:false};
-      this.marksData[key].marks=value===''?null:Math.min(Number(value),full);
+      this.marksData[key].marks = val==='' ? null : Math.max(0, Math.min(Number(val), maxMarks));
+      this.unsaved=true;
     },
-    isAbsent(studentId, subjectId){ return this.marksData[studentId+'_'+subjectId]?.is_absent??false; },
-    setAbsent(studentId, subjectId, val){
-      const key=studentId+'_'+subjectId;
+    isAbsent(sid, subId){ return this.marksData[sid+'_'+subId]?.is_absent??false; },
+    setAbsent(sid, subId, val){
+      const key=sid+'_'+subId;
       if(!this.marksData[key]) this.marksData[key]={marks:null,is_absent:false};
       this.marksData[key].is_absent=val;
       if(val) this.marksData[key].marks=null;
+      this.unsaved=true;
     },
-    studentTotal(sid){
-      let t=0; this.subjects.forEach(sub=>{ const m=this.marksData[sid+'_'+sub.id]; if(m&&!m.is_absent&&m.marks!=null) t+=Number(m.marks); }); return t;
+
+    async onRowBlur(sid){
+      if(!this.unsaved||!this.examId) return;
+      await new Promise(r=>setTimeout(r,250));
+      if(document.activeElement?.closest('#row-'+sid)) return;
+      await this.saveRowMarks(sid);
     },
-    studentPct(sid){
-      const total=this.subjects.reduce((a,s)=>a+s.full_marks,0);
-      return total?Math.round(this.studentTotal(sid)/total*100):0;
+    async saveRowMarks(sid){
+      const student = this.allStudents.find(s=>s.id===sid);
+      const rows = this.subjects.map(sub=>{
+        const m = this.marksData[sid+'_'+sub.id]||{marks:null,is_absent:false};
+        return {student_id:sid, subject_id:sub.id, section_id:student?.section_id||null,
+                marks_obtained:m.is_absent?0:(m.marks??0), is_absent:m.is_absent||false};
+      });
+      try{
+        await fetch('/api/school/term-exams/'+this.examId+'/marks',{
+          method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({marks:rows})
+        });
+      }catch(e){}
     },
+
+    handleKeyNav(event, rowIdx, colIdx){
+      const totalRows = this.filteredStudents.length;
+      const totalCols = this.subjects.length;
+      if(event.key==='a'||event.key==='A'){
+        event.preventDefault();
+        const s=this.filteredStudents[rowIdx]; const sub=this.subjects[colIdx];
+        if(s&&sub) this.setAbsent(s.id,sub.id,!this.isAbsent(s.id,sub.id));
+        return;
+      }
+      if(event.key==='Enter'){
+        event.preventDefault();
+        const nextRow = rowIdx+1<totalRows ? rowIdx+1 : 0;
+        const s=this.filteredStudents[nextRow]; const sub=this.subjects[colIdx];
+        if(s&&sub) document.getElementById('mk-'+s.id+'-'+sub.id)?.focus();
+      }
+    },
+
+    get subjectsTotal(){ return this.subjects.reduce((a,s)=>a+s.full_marks,0); },
+    studentTotal(sid){ return this.subjects.reduce((t,sub)=>{ const m=this.marksData[sid+'_'+sub.id]; return t+(m&&!m.is_absent&&m.marks!=null?Number(m.marks):0); },0); },
+    studentPct(sid){ const t=this.subjectsTotal; return t?Math.round(this.studentTotal(sid)/t*100):0; },
     studentGrade(sid){
       const p=this.studentPct(sid);
-      if(p>=80)return'A+';if(p>=70)return'A';if(p>=60)return'A-';if(p>=50)return'B';if(p>=40)return'C';if(p>=33)return'D';return'F';
+      if(p>=80)return'A+';if(p>=70)return'A';if(p>=60)return'A-';
+      if(p>=50)return'B';if(p>=40)return'C';if(p>=33)return'D';return'F';
     },
     studentPass(sid){
-      return this.subjects.every(sub=>{ const m=this.marksData[sid+'_'+sub.id]; return m?.is_absent||((m?.marks??0)>=sub.pass_marks); });
+      if(!this.subjects.length) return false;
+      return this.subjects.every(sub=>{
+        const m=this.marksData[sid+'_'+sub.id];
+        if(!m||m.is_absent) return false;
+        return (m.marks??0)>=sub.pass_marks;
+      });
     },
-    gradeClass(g){ const map={'A+':'bg-green-100 text-green-800','A':'bg-blue-100 text-blue-800','A-':'bg-teal-100 text-teal-800','B':'bg-yellow-100 text-yellow-800','C':'bg-orange-100 text-orange-800','D':'bg-red-100 text-red-800','F':'bg-gray-100 text-gray-600'}; return map[g]||''; },
+    gradeClass(g){ return{'A+':'g-Ap','A':'g-A','A-':'g-Am','B':'g-B','C':'g-C','D':'g-D','F':'g-F'}[g]||'g-F'; },
+    markInputClass(sid,subId,max){
+      if(this.isAbsent(sid,subId)) return 'absent-inp';
+      const m=this.marksData[sid+'_'+subId];
+      if(m&&m.marks!=null&&Number(m.marks)>max) return 'over-limit';
+      return '';
+    },
     rowClass(s){ return this.studentPass(s.id)?'row-pass':'row-fail'; },
+    get passCount(){ return this.filteredStudents.filter(s=>this.studentPass(s.id)).length; },
+    get classAvg(){
+      if(!this.filteredStudents.length) return 0;
+      return Math.round(this.filteredStudents.reduce((t,s)=>t+this.studentPct(s.id),0)/this.filteredStudents.length);
+    },
+    get classAvgTotal(){
+      if(!this.filteredStudents.length) return 0;
+      return Math.round(this.filteredStudents.reduce((t,s)=>t+this.studentTotal(s.id),0)/this.filteredStudents.length);
+    },
+    subjectAvg(subId){
+      const vals=this.filteredStudents.map(s=>{const m=this.marksData[s.id+'_'+subId];return(m&&!m.is_absent&&m.marks!=null)?Number(m.marks):null;}).filter(v=>v!==null);
+      if(!vals.length) return '—';
+      return Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+    },
+
     async saveAllMarks(){
       if(!this.examId||this.saving) return;
       this.saving=true;
       const rows=[];
       this.allStudents.forEach(s=>{
         this.subjects.forEach(sub=>{
-          const key=s.id+'_'+sub.id;
-          const m=this.marksData[key]||{marks:null,is_absent:false};
-          rows.push({student_id:s.id,subject_id:sub.id,marks_obtained:m.marks,is_absent:m.is_absent||false});
+          const m=this.marksData[s.id+'_'+sub.id]||{marks:null,is_absent:false};
+          rows.push({student_id:s.id,subject_id:sub.id,section_id:s.section_id||null,
+                     marks_obtained:m.is_absent?0:(m.marks??0),is_absent:m.is_absent||false});
         });
       });
       try{
-        const r=await fetch('/api/school/term-exams/'+this.examId+'/marks',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({marks:rows})});
+        const r=await fetch('/api/school/term-exams/'+this.examId+'/marks',{
+          method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({marks:rows})
+        });
         const d=await r.json();
         this.saveOk=d.success;
-        this.saveMsg=d.success?'✓ Marks saved successfully!':'Error: '+(d.error||'Failed');
-      }catch(e){ this.saveOk=false; this.saveMsg='Network error.'; }
+        this.saveMsg=d.success?'✓ All marks saved!':'Error: '+(d.error||'Failed');
+        if(d.success) this.unsaved=false;
+      }catch(e){ this.saveOk=false; this.saveMsg='Network error. Try again.'; }
       this.saving=false;
       setTimeout(()=>this.saveMsg='',5000);
     },
-    async publishResult(){
-      if(!confirm('Publish result? Students will be able to see their marks.')) return;
+
+    async togglePublish(){
+      const pub=!this.examPublished;
+      const msg=pub?'Publish results? Students will be able to see their marks.':'Unpublish results? Students will no longer see this exam.';
+      if(!confirm(msg)) return;
       try{
-        await fetch('/api/school/term-exams/'+this.examId,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({result_published:true})});
-        this.examPublished=true;
-      }catch(e){}
+        const r=await fetch('/api/school/term-exams/'+this.examId,{
+          method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({result_published:pub})
+        });
+        const d=await r.json();
+        if(d.success){
+          this.examPublished=pub;
+          this.saveMsg=pub?'✓ Result published!':'Result unpublished.';
+          this.saveOk=true;
+          setTimeout(()=>this.saveMsg='',4000);
+          const e=this.termExams.find(e=>e.id==this.examId);
+          if(e) e.result_published=pub;
+        }
+      }catch(e){ this.saveMsg='Failed to update.'; this.saveOk=false; }
     },
   };
 }
