@@ -1,0 +1,28 @@
+{
+  "_comment": "Copy this file to zkbio_config.json and fill in your values",
+
+  "zkbio_mysql": {
+    "_comment": "ZKBio Time.Net stores data in MySQL (default: localhost:3306)",
+    "host":     "127.0.0.1",
+    "port":     3306,
+    "user":     "root",
+    "password": "zkbiotime",
+    "database": "att"
+  },
+
+  "school_app": {
+    "_comment": "Your school app URL and API key (get key from /api/attendance/biometric-sync/key)",
+    "url":      "https://opulent-sniffle-5g6jv5vv4xjwfj7v.github.dev",
+    "api_key":  "PASTE_YOUR_KEY_HERE",
+    "batch_id": 1
+  },
+
+  "late_after": "09:00",
+
+  "student_mapping": {
+    "_comment": "Map ZKBio Employee ID → school app student ID (user id)",
+    "001": 2,
+    "002": 3,
+    "003": 4
+  }
+}

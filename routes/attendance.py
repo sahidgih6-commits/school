@@ -14,6 +14,171 @@ import csv
 
 attendance_bp = Blueprint('attendance', __name__)
 
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ZKBio Time.Net Biometric Sync Endpoint
+# POST /api/attendance/biometric-sync
+# Called by the Windows-side zkbio_sync.py script
+# ─────────────────────────────────────────────────────────────────────────────
+@attendance_bp.route('/biometric-sync', methods=['POST'])
+def biometric_sync():
+    """
+    Receive attendance records pushed from ZKBio Time.Net via zkbio_sync.py.
+
+    Body JSON:
+    {
+      "api_key": "<key>",
+      "batch_id": 1,              -- optional; if omitted, uses first active batch for student
+      "records": [
+        {
+          "student_id": 5,
+          "date": "2026-02-28",
+          "status": "present",    -- present | absent | late | leave
+          "check_in": "08:15",    -- optional HH:MM
+          "check_out": "14:30"    -- optional HH:MM
+        }
+      ]
+    }
+
+    Returns:
+    { "created": N, "updated": N, "skipped": N, "errors": [...] }
+    """
+    from models import Settings
+    import secrets
+
+    data = request.get_json(silent=True) or {}
+
+    # ── API key check ──────────────────────────────────────────────────────
+    api_key_row = Settings.query.filter_by(key='biometric_sync_api_key').first()
+    if not api_key_row:
+        # Auto-generate key on first call (no auth yet) and return it
+        new_key = secrets.token_hex(24)
+        db.session.add(Settings(
+            key='biometric_sync_api_key',
+            value=new_key,
+            description='API key for ZKBio Time.Net attendance sync',
+            category='biometric',
+        ))
+        db.session.commit()
+        return error_response(
+            f'API key not configured. Generated key: {new_key}  '
+            f'Add this to your zkbio_config.json as "api_key".', 403)
+
+    expected_key = api_key_row.value
+    if data.get('api_key') != expected_key:
+        return error_response('Invalid API key', 403)
+
+    # ── Process records ────────────────────────────────────────────────────
+    records     = data.get('records', [])
+    default_bid = data.get('batch_id')
+
+    created = updated = skipped = 0
+    errors = []
+
+    for rec in records:
+        try:
+            student_id = rec.get('student_id')
+            date_str   = rec.get('date')
+            status_raw = (rec.get('status') or 'present').lower()
+            check_in   = rec.get('check_in')
+            check_out  = rec.get('check_out')
+
+            if not student_id or not date_str:
+                skipped += 1
+                continue
+
+            try:
+                att_date = datetime.strptime(date_str, '%Y-%m-%d').date()
+            except ValueError:
+                errors.append(f'Bad date "{date_str}" for student {student_id}')
+                skipped += 1
+                continue
+
+            # Map status string → AttendanceStatus enum
+            status_map = {
+                'present': AttendanceStatus.PRESENT,
+                'absent':  AttendanceStatus.ABSENT,
+                'late':    AttendanceStatus.PRESENT,   # count late as present
+                'leave':   AttendanceStatus.LEAVE,
+            }
+            att_status = status_map.get(status_raw, AttendanceStatus.PRESENT)
+
+            # Parse check-in / check-out times
+            ci_dt = co_dt = None
+            if check_in:
+                try:
+                    ci_dt = datetime.strptime(f'{date_str} {check_in}', '%Y-%m-%d %H:%M')
+                except Exception:
+                    pass
+            if check_out:
+                try:
+                    co_dt = datetime.strptime(f'{date_str} {check_out}', '%Y-%m-%d %H:%M')
+                except Exception:
+                    pass
+
+            # Resolve batch_id
+            bid = default_bid
+            if not bid:
+                user = User.query.get(student_id)
+                if user and user.batches:
+                    bid = user.batches[0].id
+            if not bid:
+                errors.append(f'No batch for student {student_id}')
+                skipped += 1
+                continue
+
+            existing = Attendance.query.filter_by(
+                user_id=student_id, batch_id=bid, date=att_date
+            ).first()
+
+            if existing:
+                existing.status        = att_status
+                existing.check_in_time = ci_dt or existing.check_in_time
+                existing.check_out_time= co_dt or existing.check_out_time
+                existing.updated_at    = datetime.utcnow()
+                existing.notes         = 'zkbio-sync'
+                updated += 1
+            else:
+                db.session.add(Attendance(
+                    user_id=student_id,
+                    batch_id=bid,
+                    date=att_date,
+                    status=att_status,
+                    check_in_time=ci_dt,
+                    check_out_time=co_dt,
+                    notes='zkbio-sync',
+                ))
+                created += 1
+
+        except Exception as e:
+            errors.append(str(e))
+            skipped += 1
+
+    db.session.commit()
+    return success_response({
+        'created': created, 'updated': updated,
+        'skipped': skipped, 'errors': errors
+    }, f'Sync done: {created} new, {updated} updated, {skipped} skipped')
+
+
+@attendance_bp.route('/biometric-sync/key', methods=['GET'])
+@login_required
+@require_role(UserRole.SUPER_USER)
+def get_biometric_api_key():
+    """Return (or create) the biometric sync API key – super_user only"""
+    from models import Settings
+    import secrets
+    row = Settings.query.filter_by(key='biometric_sync_api_key').first()
+    if not row:
+        key = secrets.token_hex(24)
+        db.session.add(Settings(key='biometric_sync_api_key', value=key,
+                                description='ZKBio sync API key', category='biometric'))
+        db.session.commit()
+    else:
+        key = row.value
+    return success_response({'api_key': key})
+
+
 @attendance_bp.route('', methods=['GET'])
 @login_required
 def get_attendance():
