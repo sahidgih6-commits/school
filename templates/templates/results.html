@@ -312,9 +312,25 @@ body{font-family:'Poppins',sans-serif;background:#f1f5f9;color:var(--dark)}
             </select>
           </div>
           <div class="fg" style="align-self:end">
-            <button class="btn btn-green" @click="loadTranscript()" :disabled="!studentId||!exam">
-              <i class="fas fa-file-alt"></i> View
-            </button>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-green" @click="loadTranscript()" :disabled="!studentId||!exam">
+                <i class="fas fa-file-alt"></i> View
+              </button>
+              <template x-if="studentId && classId">
+                <a class="btn" style="background:#7c3aed;color:#fff;text-decoration:none"
+                   :href="'/results/cards?class_id='+classId+'&year='+year+'&student_id='+studentId"
+                   target="_blank">
+                  <i class="fas fa-id-card"></i> Card
+                </a>
+              </template>
+              <template x-if="classId">
+                <a class="btn" style="background:#0891b2;color:#fff;text-decoration:none"
+                   :href="'/results/cards?class_id='+classId+'&year='+year"
+                   target="_blank">
+                  <i class="fas fa-layer-group"></i> All Cards
+                </a>
+              </template>
+            </div>
           </div>
         </div>
         <p x-show="!classId || !exam" style="font-size:11.5px;color:#94a3b8;margin-top:7px">

@@ -717,6 +717,195 @@ def student_transcript(student_id):
 
 
 # ---------------------------------------------------------------------------
+# Combined Result Cards  (all 3 terms on one landscape marksheet per student)
+# ---------------------------------------------------------------------------
+
+@school_bp.route('/api/school/results/cards', methods=['GET'])
+def result_cards():
+    """Return combined 3-term result card data for a class+year (or one student).
+
+    Query params:
+      class_id  int  required
+      year      int  required
+      student_id int optional  — if given, returns only that student's card
+    """
+    class_id   = request.args.get('class_id',   type=int)
+    year       = request.args.get('year',        type=int)
+    student_id = request.args.get('student_id',  type=int)
+
+    if not class_id or not year:
+        return jsonify({'error': 'class_id and year are required'}), 400
+
+    school_class = SchoolClass.query.get_or_404(class_id)
+
+    # All active subjects for this class, ordered
+    subjects = (SchoolSubject.query
+                .filter_by(school_class_id=class_id, is_active=True)
+                .order_by(asc(SchoolSubject.order_index)).all())
+
+    # All 3 term exams for this class+year
+    exams = (TermExam.query
+             .filter_by(school_class_id=class_id, year=year)
+             .all())
+    exam_by_term = {e.term: e for e in exams}   # '1st_term','2nd_term','annual'
+
+    TERMS = ['1st_term', '2nd_term', 'annual']
+    TERM_LABELS = {'1st_term': '1st Term', '2nd_term': '2nd Term', 'annual': 'Annual'}
+
+    # Collect all StudentTermResults for these exams
+    exam_ids = [e.id for e in exams]
+    all_marks = StudentTermResult.query.filter(
+        StudentTermResult.term_exam_id.in_(exam_ids)
+    ).all() if exam_ids else []
+
+    # Build a lookup: student_id → term → subject_id → result row
+    exam_id_to_term = {e.id: e.term for e in exams}
+    data = {}   # {student_id: {term: {subject_id: row}}}
+    for m in all_marks:
+        term_key = exam_id_to_term.get(m.term_exam_id)
+        if not term_key:
+            continue
+        data.setdefault(m.student_id, {}).setdefault(term_key, {})[m.subject_id] = m
+
+    # If single student requested, filter
+    student_ids = (StudentClassInfo.query
+                   .filter_by(school_class_id=class_id)
+                   .with_entities(StudentClassInfo.student_id)
+                   .all())
+    student_ids = [s[0] for s in student_ids]
+    if student_id:
+        student_ids = [s for s in student_ids if s == student_id]
+
+    # Class-wide grand totals for ranking (using all students)
+    grand_totals_all = {}
+    for sid in data:
+        gt = 0
+        for term in TERMS:
+            for sub_id, m in data.get(sid, {}).get(term, {}).items():
+                gt += m.marks_obtained
+        grand_totals_all[sid] = gt
+
+    tmp_rank = [{'student_id': sid, 'total_marks': tot}
+                for sid, tot in grand_totals_all.items()]
+    tmp_rank.sort(key=lambda x: -x['total_marks'])
+    _assign_tied_ranks(tmp_rank, 'total_marks', 'rank')
+    rank_map = {r['student_id']: r['rank'] for r in tmp_rank}
+
+    cards = []
+    for sid in student_ids:
+        student = User.query.get(sid)
+        if not student or not student.is_active or student.is_archived:
+            continue
+        info = StudentClassInfo.query.filter_by(student_id=sid).first()
+
+        # Build subject rows: {subject_id: {term: {obtained, full, grade, gpa, is_absent}}}
+        subject_rows = []
+        overall_failed = False
+        for sub in subjects:
+            row = {
+                'subject_id': sub.id,
+                'subject_name':    sub.name,
+                'subject_name_bn': sub.name_bn or '',
+                'grand_obtained': 0,
+                'grand_full':     0,
+                'failed':         False,
+            }
+            for term in TERMS:
+                m = data.get(sid, {}).get(term, {}).get(sub.id)
+                if m:
+                    row[term] = {
+                        'obtained':   m.marks_obtained,
+                        'full':       m.full_marks,
+                        'grade':      m.grade,
+                        'gpa':        m.gpa,
+                        'is_absent':  m.is_absent,
+                        'pass_marks': m.pass_marks,
+                    }
+                    row['grand_obtained'] += m.marks_obtained
+                    row['grand_full']     += m.full_marks
+                    if m.grade == 'F' or m.is_absent:
+                        row['failed'] = True
+                        overall_failed = True
+                else:
+                    # Find expected full marks from exam if exists
+                    full = sub.full_marks or 100
+                    row[term] = {'obtained': None, 'full': full, 'grade': None, 'gpa': None, 'is_absent': False, 'pass_marks': None}
+            # Grand GPA for subject
+            g_grade, g_gpa = _calc_grade_gpa(row['grand_obtained'], row['grand_full']) if row['grand_full'] else ('—', 0.0)
+            row['grand_grade'] = g_grade
+            row['grand_gpa']   = g_gpa
+            subject_rows.append(row)
+
+        # Per-term totals
+        term_totals = {}
+        for term in TERMS:
+            tot_obt = sum(data.get(sid, {}).get(term, {}).get(sub.id).marks_obtained
+                         for sub in subjects
+                         if data.get(sid, {}).get(term, {}).get(sub.id) is not None)
+            tot_full = sum(data.get(sid, {}).get(term, {}).get(sub.id).full_marks
+                          for sub in subjects
+                          if data.get(sid, {}).get(term, {}).get(sub.id) is not None)
+            pct = round((tot_obt / tot_full) * 100, 2) if tot_full else 0
+            tg, tgpa = _calc_grade_gpa(tot_obt, tot_full) if tot_full else ('—', 0.0)
+            term_totals[term] = {
+                'obtained': tot_obt, 'full': tot_full,
+                'percentage': pct, 'grade': tg, 'gpa': tgpa,
+                'label': TERM_LABELS.get(term, term),
+                'has_data': bool(data.get(sid, {}).get(term)),
+            }
+
+        # Grand total
+        grand_obt  = sum(r['grand_obtained'] for r in subject_rows)
+        grand_full = sum(r['grand_full'] for r in subject_rows)
+        grand_pct  = round((grand_obt / grand_full) * 100, 2) if grand_full else 0
+        g_grade, g_gpa = _calc_grade_gpa(grand_obt, grand_full) if grand_full else ('—', 0.0)
+        if overall_failed:
+            g_grade = 'F'; g_gpa = 0.0
+
+        failed_count = sum(1 for r in subject_rows if r['failed'])
+
+        cards.append({
+            'student': {
+                'id':           sid,
+                'display_id':   info.reg_number if info and info.reg_number else str(sid),
+                'name':         student.full_name,
+                'roll_number':  info.roll_number if info else None,
+                'guardian_name': student.guardian_name or '',
+                'mother_name':  student.mother_name or '',
+                'date_of_birth': student.date_of_birth.isoformat() if student.date_of_birth else None,
+                'blood_group':  info.blood_group if info else '',
+                'section':      info.section.name if info and info.section else '',
+                'class_name':   school_class.name,
+            },
+            'year':         year,
+            'subjects':     subject_rows,
+            'term_totals':  term_totals,
+            'grand': {
+                'obtained':    grand_obt,
+                'full':        grand_full,
+                'percentage':  grand_pct,
+                'grade':       g_grade,
+                'gpa':         round(g_gpa, 2),
+                'class_rank':  rank_map.get(sid, '—'),
+                'result':      'FAILED' if overall_failed else 'PASSED',
+                'failed_subjects': failed_count,
+            },
+        })
+
+    # Sort by roll number
+    cards.sort(key=lambda c: c['student']['roll_number'] or 9999)
+
+    return jsonify({
+        'class_name': school_class.name,
+        'year':       year,
+        'subjects':   [{'id': s.id, 'name': s.name, 'name_bn': s.name_bn or '', 'full_marks': s.full_marks} for s in subjects],
+        'terms':      TERMS,
+        'term_labels': TERM_LABELS,
+        'cards':      cards,
+    })
+
+
+# ---------------------------------------------------------------------------
 # Student Class Info  (assign class/section/roll to a student)
 # ---------------------------------------------------------------------------
 

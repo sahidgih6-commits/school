@@ -85,6 +85,15 @@ def marks_entry_page():
         return redirect(url_for('templates.index'))
     return render_template('marks_entry.html', user=session['user'])
 
+@templates_bp.route('/results/cards')
+def result_cards_page():
+    """Certificate-format result cards – one card per student, all 3 terms combined"""
+    if 'user' not in session:
+        return redirect(url_for('templates.login_page') + '?next=/results/cards')
+    if session['user'].get('role') not in ('teacher', 'super_user', 'head_teacher'):
+        return redirect(url_for('templates.index'))
+    return render_template('result_card.html', user=session['user'])
+
 @templates_bp.route('/debug-fees')
 def debug_fees():
     """Debug page for fees feature"""

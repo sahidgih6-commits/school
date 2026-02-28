@@ -1,0 +1,482 @@
+{% extends "base.html" %}
+{% block title %}Result Cards – Modern Ideal Non Government Primary School{% endblock %}
+{% block extra_head %}
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+[x-cloak]{display:none!important}
+body{font-family:'Poppins',sans-serif;background:#eef2f7;color:#1e293b}
+.ctrl{max-width:860px;margin:0 auto;padding:24px 18px}
+.ctrl-box{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:18px}
+.ctrl-box h2{font-size:15px;font-weight:700;margin-bottom:14px;color:#1a56db}
+.fg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;align-items:end}
+.fg label{font-size:11.5px;font-weight:600;color:#64748b;display:block;margin-bottom:4px}
+.fg select,.fg input{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;background:#fff}
+.fg select:focus,.fg input:focus{border-color:#1a56db}
+.btn{padding:10px 20px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.btn-primary{background:#1a56db;color:#fff}.btn-primary:hover{background:#1238a0}
+.btn-gold{background:#f59e0b;color:#1e293b}.btn-gold:hover{background:#d97706}
+.btn-green{background:#059669;color:#fff}.btn-green:hover{background:#047857}
+.spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+.empty{text-align:center;padding:60px 20px;color:#94a3b8}
+.empty i{font-size:44px;display:block;margin-bottom:10px}
+.card-count{font-size:13px;color:#64748b;margin-bottom:12px}
+
+/* ===== SCREEN: card preview ===== */
+.cards-wrap{display:flex;flex-direction:column;gap:24px;margin-bottom:40px}
+.card-preview{width:100%;max-width:860px;margin:0 auto;background:#fff;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.12);overflow:hidden}
+
+/* ===== PRINT ===== */
+@media print{
+  .no-print{display:none!important}
+  nav,header,.ctrl-box,.card-count{display:none!important}
+  body{background:#fff;margin:0;padding:0}
+  .cards-wrap{gap:0;margin:0}
+  .card-preview{border-radius:0;box-shadow:none;page-break-after:always;page-break-inside:avoid;max-width:100%;width:100%}
+  .card-preview:last-child{page-break-after:auto}
+  @page{size:A4 landscape;margin:6mm}
+}
+
+/* ===== CARD INNER (same for screen and print) ===== */
+.rc{font-family:'Times New Roman',Times,serif;width:100%;padding:6px 8px;box-sizing:border-box;font-size:8.5pt;color:#000}
+
+/* School header */
+.rc-header{display:flex;align-items:flex-start;justify-content:space-between;border-bottom:3px double #8B7536;padding-bottom:5px;margin-bottom:4px}
+.rc-header-left{flex:1}
+.rc-school-name{font-size:15pt;font-weight:bold;color:#1a3a6b;line-height:1.2}
+.rc-school-addr{font-size:7.5pt;color:#555;margin-top:1px}
+.rc-header-center{flex:1;text-align:center}
+.rc-title{font-size:12pt;font-weight:bold;color:#8B7536;letter-spacing:1px;border:2px solid #8B7536;padding:3px 10px;display:inline-block}
+.rc-subtitle{font-size:7.5pt;color:#555;margin-top:2px}
+.rc-header-right{flex:0 0 60px;text-align:right}
+.rc-logo{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1a3a6b,#8B7536);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18pt;font-weight:bold;margin-left:auto}
+
+/* Student info box */
+.rc-student-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid #999;margin-bottom:5px}
+.rc-sg-col{display:grid;grid-template-rows:repeat(3,auto)}
+.rc-srow{display:flex;border-bottom:1px solid #ccc;font-size:7.5pt}
+.rc-srow:last-child{border-bottom:none}
+.rc-sk{background:#e8e4d0;font-weight:bold;padding:3px 6px;min-width:90px;border-right:1px solid #bbb}
+.rc-sv{padding:3px 6px;flex:1}
+.rc-sg-col:first-child{border-right:1.5px solid #999}
+
+/* Marks table */
+.rc-marks-tbl{width:100%;border-collapse:collapse;font-size:7.5pt;margin-bottom:5px}
+.rc-marks-tbl th,.rc-marks-tbl td{border:1px solid #999;padding:2.5px 4px;text-align:center;vertical-align:middle}
+.rc-marks-tbl .th-group{background:#1a3a6b;color:#fff;font-weight:bold;text-align:center;font-size:7pt;padding:3px 4px}
+.rc-marks-tbl .th-sub{background:#daebff;font-weight:bold;font-size:6.5pt}
+.rc-marks-tbl .sub-col{text-align:left;background:#f5f5eb;font-weight:bold;min-width:90px}
+.rc-marks-tbl .sub-bn{display:block;font-size:6pt;font-family:'Hind Siliguri',sans-serif;color:#666;font-weight:normal}
+.rc-marks-tbl .total-row{background:#fffde7;font-weight:bold}
+.rc-marks-tbl .grand-col{background:#e6f4ea}
+.rc-marks-tbl .f-grade{color:#dc2626;font-weight:bold}
+.rc-marks-tbl .p-grade{color:#059669;font-weight:bold}
+.rc-marks-tbl .hi{background:#fffde7}
+
+/* Grade scale sidebar */
+.rc-bottom{display:flex;gap:6px;margin-top:4px;align-items:flex-start}
+.rc-summary{flex:1}
+
+/* Summary table */
+.rc-sum-tbl{width:100%;border-collapse:collapse;font-size:7pt}
+.rc-sum-tbl th{background:#1a3a6b;color:#fff;padding:3px 5px;border:1px solid #999;font-size:6.5pt}
+.rc-sum-tbl td{border:1px solid #999;padding:2.5px 5px;text-align:center;vertical-align:middle}
+.rc-sum-tbl .grand-row{background:#fffde7;font-weight:bold}
+
+/* Grade scale table */
+.rc-grade-tbl{border-collapse:collapse;font-size:6.5pt;min-width:120px}
+.rc-grade-tbl th{background:#1a3a6b;color:#fff;padding:2px 5px;border:1px solid #999}
+.rc-grade-tbl td{border:1px solid #999;padding:2px 5px;text-align:center}
+
+/* Co-curricular */
+.rc-cocurr{margin-top:4px;font-size:6.5pt}
+.rc-cocurr table{width:100%;border-collapse:collapse}
+.rc-cocurr th{background:#d0d0d0;padding:2px 4px;border:1px solid #999;font-size:6pt}
+.rc-cocurr td{border:1px solid #999;padding:2px 4px;text-align:center}
+
+/* Result ribbon */
+.rc-result{display:inline-block;padding:1px 10px;border-radius:2px;font-weight:bold;font-size:8pt}
+.rc-result-pass{background:#dcfce7;color:#166534;border:1px solid #166534}
+.rc-result-fail{background:#fee2e2;color:#dc2626;border:1px solid #dc2626}
+
+/* Signatures */
+.rc-sigs{display:flex;justify-content:space-between;margin-top:6px;padding-top:4px;border-top:1.5px solid #999}
+.rc-sig{text-align:center;min-width:120px}
+.rc-sig .sl{border-top:1px solid #000;margin-top:22px;padding-top:2px;font-size:6.5pt;font-weight:bold}
+.rc-sig .dt{font-size:6pt;color:#555;margin-top:2px}
+</style>
+{% endblock %}
+
+{% block content %}
+<div x-data="cardApp()" x-cloak>
+
+  <!-- CONTROL BAR (no-print) -->
+  <div class="ctrl no-print">
+    <div class="ctrl-box">
+      <h2><i class="fas fa-id-card" style="margin-right:7px"></i>Academic Result Cards (Certificate Format)</h2>
+      <div class="fg-row">
+        <div class="fg">
+          <label><i class="fas fa-calendar-alt"></i> Year</label>
+          <select x-model="year">
+            <template x-for="y in years" :key="y">
+              <option :value="y" x-text="y"></option>
+            </template>
+          </select>
+        </div>
+        <div class="fg">
+          <label><i class="fas fa-school"></i> Class</label>
+          <select x-model="classId" @change="onClassChange()">
+            <option value="">-- Select Class --</option>
+            <template x-for="c in classes" :key="c.id">
+              <option :value="c.id" x-text="c.name"></option>
+            </template>
+          </select>
+        </div>
+        <div class="fg">
+          <label><i class="fas fa-user"></i> Student (optional)</label>
+          <select x-model="studentId" :disabled="!students.length">
+            <option value="">-- All Students --</option>
+            <template x-for="s in students" :key="s.id">
+              <option :value="s.id" x-text="s.name+(s.roll_number?' (Roll '+s.roll_number+')':'')"></option>
+            </template>
+          </select>
+        </div>
+        <div class="fg" style="align-self:end">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-primary" @click="loadCards()" :disabled="!classId">
+              <template x-if="loading"><span class="spin"></span></template>
+              <template x-if="!loading"><i class="fas fa-search"></i></template>
+              Generate
+            </button>
+            <button class="btn btn-gold" @click="window.print()" x-show="cards.length>0">
+              <i class="fas fa-print"></i> Print All
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-count" x-show="cards.length>0">
+      <i class="fas fa-info-circle"></i> Showing <strong x-text="cards.length"></strong> result card(s) — Year <span x-text="year"></span>, Class <span x-text="className"></span>
+    </div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="ctrl no-print" x-show="!loading && cards.length===0">
+    <div class="empty">
+      <i class="fas fa-id-card"></i>
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:6px">Select Year &amp; Class</h3>
+      <p>Choose above and click Generate to create result cards for all students (or one student).</p>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="ctrl no-print" x-show="loading">
+    <div class="empty">
+      <span class="spin" style="width:32px;height:32px;border-width:3px;border-top-color:#1a56db;border-color:#e2e8f0;display:inline-block"></span>
+      <p style="margin-top:12px;color:#64748b">Generating cards…</p>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards-wrap" x-show="cards.length>0">
+    <template x-for="card in cards" :key="card.student.id">
+      <div class="card-preview">
+        <div class="rc">
+          <!-- ===== SCHOOL HEADER ===== -->
+          <div class="rc-header">
+            <div class="rc-header-left">
+              <div class="rc-school-name" x-text="schoolInfo.school_name||'Modern Ideal Non Govt. Primary School'"></div>
+              <div class="rc-school-addr" x-text="(schoolInfo.address||'') + (schoolInfo.phone?' | Ph: '+schoolInfo.phone:'')"></div>
+            </div>
+            <div class="rc-header-center">
+              <div class="rc-title">ACADEMIC TRANSCRIPT</div>
+              <div class="rc-subtitle">Year / Session: <strong x-text="card.year"></strong></div>
+            </div>
+            <div class="rc-header-right">
+              <div class="rc-logo">M</div>
+            </div>
+          </div>
+
+          <!-- ===== STUDENT INFO ===== -->
+          <div class="rc-student-grid">
+            <div class="rc-sg-col">
+              <div class="rc-srow"><span class="rc-sk">Name of Student</span><span class="rc-sv"><strong x-text="card.student.name"></strong></span></div>
+              <div class="rc-srow"><span class="rc-sk">Roll No.</span><span class="rc-sv" x-text="card.student.roll_number||'—'"></span></div>
+              <div class="rc-srow"><span class="rc-sk">Student ID</span><span class="rc-sv" x-text="card.student.display_id"></span></div>
+            </div>
+            <div class="rc-sg-col">
+              <div class="rc-srow"><span class="rc-sk">Class</span><span class="rc-sv" x-text="card.student.class_name"></span></div>
+              <div class="rc-srow"><span class="rc-sk">Section</span><span class="rc-sv" x-text="card.student.section||'—'"></span></div>
+              <div class="rc-srow"><span class="rc-sk">Guardian</span><span class="rc-sv" x-text="card.student.guardian_name||'—'"></span></div>
+            </div>
+          </div>
+
+          <!-- ===== MARKS TABLE ===== -->
+          <table class="rc-marks-tbl">
+            <thead>
+              <tr>
+                <th rowspan="2" class="sub-col" style="text-align:left">Name of Subjects</th>
+                <template x-if="hasTermData('1st_term')">
+                  <th colspan="3" class="th-group">1st Term Exam</th>
+                </template>
+                <template x-if="hasTermData('2nd_term')">
+                  <th colspan="3" class="th-group">2nd Term Exam</th>
+                </template>
+                <template x-if="hasTermData('annual')">
+                  <th colspan="3" class="th-group">Annual Exam</th>
+                </template>
+                <th colspan="3" class="th-group" style="background:#1a5200">Grand Total</th>
+              </tr>
+              <tr>
+                <template x-if="hasTermData('1st_term')">
+                  <template x-for="h in ['Marks','Grade','GPA']" :key="'t1'+h">
+                    <th class="th-sub" x-text="h"></th>
+                  </template>
+                </template>
+                <template x-if="hasTermData('2nd_term')">
+                  <template x-for="h in ['Marks','Grade','GPA']" :key="'t2'+h">
+                    <th class="th-sub" x-text="h"></th>
+                  </template>
+                </template>
+                <template x-if="hasTermData('annual')">
+                  <template x-for="h in ['Marks','Grade','GPA']" :key="'ta'+h">
+                    <th class="th-sub" x-text="h"></th>
+                  </template>
+                </template>
+                <th class="th-sub grand-col">Marks</th>
+                <th class="th-sub grand-col">Grade</th>
+                <th class="th-sub grand-col">GPA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="sub in card.subjects" :key="sub.subject_id">
+                <tr>
+                  <td class="sub-col">
+                    <span x-text="sub.subject_name"></span>
+                    <span class="sub-bn" x-text="sub.subject_name_bn"></span>
+                  </td>
+                  <!-- 1st Term -->
+                  <template x-if="hasTermData('1st_term')">
+                    <template x-if="sub['1st_term'] && sub['1st_term'].obtained !== null">
+                      <td x-text="sub['1st_term'].is_absent ? 'ABS' : sub['1st_term'].obtained+'/'+sub['1st_term'].full"></td>
+                    </template>
+                    <template x-if="!sub['1st_term'] || sub['1st_term'].obtained === null">
+                      <td>—</td>
+                    </template>
+                    <td class="f-grade" x-show="sub['1st_term'] && (sub['1st_term'].grade==='F'||sub['1st_term'].is_absent)" x-text="sub['1st_term']?.is_absent?'ABS':sub['1st_term']?.grade"></td>
+                    <td x-show="sub['1st_term'] && sub['1st_term'].grade!=='F' && !sub['1st_term']?.is_absent" x-text="sub['1st_term']?.grade||'—'"></td>
+                    <td x-text="sub['1st_term']?.gpa?.toFixed(2)||'—'"></td>
+                  </template>
+                  <!-- 2nd Term -->
+                  <template x-if="hasTermData('2nd_term')">
+                    <template x-if="sub['2nd_term'] && sub['2nd_term'].obtained !== null">
+                      <td x-text="sub['2nd_term'].is_absent ? 'ABS' : sub['2nd_term'].obtained+'/'+sub['2nd_term'].full"></td>
+                    </template>
+                    <template x-if="!sub['2nd_term'] || sub['2nd_term'].obtained === null">
+                      <td>—</td>
+                    </template>
+                    <td class="f-grade" x-show="sub['2nd_term'] && (sub['2nd_term'].grade==='F'||sub['2nd_term'].is_absent)" x-text="sub['2nd_term']?.is_absent?'ABS':sub['2nd_term']?.grade"></td>
+                    <td x-show="sub['2nd_term'] && sub['2nd_term'].grade!=='F' && !sub['2nd_term']?.is_absent" x-text="sub['2nd_term']?.grade||'—'"></td>
+                    <td x-text="sub['2nd_term']?.gpa?.toFixed(2)||'—'"></td>
+                  </template>
+                  <!-- Annual -->
+                  <template x-if="hasTermData('annual')">
+                    <template x-if="sub['annual'] && sub['annual'].obtained !== null">
+                      <td x-text="sub['annual'].is_absent ? 'ABS' : sub['annual'].obtained+'/'+sub['annual'].full"></td>
+                    </template>
+                    <template x-if="!sub['annual'] || sub['annual'].obtained === null">
+                      <td>—</td>
+                    </template>
+                    <td class="f-grade" x-show="sub['annual'] && (sub['annual'].grade==='F'||sub['annual'].is_absent)" x-text="sub['annual']?.is_absent?'ABS':sub['annual']?.grade"></td>
+                    <td x-show="sub['annual'] && sub['annual'].grade!=='F' && !sub['annual']?.is_absent" x-text="sub['annual']?.grade||'—'"></td>
+                    <td x-text="sub['annual']?.gpa?.toFixed(2)||'—'"></td>
+                  </template>
+                  <!-- Grand -->
+                  <td class="grand-col"><strong x-text="sub.grand_obtained+'/'+sub.grand_full"></strong></td>
+                  <td class="grand-col" :class="sub.grand_grade==='F'?'f-grade':'p-grade'"><strong x-text="sub.grand_grade"></strong></td>
+                  <td class="grand-col"><strong x-text="sub.grand_gpa?.toFixed(2)"></strong></td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+
+          <!-- ===== BOTTOM SECTION ===== -->
+          <div class="rc-bottom">
+            <!-- Summary table -->
+            <div class="rc-summary">
+              <table class="rc-sum-tbl">
+                <thead>
+                  <tr>
+                    <th>Exam Name</th>
+                    <th>Total Marks</th>
+                    <th>Letter Grade</th>
+                    <th>Grade Point</th>
+                    <th>Class Position</th>
+                    <th>Passed/Failed</th>
+                    <th>Failed Subj.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="term in ['1st_term','2nd_term','annual']" :key="term">
+                    <template x-if="card.term_totals[term] && card.term_totals[term].has_data">
+                      <tr>
+                        <td x-text="card.term_totals[term].label"></td>
+                        <td x-text="card.term_totals[term].obtained+' / '+card.term_totals[term].full"></td>
+                        <td x-text="card.term_totals[term].grade"></td>
+                        <td x-text="card.term_totals[term].gpa.toFixed(2)"></td>
+                        <td>—</td>
+                        <td x-text="card.term_totals[term].grade==='F'?'Failed':'Passed'"></td>
+                        <td>—</td>
+                      </tr>
+                    </template>
+                  </template>
+                  <tr class="grand-row">
+                    <td><strong>GRAND TOTAL</strong></td>
+                    <td><strong x-text="card.grand.obtained+' / '+card.grand.full"></strong></td>
+                    <td><strong x-text="card.grand.grade"></strong></td>
+                    <td><strong x-text="card.grand.gpa.toFixed(2)"></strong></td>
+                    <td><strong x-text="card.grand.class_rank"></strong></td>
+                    <td>
+                      <span class="rc-result" :class="card.grand.result==='PASSED'?'rc-result-pass':'rc-result-fail'"
+                            x-text="card.grand.result"></span>
+                    </td>
+                    <td x-text="card.grand.failed_subjects"></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Co-Curricular (static) -->
+              <div class="rc-cocurr" style="margin-top:4px">
+                <table>
+                  <tr>
+                    <th>Co-Curricular Activities</th>
+                    <th>Cultural Functions</th>
+                    <th>Scouts/BNC</th>
+                    <th>Physco-Dynamic</th>
+                  </tr>
+                  <tr>
+                    <td style="min-width:90px;height:14px">&nbsp;</td>
+                    <td style="min-width:80px">&nbsp;</td>
+                    <td style="min-width:60px">&nbsp;</td>
+                    <td style="min-width:60px">&nbsp;</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+
+            <!-- Grade scale -->
+            <div>
+              <table class="rc-grade-tbl">
+                <thead>
+                  <tr><th>Range</th><th>Grade</th><th>GPA</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>80-100</td><td>A+</td><td>5.00</td></tr>
+                  <tr><td>70-79</td><td>A</td><td>4.00</td></tr>
+                  <tr><td>60-69</td><td>A-</td><td>3.50</td></tr>
+                  <tr><td>50-59</td><td>B</td><td>3.00</td></tr>
+                  <tr><td>40-49</td><td>C</td><td>2.00</td></tr>
+                  <tr><td>33-39</td><td>D</td><td>1.00</td></tr>
+                  <tr><td>0-32</td><td>F</td><td>0.00</td></tr>
+                </tbody>
+              </table>
+              <div style="font-size:6pt;color:#555;margin-top:3px;text-align:center">
+                Percentage: <strong x-text="card.grand.obtained+'/'+card.grand.full+' = '+card.grand.percentage.toFixed(1)+'%'"></strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== SIGNATURES ===== -->
+          <div class="rc-sigs">
+            <div class="rc-sig">
+              <div class="sl">Class Teacher</div>
+              <div class="dt" x-text="'Date: '+printDate"></div>
+            </div>
+            <div class="rc-sig">
+              <div class="sl">Head Teacher / Principal Signature</div>
+              <div class="dt" x-text="'Date: '+printDate"></div>
+            </div>
+            <div class="rc-sig">
+              <div class="sl">School Seal</div>
+            </div>
+          </div>
+        </div><!-- /rc -->
+      </div><!-- /card-preview -->
+    </template>
+  </div><!-- /cards-wrap -->
+
+</div><!-- /x-data -->
+
+<script>
+function cardApp(){
+  const cur = new Date().getFullYear();
+  return {
+    year: cur,
+    years: Array.from({length:6},(_,i)=>cur+1-i),
+    classId: '',
+    studentId: '',
+    classes: [],
+    students: [],
+    cards: [],
+    className: '',
+    loading: false,
+    schoolInfo: {},
+    printDate: new Date().toLocaleDateString('en-GB'),
+    _termDataCache: {},
+
+    hasTermData(term){
+      return this._termDataCache[term] !== false;
+    },
+
+    async init(){
+      const [info, cls] = await Promise.all([
+        fetch('/api/school/info').then(r=>r.json()).catch(()=>({})),
+        fetch('/api/school/classes').then(r=>r.json()).catch(()=>[]),
+      ]);
+      this.schoolInfo = info;
+      this.classes = cls;
+
+      // auto-load from URL
+      const p = new URLSearchParams(location.search);
+      if(p.get('class_id')){ this.classId = p.get('class_id'); await this.onClassChange(); }
+      if(p.get('year'))     { this.year    = p.get('year'); }
+      if(p.get('student_id')){ this.studentId = p.get('student_id'); }
+      if(p.get('class_id') && p.get('year')){ await this.loadCards(); }
+    },
+
+    async onClassChange(){
+      this.students = [];
+      this.studentId = '';
+      if(!this.classId) return;
+      const sd = await fetch('/api/school/student-info?class_id='+this.classId).then(r=>r.json()).catch(()=>({}));
+      this.students = sd.students || [];
+      const cls = this.classes.find(c=>String(c.id)===String(this.classId));
+      this.className = cls ? cls.name : '';
+    },
+
+    async loadCards(){
+      if(!this.classId){ alert('Please select a class'); return; }
+      this.loading = true;
+      this.cards = [];
+      this._termDataCache = {};
+      try{
+        let url = `/api/school/results/cards?class_id=${this.classId}&year=${this.year}`;
+        if(this.studentId) url += `&student_id=${this.studentId}`;
+        const data = await fetch(url).then(r=>r.json());
+        if(data.error){ alert(data.error); return; }
+        this.cards = data.cards || [];
+        this.className = data.class_name || this.className;
+        // Pre-compute which terms have data
+        const terms = ['1st_term','2nd_term','annual'];
+        for(const term of terms){
+          this._termDataCache[term] = this.cards.some(c=>c.term_totals[term]?.has_data);
+        }
+      } catch(e){ alert('Error loading cards: '+e); }
+      finally{ this.loading = false; }
+    },
+  };
+}
+</script>
+{% endblock %}
