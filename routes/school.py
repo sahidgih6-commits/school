@@ -51,6 +51,26 @@ def _calc_grade_gpa(marks, full=100):
     return ('F', 0.00)
 
 
+def _assign_tied_ranks(rows, key='total_marks', attr='rank'):
+    """Assign '1', '2a', '2b' style tied ranks to a list sorted desc by key."""
+    i = 0
+    while i < len(rows):
+        j = i + 1
+        while j < len(rows) and rows[j][key] == rows[i][key]:
+            j += 1
+        group_size = j - i
+        base = i + 1
+        if group_size == 1:
+            rows[i][attr] = str(base)
+            rows[i][attr + '_num'] = base
+        else:
+            for k in range(group_size):
+                rows[i + k][attr] = f"{base}{chr(97 + k)}"   # 1a, 1b, 1c …
+                rows[i + k][attr + '_num'] = base
+        i = j
+    return rows
+
+
 # ---------------------------------------------------------------------------
 # School Info (CMS)
 # ---------------------------------------------------------------------------
@@ -482,60 +502,60 @@ def class_wise_results():
                 .filter_by(school_class_id=exam.school_class_id, is_active=True)
                 .order_by(asc(SchoolSubject.order_index)).all())
 
-    # All results for this exam
     all_marks = StudentTermResult.query.filter_by(term_exam_id=exam_id).all()
 
-    # Group by student
     student_map = {}
     for m in all_marks:
         if m.student_id not in student_map:
+            info = StudentClassInfo.query.filter_by(student_id=m.student_id).first()
             student_map[m.student_id] = {
-                'student_id': m.student_id,
+                'student_id':   m.student_id,
+                'display_id':   info.reg_number if info and info.reg_number else str(m.student_id),
                 'student_name': m.student.full_name if m.student else 'Unknown',
-                'section': m.section.name if m.section else '-',
-                'subjects': {},
-                'total_marks': 0,
-                'total_full': 0,
-                'failed': False,
+                'section':      m.section.name if m.section else '-',
+                'section_id':   m.section_id,
+                'roll_number':  info.roll_number if info else None,
+                'subjects':     {},
+                'total_marks':  0,
+                'total_full':   0,
+                'failed':       False,
+                'failed_subjects_count': 0,
             }
-        student_map[m.student_id]['subjects'][m.subject_id] = {
-            'marks': m.marks_obtained,
-            'grade': m.grade,
-            'gpa': m.gpa,
+        subj = student_map[m.student_id]
+        subj['subjects'][m.subject_id] = {
+            'marks':     m.marks_obtained,
+            'grade':     m.grade,
+            'gpa':       m.gpa,
             'is_absent': m.is_absent,
         }
-        student_map[m.student_id]['total_marks'] += m.marks_obtained
-        student_map[m.student_id]['total_full']  += m.full_marks
+        subj['total_marks'] += m.marks_obtained
+        subj['total_full']  += m.full_marks
         if m.grade == 'F' or m.is_absent:
-            student_map[m.student_id]['failed'] = True
+            subj['failed'] = True
+            subj['failed_subjects_count'] += 1
 
-    # compute overall percentage and GPA
     rows = []
     for sid, s in student_map.items():
         pct = round((s['total_marks'] / s['total_full']) * 100, 2) if s['total_full'] else 0
         og, ogpa = _calc_grade_gpa(s['total_marks'], s['total_full'])
-        info = StudentClassInfo.query.filter_by(student_id=sid).first()
-        s['percentage'] = pct
-        s['overall_grade'] = 'F' if s['failed'] else og
-        s['overall_gpa']   = 0.00 if s['failed'] else ogpa
-        s['roll_number']   = info.roll_number if info else None
+        s['percentage']    = pct
+        s['overall_grade'] = 'F'    if s['failed'] else og
+        s['overall_gpa']   = 0.00   if s['failed'] else ogpa
         rows.append(s)
 
-    # rank by total_marks descending
     rows.sort(key=lambda x: (-x['total_marks'], x['roll_number'] or 9999))
-    for i, row in enumerate(rows, 1):
-        row['rank'] = i
+    _assign_tied_ranks(rows, key='total_marks', attr='rank')
 
     return jsonify({
-        'exam': exam.to_dict(),
+        'exam':     exam.to_dict(),
         'subjects': [s.to_dict() for s in subjects],
-        'results': rows,
+        'results':  rows,
     })
 
 
 @school_bp.route('/api/school/results/section-wise', methods=['GET'])
 def section_wise_results():
-    """Filter class-wise results by section"""
+    """Filter class-wise results by section; returns both class rank and section rank"""
     exam_id    = request.args.get('exam_id', type=int)
     section_id = request.args.get('section_id', type=int)
     if not exam_id:
@@ -546,54 +566,72 @@ def section_wise_results():
                 .filter_by(school_class_id=exam.school_class_id, is_active=True)
                 .order_by(asc(SchoolSubject.order_index)).all())
 
-    q = StudentTermResult.query.filter_by(term_exam_id=exam_id)
-    if section_id:
-        q = q.filter_by(section_id=section_id)
-    all_marks = q.all()
+    # Fetch ALL marks for class-wide ranking
+    all_marks = StudentTermResult.query.filter_by(term_exam_id=exam_id).all()
 
     student_map = {}
     for m in all_marks:
         if m.student_id not in student_map:
+            info = StudentClassInfo.query.filter_by(student_id=m.student_id).first()
             student_map[m.student_id] = {
-                'student_id': m.student_id,
+                'student_id':   m.student_id,
+                'display_id':   info.reg_number if info and info.reg_number else str(m.student_id),
                 'student_name': m.student.full_name if m.student else 'Unknown',
-                'section': m.section.name if m.section else '-',
-                'section_id': m.section_id,
-                'subjects': {},
-                'total_marks': 0,
-                'total_full': 0,
-                'failed': False,
+                'section':      m.section.name if m.section else '-',
+                'section_id':   m.section_id,
+                'roll_number':  info.roll_number if info else None,
+                'subjects':     {},
+                'total_marks':  0,
+                'total_full':   0,
+                'failed':       False,
+                'failed_subjects_count': 0,
             }
-        student_map[m.student_id]['subjects'][m.subject_id] = {
-            'marks': m.marks_obtained,
-            'grade': m.grade,
-            'gpa': m.gpa,
+        subj = student_map[m.student_id]
+        subj['subjects'][m.subject_id] = {
+            'marks':     m.marks_obtained,
+            'grade':     m.grade,
+            'gpa':       m.gpa,
             'is_absent': m.is_absent,
         }
-        student_map[m.student_id]['total_marks'] += m.marks_obtained
-        student_map[m.student_id]['total_full']  += m.full_marks
+        subj['total_marks'] += m.marks_obtained
+        subj['total_full']  += m.full_marks
         if m.grade == 'F' or m.is_absent:
-            student_map[m.student_id]['failed'] = True
+            subj['failed'] = True
+            subj['failed_subjects_count'] += 1
 
-    rows = []
+    all_rows = []
     for sid, s in student_map.items():
-        pct  = round((s['total_marks'] / s['total_full']) * 100, 2) if s['total_full'] else 0
+        pct = round((s['total_marks'] / s['total_full']) * 100, 2) if s['total_full'] else 0
         og, ogpa = _calc_grade_gpa(s['total_marks'], s['total_full'])
-        info = StudentClassInfo.query.filter_by(student_id=sid).first()
         s['percentage']    = pct
-        s['overall_grade'] = 'F' if s['failed'] else og
-        s['overall_gpa']   = 0.00 if s['failed'] else ogpa
-        s['roll_number']   = info.roll_number if info else None
-        rows.append(s)
+        s['overall_grade'] = 'F'    if s['failed'] else og
+        s['overall_gpa']   = 0.00   if s['failed'] else ogpa
+        all_rows.append(s)
 
-    rows.sort(key=lambda x: (-x['total_marks'], x['roll_number'] or 9999))
-    for i, row in enumerate(rows, 1):
-        row['rank'] = i
+    # Class-wide rank
+    all_rows.sort(key=lambda x: (-x['total_marks'], x['roll_number'] or 9999))
+    _assign_tied_ranks(all_rows, key='total_marks', attr='class_rank')
+
+    # Filter by section if requested
+    if section_id:
+        rows = [r for r in all_rows if r['section_id'] == section_id]
+    else:
+        rows = all_rows
+
+    # Section rank within the filtered set
+    rows_sorted = sorted(rows, key=lambda x: (-x['total_marks'], x['roll_number'] or 9999))
+    _assign_tied_ranks(rows_sorted, key='total_marks', attr='rank')
+
+    # Also set rank = class_rank when no section filter
+    if not section_id:
+        for r in rows_sorted:
+            r['rank'] = r['class_rank']
+            r['rank_num'] = r['class_rank_num']
 
     return jsonify({
-        'exam': exam.to_dict(),
+        'exam':     exam.to_dict(),
         'subjects': [s.to_dict() for s in subjects],
-        'results': rows,
+        'results':  rows_sorted,
     })
 
 
@@ -635,18 +673,25 @@ def student_transcript(student_id):
     pct = round((total_obtained / total_full) * 100, 2) if total_full else 0
     og, ogpa = _calc_grade_gpa(total_obtained, total_full)
 
-    # Compute class rank for this exam
+    # Compute class rank for this exam (tied format)
     all_results = StudentTermResult.query.filter_by(term_exam_id=exam_id).all()
     student_totals = {}
     for m in all_results:
         student_totals.setdefault(m.student_id, 0)
         student_totals[m.student_id] += m.marks_obtained
     sorted_ids = sorted(student_totals, key=lambda s: -student_totals[s])
-    rank = sorted_ids.index(student_id) + 1 if student_id in sorted_ids else None
+
+    # Build temporary rows to get tied rank
+    tmp = [{'student_id': sid, 'total_marks': tot} for sid, tot in
+           sorted((student_totals.items()), key=lambda x: -x[1])]
+    _assign_tied_ranks(tmp, key='total_marks', attr='rank')
+    rank_map = {r['student_id']: r['rank'] for r in tmp}
+    class_rank = rank_map.get(student_id, '—')
 
     return jsonify({
         'student': {
             'id': student.id,
+            'display_id': info.reg_number if info and info.reg_number else str(student.id),
             'name': student.full_name,
             'roll_number': info.roll_number if info else None,
             'reg_number':  info.reg_number  if info else None,
@@ -664,8 +709,9 @@ def student_transcript(student_id):
             'percentage':     pct,
             'overall_grade':  'F' if failed else og,
             'overall_gpa':    0.00 if failed else ogpa,
-            'class_rank':     rank,
+            'class_rank':     class_rank,
             'result':         'FAILED' if failed else 'PASSED',
+            'failed_subjects_count': sum(1 for m in subjects_marks if m['grade']=='F' or m['is_absent']),
         },
     })
 
