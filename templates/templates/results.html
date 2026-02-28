@@ -27,7 +27,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark)}
 .result-table{width:100%;border-collapse:collapse}
 .result-table thead{background:var(--gradient);color:#fff}
 .result-table th{padding:12px 14px;font-size:12.5px;font-weight:600;text-align:center;white-space:nowrap}
-.result-table th:first-child,.result-table th:nth-child(2,.result-table th:nth-child(3){text-align:left}
+.result-table th:first-child,.result-table th:nth-child(2),.result-table th:nth-child(3){text-align:left}
 .result-table td{padding:11px 14px;font-size:13px;border-bottom:1px solid #f1f5f9;text-align:center}
 .result-table td:first-child, .result-table td:nth-child(2), .result-table td:nth-child(3){text-align:left}
 .result-table tr:hover{background:#f8fafc}
@@ -98,15 +98,12 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark)}
           <option value="">-- Select Term --</option>
           <option value="1st_term">1st Term</option>
           <option value="2nd_term">2nd Term</option>
+          <option value="annual">Annual</option>
         </select>
       </div>
       <div class="fg">
         <label><i class="fas fa-calendar-alt"></i> Year</label>
-        <select id="f-year">
-          <option value="2026">2026</option>
-          <option value="2025">2025</option>
-          <option value="2027">2027</option>
-        </select>
+        <select id="f-year" onchange="loadResults()"></select>
       </div>
       <div class="fg">
         <label>&nbsp;</label>
@@ -157,9 +154,17 @@ const $ = id => document.getElementById(id);
 const YEAR = new Date().getFullYear();
 let currentExamId = null, currentSubjects = [], currentResults = [];
 
-// Load classes
+// Load classes + populate year dropdown
 async function loadClasses(){
   try{
+    // Populate year selector
+    const ySel = $('f-year');
+    for(let y=YEAR+1; y>=YEAR-2; y--){
+      const o=document.createElement('option');
+      o.value=y; o.textContent=y;
+      if(y===YEAR) o.selected=true;
+      ySel.appendChild(o);
+    }
     const cls = await fetch('/api/school/classes').then(r=>r.json());
     const sel = $('f-class');
     cls.forEach(c=>{
@@ -200,7 +205,9 @@ async function loadResults(){
 
   try{
     const exams = await fetch(`/api/school/term-exams?year=${year}&class_id=${cid}`).then(r=>r.json());
-    const exam  = exams.find(e=>e.term===term && e.result_published);
+    // Prefer published, but fall back to any matching exam (for admin preview)
+    const exam  = exams.find(e=>e.term===term && e.result_published)
+                || exams.find(e=>e.term===term);
     if(!exam){
       $('result-output').innerHTML='<div class="empty-state"><i class="fas fa-times-circle"></i><h3>No Published Results</h3><p>Results for this selection have not been published yet.</p></div>';
       return;
@@ -290,7 +297,7 @@ function renderResults(data, sectionId){
       ${subCells}
       <td><strong>${r.total_marks}</strong><br><small style="color:#94a3b8">/ ${r.total_full}</small></td>
       <td><strong>${r.percentage?.toFixed(1)}%</strong></td>
-      <td><span class="grade-badge g-${gClass(r.overall_grade)>">${r.overall_grade||'—'}</span></td>
+      <td><span class="grade-badge g-${gClass(r.overall_grade)}">${r.overall_grade||'—'}</span></td>
     </tr>`;
   }).join('')||'<tr><td colspan="999" style="text-align:center;color:#94a3b8;padding:30px">No results found.</td></tr>';
 

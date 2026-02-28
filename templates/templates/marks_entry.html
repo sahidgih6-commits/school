@@ -44,6 +44,12 @@ body{font-family:'Poppins',sans-serif;}
     <div class="max-w-7xl mx-auto px-4 py-4">
       <div class="flex flex-wrap gap-4 items-end">
         <div>
+          <label class="block text-xs font-semibold text-gray-500 mb-1.5">Year</label>
+          <select x-model="selYear" @change="selClass&&onClassChange()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
+            <template x-for="y in [2027,2026,2025,2024]" :key="y"><option :value="y" x-text="y"></option></template>
+          </select>
+        </div>
+        <div>
           <label class="block text-xs font-semibold text-gray-500 mb-1.5">Class</label>
           <select x-model="selClass" @change="onClassChange()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-32">
             <option value="">-- Class --</option>
@@ -148,6 +154,7 @@ function marksEntry(){
   return {
     classes:[], selClass:'', selSection:'', selTermExam:'',
     sections:[], subjects:[], termExams:[],
+    selYear: new Date().getFullYear(),
     allStudents:[], filteredStudents:[],
     marksData:{}, // {studentId_subjectId: {marks, is_absent}}
     examId:null, examPublished:false,
@@ -160,10 +167,16 @@ function marksEntry(){
       const preExamId = p.get('exam_id');
       await this.loadClasses();
       if(preExamId){
-        // Load term exams to find the class
+        // Load all exams to find which class this exam belongs to (no year filter needed here)
         const exams = await fetch('/api/school/term-exams').then(r=>r.json());
         const exam = exams.find(e=>e.id==preExamId);
-        if(exam){ this.selClass=exam.school_class_id; await this.onClassChange(); this.selTermExam=preExamId; await this.loadExamData(); }
+        if(exam){
+          this.selClass=exam.school_class_id;
+          this.selYear=exam.year;
+          await this.onClassChange();
+          this.selTermExam=preExamId;
+          await this.loadExamData();
+        }
       }
     },
     async loadClasses(){ try{ this.classes=await fetch('/api/school/classes').then(r=>r.json()); }catch(e){} },
@@ -172,8 +185,7 @@ function marksEntry(){
       if(!this.selClass) return;
       try{ this.sections=await fetch('/api/school/classes/'+this.selClass+'/sections').then(r=>r.json()); }catch(e){}
       try{
-        const all=await fetch('/api/school/term-exams').then(r=>r.json());
-        this.termExams=all.filter(e=>e.school_class_id==this.selClass||e.class_id==this.selClass);
+        this.termExams=await fetch(`/api/school/term-exams?class_id=${this.selClass}&year=${this.selYear}`).then(r=>r.json());
       }catch(e){}
     },
     async loadExamData(){

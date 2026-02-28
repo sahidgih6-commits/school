@@ -334,8 +334,65 @@ def update_term_exam(exam_id):
         exam.result_published = bool(data['result_published'])
         if data['result_published']:
             exam.result_published_at = datetime.utcnow()
+        else:
+            exam.result_published_at = None
     db.session.commit()
     return jsonify({'success': True})
+
+
+@school_bp.route('/api/school/term-exams/<int:exam_id>', methods=['DELETE'])
+def delete_term_exam(exam_id):
+    user, err, code = _require_admin()
+    if err:
+        return err, code
+    exam = TermExam.query.get_or_404(exam_id)
+    db.session.delete(exam)
+    db.session.commit()
+    return jsonify({'success': True})
+
+
+@school_bp.route('/api/school/term-exams/bulk-generate', methods=['POST'])
+def bulk_generate_term_exams():
+    """Auto-generate 1st Term, 2nd Term, and Annual exams for ALL active classes for a given year."""
+    user, err, code = _require_admin()
+    if err:
+        return err, code
+    data = request.get_json() or {}
+    year = int(data.get('year', date.today().year))
+
+    classes = SchoolClass.query.filter_by(is_active=True).all()
+    terms = [
+        (TermExam.TERM_FIRST,  '1st Term Examination'),
+        (TermExam.TERM_SECOND, '2nd Term Examination'),
+        (TermExam.TERM_ANNUAL, 'Annual Examination'),
+    ]
+
+    created, skipped = 0, 0
+    for cls in classes:
+        for term_key, term_label in terms:
+            exists = TermExam.query.filter_by(
+                school_class_id=cls.id, term=term_key, year=year
+            ).first()
+            if exists:
+                skipped += 1
+                continue
+            exam = TermExam(
+                school_class_id=cls.id,
+                term=term_key,
+                year=year,
+                title=f"{cls.name} – {term_label} {year}",
+                created_by=user.id,
+            )
+            db.session.add(exam)
+            created += 1
+
+    db.session.commit()
+    return jsonify({
+        'success': True,
+        'created': created,
+        'skipped': skipped,
+        'message': f"Created {created} exams, skipped {skipped} (already exist)."
+    })
 
 
 # ---------------------------------------------------------------------------
@@ -616,6 +673,28 @@ def student_transcript(student_id):
 # ---------------------------------------------------------------------------
 # Student Class Info  (assign class/section/roll to a student)
 # ---------------------------------------------------------------------------
+
+@school_bp.route('/api/school/student-info', methods=['GET'])
+def get_students_by_class():
+    class_id = request.args.get('class_id', type=int)
+    if not class_id:
+        return jsonify({'error': 'class_id is required'}), 400
+    
+    infos = StudentClassInfo.query.filter_by(school_class_id=class_id).all()
+    students = []
+    for info in infos:
+        user = info.student
+        if user and user.is_active and not user.is_archived:
+            students.append({
+                'id': user.id,
+                'name': f"{user.first_name} {user.last_name}".strip(),
+                'username': user.phoneNumber,
+                'school_class_id': info.school_class_id,
+                'section_id': info.section_id,
+                'roll_number': info.roll_number,
+                'reg_number': info.reg_number,
+            })
+    return jsonify({'students': students})
 
 @school_bp.route('/api/school/student-info/<int:student_id>', methods=['GET'])
 def get_student_class_info(student_id):

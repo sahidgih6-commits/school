@@ -278,10 +278,35 @@
 
   <!-- ══ TERM RESULTS ══ -->
   <div x-show="activeTab==='results'" x-cloak>
+
+    <!-- ── BULK GENERATE ── -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 mb-6 text-white shadow-lg">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <div class="flex-1">
+          <h3 class="text-lg font-bold mb-1 flex items-center gap-2"><i class="fas fa-magic"></i> Auto-Generate All Exams</h3>
+          <p class="text-blue-100 text-sm">Instantly creates <strong>1st Term + 2nd Term + Annual</strong> exams for every class in one click. Already-existing exams are skipped.</p>
+        </div>
+        <div class="flex items-center gap-3 flex-shrink-0">
+          <div>
+            <label class="text-xs text-blue-200 font-semibold block mb-1">Year</label>
+            <input type="number" x-model="bulkYear" class="w-24 border border-blue-400 bg-blue-700/40 text-white rounded-lg px-3 py-2 text-sm outline-none focus:border-white placeholder-blue-300" :placeholder="bulkYear">
+          </div>
+          <div class="mt-5">
+            <button @click="bulkGenerateExams()" :disabled="bulkGenerating" class="bg-white text-blue-700 font-bold px-5 py-2.5 rounded-xl hover:bg-blue-50 transition flex items-center gap-2 shadow-md disabled:opacity-60">
+              <i class="fas fa-bolt" :class="bulkGenerating?'fa-spin':''"></i>
+              <span x-show="!bulkGenerating">Generate All</span>
+              <span x-show="bulkGenerating">Generating…</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div x-show="bulkMsg" x-text="bulkMsg" class="mt-3 text-sm font-semibold bg-white/20 rounded-lg px-4 py-2 backdrop-blur"></div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- Create Term Exam -->
+      <!-- Create Single Term Exam -->
       <div class="bg-white rounded-xl shadow p-6">
-        <h3 class="text-base font-bold text-gray-900 mb-5 flex items-center gap-2"><i class="fas fa-plus-circle text-blue-600"></i> Create Term Exam</h3>
+        <h3 class="text-base font-bold text-gray-900 mb-5 flex items-center gap-2"><i class="fas fa-plus-circle text-blue-600"></i> Create Single Exam</h3>
         <div class="space-y-4">
           <div class="grid grid-cols-2 gap-4">
             <div>
@@ -298,6 +323,7 @@
               <select x-model="termForm.term" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
                 <option value="1st_term">1st Term</option>
                 <option value="2nd_term">2nd Term</option>
+                <option value="annual">Annual</option>
               </select>
             </div>
           </div>
@@ -307,7 +333,7 @@
               <input type="number" x-model="termForm.year" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
             </div>
             <div>
-              <label class="text-xs font-semibold text-gray-500 block mb-1">Title</label>
+              <label class="text-xs font-semibold text-gray-500 block mb-1">Title (optional)</label>
               <input type="text" x-model="termForm.title" placeholder="Auto-generated if blank" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
             </div>
           </div>
@@ -329,35 +355,78 @@
       <!-- Term Exams List -->
       <div class="bg-white rounded-xl shadow p-6">
         <div class="flex items-center justify-between mb-5">
-          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2"><i class="fas fa-list text-blue-600"></i> Term Exams</h3>
-          <select x-model="termListYear" @change="loadTermExams()" class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none">
-            <option value="2026">2026</option>
-            <option value="2025">2025</option>
-          </select>
+          <h3 class="text-base font-bold text-gray-900 flex items-center gap-2"><i class="fas fa-list text-blue-600"></i> Exam List</h3>
+          <div class="flex items-center gap-2">
+            <select x-model="termListYear" @change="loadTermExams()" class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm outline-none">
+              <option value="2026">2026</option>
+              <option value="2025">2025</option>
+              <option value="2027">2027</option>
+            </select>
+            <span class="text-xs text-gray-400 bg-gray-100 rounded-full px-2 py-0.5 font-semibold" x-text="termExams.length+' exams'"></span>
+          </div>
         </div>
-        <div class="space-y-3 max-h-96 overflow-y-auto">
-          <template x-for="exam in termExams" :key="exam.id">
-            <div class="border border-gray-100 rounded-xl p-3 hover:bg-gray-50 transition">
-              <div class="flex items-start justify-between gap-2">
-                <div class="flex-1">
-                  <div class="text-sm font-semibold text-gray-800 mb-1" x-text="exam.title"></div>
-                  <div class="flex gap-2 flex-wrap">
-                    <span class="bg-blue-50 text-blue-700 text-xs px-2 py-0.5 rounded" x-text="exam.class_name||''"></span>
-                    <span class="bg-purple-50 text-purple-700 text-xs px-2 py-0.5 rounded" x-text="exam.term_display"></span>
-                    <span :class="exam.result_published?'bg-green-50 text-green-700':'bg-gray-100 text-gray-500'" class="text-xs px-2 py-0.5 rounded" x-text="exam.result_published?'Published':'Draft'"></span>
+
+        <!-- Group exams by class -->
+        <div class="space-y-4 max-h-[520px] overflow-y-auto pr-1">
+          <template x-if="!termExams.length">
+            <div class="text-center text-gray-400 py-10 text-sm">
+              <i class="fas fa-clipboard text-3xl block mb-2"></i>
+              No exams found. Click "Generate All" above to create exams for all classes.
+            </div>
+          </template>
+
+          <!-- Class group loop -->
+          <template x-for="cls in examClasses" :key="cls.id">
+            <div class="border border-gray-100 rounded-xl overflow-hidden">
+              <!-- Class header -->
+              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2.5 flex items-center justify-between">
+                <span class="font-bold text-blue-800 text-sm" x-text="cls.name"></span>
+                <span class="text-xs text-blue-500" x-text="examsForClass(cls.id).length+' exams'"></span>
+              </div>
+              <!-- Exams for this class -->
+              <div class="divide-y divide-gray-50">
+                <template x-for="exam in examsForClass(cls.id)" :key="exam.id">
+                  <div class="px-4 py-3 hover:bg-gray-50 transition flex items-center gap-3">
+                    <!-- Term badge -->
+                    <span class="flex-shrink-0 w-20 text-center text-xs font-bold px-2 py-1 rounded-full"
+                      :class="exam.term==='1st_term'?'bg-blue-100 text-blue-700':exam.term==='2nd_term'?'bg-purple-100 text-purple-700':'bg-amber-100 text-amber-700'"
+                      x-text="exam.term_display"></span>
+                    <!-- Info -->
+                    <div class="flex-1 min-w-0">
+                      <div class="text-xs font-semibold text-gray-700 truncate" x-text="exam.title"></div>
+                      <div class="flex items-center gap-1.5 mt-0.5">
+                        <span :class="exam.result_published?'bg-green-100 text-green-700':'bg-gray-100 text-gray-500'"
+                          class="text-xs px-1.5 py-0.5 rounded font-semibold"
+                          x-text="exam.result_published?'✓ Published':'Draft'"></span>
+                        <span class="text-xs text-gray-400" x-text="(exam.marks_count||0)+' marks'"></span>
+                      </div>
+                    </div>
+                    <!-- Actions -->
+                    <div class="flex gap-1 flex-shrink-0">
+                      <a :href="'/results/marks-entry?exam_id='+exam.id"
+                        class="w-7 h-7 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center hover:bg-purple-100 transition text-xs" title="Enter Marks">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                      <a :href="'/results?exam_id='+exam.id" target="_blank"
+                        class="w-7 h-7 bg-green-50 text-green-600 rounded-lg flex items-center justify-center hover:bg-green-100 transition text-xs" title="View Results">
+                        <i class="fas fa-eye"></i>
+                      </a>
+                      <button @click="togglePublish(exam)"
+                        :class="exam.result_published?'bg-orange-50 text-orange-600':'bg-blue-50 text-blue-600'"
+                        class="w-7 h-7 rounded-lg flex items-center justify-center hover:opacity-80 transition text-xs"
+                        :title="exam.result_published?'Unpublish':'Publish Result'">
+                        <i :class="exam.result_published?'fas fa-eye-slash':'fas fa-upload'"></i>
+                      </button>
+                      <button @click="deleteTermExam(exam)"
+                        class="w-7 h-7 bg-red-50 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-100 transition text-xs" title="Delete Exam">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
                   </div>
-                </div>
-                <div class="flex gap-1">
-                  <a :href="'/results?exam_id='+exam.id" target="_blank" class="w-7 h-7 bg-green-50 text-green-600 rounded flex items-center justify-center hover:bg-green-100 transition text-xs" title="View Result"><i class="fas fa-eye"></i></a>
-                  <button @click="togglePublish(exam)" :class="exam.result_published?'bg-orange-50 text-orange-600':'bg-blue-50 text-blue-600'" class="w-7 h-7 rounded flex items-center justify-center hover:opacity-80 transition text-xs" :title="exam.result_published?'Unpublish':'Publish'">
-                    <i :class="exam.result_published?'fas fa-eye-slash':'fas fa-upload'"></i>
-                  </button>
-                  <a :href="'/results/marks-entry?exam_id='+exam.id" class="w-7 h-7 bg-purple-50 text-purple-600 rounded flex items-center justify-center hover:bg-purple-100 transition text-xs" title="Enter Marks"><i class="fas fa-edit"></i></a>
-                </div>
+                </template>
               </div>
             </div>
           </template>
-          <div x-show="!termExams.length" class="text-center text-gray-400 py-8 text-sm">No term exams found.</div>
         </div>
       </div>
     </div>
@@ -451,6 +520,9 @@ function schoolCMS(){
     termListYear: new Date().getFullYear(),
     termMsg:'',
     termForm:{school_class_id:'',term:'1st_term',year:new Date().getFullYear(),title:'',start_date:'',end_date:''},
+    bulkYear: new Date().getFullYear(),
+    bulkGenerating: false,
+    bulkMsg: '',
     // Teachers
     teachers:[],
     loadingTeachers:true,
@@ -584,19 +656,56 @@ function schoolCMS(){
     async loadTermExams(){
       try{ this.termExams=await fetch(`/api/school/term-exams?year=${this.termListYear}`).then(r=>r.json()); }catch(e){}
     },
+    get examClasses(){
+      // Return unique classes present in current termExams list, sorted by class_name
+      const seen=new Set(); const out=[];
+      for(const e of this.termExams){
+        if(!seen.has(e.school_class_id)){
+          seen.add(e.school_class_id);
+          out.push({id:e.school_class_id,name:e.class_name||'Class '+e.school_class_id});
+        }
+      }
+      return out.sort((a,b)=>(a.name||'').localeCompare(b.name||'',undefined,{numeric:true}));
+    },
+    examsForClass(classId){
+      const order={'1st_term':0,'2nd_term':1,'annual':2};
+      return this.termExams
+        .filter(e=>e.school_class_id===classId)
+        .sort((a,b)=>(order[a.term]??9)-(order[b.term]??9));
+    },
     async createTermExam(){
       if(!this.termForm.school_class_id){ alert('Select a class'); return; }
       try{
         const r=await fetch('/api/school/term-exams',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.termForm)});
         const d=await r.json();
         if(d.success){ this.termMsg='✓ Term exam created!'; this.loadTermExams(); setTimeout(()=>this.termMsg='',3000); }
+        else this.termMsg='Error: '+(d.error||'Already exists?');
       }catch(e){ this.termMsg='Error.'; }
+    },
+    async bulkGenerateExams(){
+      if(!confirm(`Generate 1st Term + 2nd Term + Annual exams for ALL classes for year ${this.bulkYear}?`)) return;
+      this.bulkGenerating=true; this.bulkMsg='';
+      try{
+        const r=await fetch('/api/school/term-exams/bulk-generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({year:this.bulkYear})});
+        const d=await r.json();
+        this.bulkMsg=d.message||'Done!';
+        this.loadTermExams();
+      }catch(e){ this.bulkMsg='Error generating exams.'; }
+      this.bulkGenerating=false;
+      setTimeout(()=>this.bulkMsg='',6000);
     },
     async togglePublish(exam){
       try{
         await fetch(`/api/school/term-exams/${exam.id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({result_published:!exam.result_published})});
         this.loadTermExams();
       }catch(e){}
+    },
+    async deleteTermExam(exam){
+      if(!confirm(`Delete "${exam.title}"? This will also delete all marks entered for this exam.`)) return;
+      try{
+        const r=await fetch(`/api/school/term-exams/${exam.id}`,{method:'DELETE'});
+        if((await r.json()).success) this.loadTermExams();
+      }catch(e){ alert('Delete failed'); }
     },
     async loadTeachers(){
       this.loadingTeachers=true;

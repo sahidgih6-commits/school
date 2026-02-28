@@ -18,10 +18,15 @@
 {% endblock %}
 
 {% block content %}
-<div x-data="teacherDashboard()" x-cloak class="flex h-screen bg-gray-50">
+<div x-data="teacherDashboard()" class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
-    <div class="w-64 bg-white shadow-lg border-r border-gray-200 flex-shrink-0 transition-all duration-300 ease-in-out"
-         :class="{ '-translate-x-full hidden': !sidebarOpen }">
+    <div class="w-64 bg-white shadow-lg border-r border-gray-200" :class="{ '-translate-x-full': !sidebarOpen }" 
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="-translate-x-full"
+         x-transition:enter-end="translate-x-0"
+         x-transition:leave="transition ease-in duration-300"
+         x-transition:leave-start="translate-x-0"
+         x-transition:leave-end="-translate-x-full">
         
         <!-- Sidebar Header -->
         <div class="p-6 border-b border-gray-200">
@@ -142,30 +147,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Quick Actions -->
-                <div class="bg-white rounded-xl shadow p-6 mb-8">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <a href="/results/marks-entry" class="flex items-center p-4 bg-emerald-50 rounded-lg hover:bg-emerald-100 transition-colors">
-                            <i class="fas fa-edit text-emerald-600 text-xl mr-3"></i>
-                            <span class="font-medium text-emerald-700">Marks Entry</span>
-                        </a>
-                        <a href="/students/admit-cards" class="flex items-center p-4 bg-cyan-50 rounded-lg hover:bg-cyan-100 transition-colors">
-                            <i class="fas fa-id-card text-cyan-600 text-xl mr-3"></i>
-                            <span class="font-medium text-cyan-700">Admit Cards</span>
-                        </a>
-                        <button @click="activeSection='attendance'" class="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                            <i class="fas fa-calendar-check text-blue-600 text-xl mr-3"></i>
-                            <span class="font-medium text-blue-700">Attendance</span>
-                        </button>
-                        <button @click="activeSection='students'" class="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors">
-                            <i class="fas fa-user-graduate text-green-600 text-xl mr-3"></i>
-                            <span class="font-medium text-green-700">Students</span>
-                        </button>
-                    </div>
-                </div>
             </div>
+
+            <!-- Student Management -->
             <div x-show="activeSection === 'students'" x-transition>
                 {% include 'partials/student_management.html' %}
             </div>
@@ -278,8 +262,8 @@ function teacherDashboard() {
             this.loadBatches();
             this.loadMonthlyExams();
             this.loadSmsBalance();
-            // Auto-refresh stats every 5 minutes (300000 ms)
-            setInterval(() => this.loadStats(), 300000);
+            // Auto-refresh stats every 5 seconds
+            setInterval(() => this.loadStats(), 5000);
             // Auto-refresh SMS balance every 1 hour (3600000 ms)
             setInterval(() => this.loadSmsBalance(), 3600000);
         },

@@ -8,7 +8,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Arial', sans-serif;
       background: #e8e8e8;
       color: #000;
       font-size: 12px;
@@ -49,7 +49,7 @@
     .cards-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 20px;
     }
 
     /* ── Empty / no students ── */
@@ -72,9 +72,11 @@
       background: #fff;
       position: relative;
       page-break-inside: avoid;
+      padding: 15px;
       /* double-border effect */
-      border: 3px solid #1e3a5f;
-      box-shadow: inset 0 0 0 2px #b8860b;
+      border: 4px solid #000;
+      outline: 1px solid #000;
+      outline-offset: -8px;
     }
 
     /* watermark */
@@ -83,97 +85,84 @@
       top: 50%; left: 50%;
       transform: translate(-50%,-50%) rotate(-28deg);
       font-size: 42px; font-weight: 900;
-      color: rgba(30,58,95,0.045);
+      color: rgba(0,0,0,0.03);
       pointer-events: none;
       white-space: nowrap;
       letter-spacing: 5px;
       text-transform: uppercase;
       font-family: Arial, sans-serif;
+      z-index: 0;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
     }
 
     /* ── Header ── */
     .card-head {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2a5298 100%);
-      padding: 8px 10px 6px;
-      position: relative;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 15px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
     }
 
     /* logo circle */
     .sch-logo {
-      width: 46px; height: 46px;
+      width: 60px; height: 60px;
       border-radius: 50%;
-      border: 2px solid #b8860b;
+      border: 2px solid #000;
       background: #fff;
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 18px; font-weight: 900; color: #1e3a5f;
+      font-size: 24px; font-weight: 900; color: #000;
       letter-spacing: -1px;
     }
 
     /* centre text */
     .head-text { flex: 1; text-align: center; }
     .head-text .sch-name {
-      font-size: 13.5px; font-weight: 900;
-      letter-spacing: 1.2px; text-transform: uppercase;
-      color: #fff; line-height: 1.2;
-    }
-    .head-text .sch-estd {
-      font-size: 9px; color: #c8d8ee; margin-top: 1px;
+      font-size: 18px; font-weight: 900;
+      text-transform: uppercase;
+      color: #000; line-height: 1.2;
+      margin-bottom: 5px;
     }
     .head-text .sch-addr {
-      font-size: 9px; color: #c8d8ee; margin-top: 1px;
+      font-size: 11px; color: #333; margin-top: 2px;
     }
 
     /* "ADMIT CARD" badge */
+    .admit-badge-container {
+      text-align: center;
+      margin: 10px 0;
+      position: relative;
+    }
     .admit-badge {
-      text-align: center;
-      margin: 5px 8px 0;
-    }
-    .admit-badge span {
       display: inline-block;
-      border: 2px solid #1e3a5f;
+      border: 2px solid #000;
       background: #fff;
-      color: #1e3a5f;
-      font-size: 11px; font-weight: 900;
-      letter-spacing: 3px; text-transform: uppercase;
-      padding: 3px 18px;
-      font-family: Arial, sans-serif;
+      color: #000;
+      font-size: 14px; font-weight: 900;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 4px 20px;
+      border-radius: 20px;
     }
-
-    /* serial + year top-right bubble */
-    .serial-badge {
+    .session-text {
       position: absolute;
-      top: 7px; right: 9px;
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(184,134,11,0.8);
-      border-radius: 4px;
-      padding: 2px 6px;
-      text-align: center;
-      color: #fff;
-      font-family: Arial, sans-serif;
-    }
-    .serial-badge .sno { font-size: 12px; font-weight: 700; letter-spacing: 1px; }
-    .serial-badge .syr { font-size: 9px; color: #c8d8ee; }
-
-    /* exam name strip */
-    .exam-strip {
-      background: #b8860b;
-      color: #fff;
-      text-align: center;
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 1px;
-      padding: 3px 8px;
-      text-transform: uppercase;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: bold;
     }
 
     /* ── Body ── */
     .card-body {
       display: flex;
-      padding: 7px 9px 5px;
-      gap: 8px;
+      gap: 15px;
+      margin-bottom: 15px;
     }
 
     /* info table */
@@ -181,103 +170,98 @@
       flex: 1;
       border-collapse: collapse;
     }
-    .info-tbl tr { border-bottom: 1px dashed #dde; }
-    .info-tbl tr:last-child { border-bottom: none; }
     .info-tbl td {
-      padding: 3px 3px;
+      padding: 4px 0;
       vertical-align: middle;
-      font-size: 11px;
-      line-height: 1.35;
+      font-size: 12px;
+      line-height: 1.4;
     }
     .info-tbl .lbl {
-      color: #444;
+      color: #000;
       white-space: nowrap;
-      width: 36%;
-      font-weight: 600;
-      font-family: Arial, sans-serif;
+      width: 35%;
+      font-weight: bold;
     }
-    .info-tbl .colon { width: 10px; color: #888; }
+    .info-tbl .colon { width: 15px; color: #000; text-align: center; font-weight: bold; }
     .info-tbl .val {
       color: #000;
-      font-weight: 700;
-    }
-    .info-tbl .val.big {
-      font-size: 14px; color: #1e3a5f;
+      font-weight: normal;
+      border-bottom: 1px dotted #000;
     }
 
     /* photo box */
     .photo-box {
-      width: 72px; flex-shrink: 0;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      width: 80px; flex-shrink: 0;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
     }
     .photo-box img {
-      width: 72px; height: 90px;
+      width: 80px; height: 100px;
       object-fit: cover;
-      border: 2px solid #1e3a5f;
+      border: 1px solid #000;
       display: block;
     }
     .photo-blank {
-      width: 72px; height: 90px;
-      border: 2px solid #bbb;
-      background: #f4f7ff;
+      width: 80px; height: 100px;
+      border: 1px solid #000;
+      background: #fff;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       color: #aaa; font-size: 26px;
     }
-    .photo-blank span { font-size: 9px; margin-top: 4px; color: #bbb; font-family: Arial, sans-serif; }
+    .photo-blank span { font-size: 10px; margin-top: 5px; color: #000; }
 
-    /* ── Permission line ── */
-    .permission {
-      padding: 4px 9px;
-      font-size: 10.5px;
-      color: #222;
-      line-height: 1.45;
-      border-top: 1px solid #ddd;
+    /* ── Exam Schedule Table ── */
+    .exam-schedule {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
     }
-    .permission .exam-hi {
-      font-style: italic; font-weight: 700;
-      color: #1e3a5f; text-transform: uppercase;
+    .exam-schedule th, .exam-schedule td {
+      border: 1px solid #000;
+      padding: 5px;
+      text-align: center;
+      font-size: 11px;
     }
-    .permission .date-hi {
-      font-weight: 700; color: #b8860b;
-    }
-    .note-line {
-      padding: 2px 9px 4px;
-      font-size: 9.5px; color: #555;
-      font-family: Arial, sans-serif;
-      border-top: 1px dashed #dde;
+    .exam-schedule th {
+      background: #f0f0f0;
+      font-weight: bold;
     }
 
     /* ── Footer ── */
     .card-foot {
-      border-top: 2px solid #1e3a5f;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 30px;
+      padding: 0 10px;
     }
     .foot-cell {
-      padding: 16px 6px 5px;
-      border-right: 1px solid #ddd;
-      position: relative;
+      text-align: center;
     }
-    .foot-cell:last-child { border-right: none; }
     .foot-cell .sig-line {
-      border-top: 1px solid #444;
-      padding-top: 3px;
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #444;
-      font-family: Arial, sans-serif;
+      border-top: 1px solid #000;
+      padding-top: 5px;
+      font-size: 11px;
+      font-weight: bold;
+      color: #000;
+      width: 120px;
     }
-    /* seal placeholder */
-    .seal-circle {
-      width: 38px; height: 38px;
-      border: 2px dashed #bbb;
-      border-radius: 50%;
-      margin: 0 auto 4px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8px; color: #aaa; font-family: Arial, sans-serif;
-      text-align: center; line-height: 1.2;
+
+    /* ── Instructions ── */
+    .instructions {
+      margin-top: 15px;
+      font-size: 9px;
+      line-height: 1.3;
+      border-top: 1px solid #000;
+      padding-top: 5px;
+    }
+    .instructions strong {
+      font-size: 10px;
+      text-decoration: underline;
+    }
+    .instructions ul {
+      margin-left: 15px;
+      margin-top: 3px;
     }
 
     /* ══════════════════════════════════════════
@@ -287,9 +271,9 @@
       body { background: #fff; }
       .ctrl-bar { display: none !important; }
       .page-wrap { max-width: 100%; margin: 0; padding: 0; }
-      .cards-grid { gap: 4mm; }
-      .admit-card { border: 2px solid #1e3a5f; box-shadow: inset 0 0 0 1.5px #b8860b; }
-      @page { margin: 8mm; size: A4; }
+      .cards-grid { gap: 10mm; }
+      .admit-card { border: 4px solid #000; outline: 1px solid #000; outline-offset: -8px; }
+      @page { margin: 10mm; size: A4; }
     }
   </style>
 </head>
@@ -346,129 +330,145 @@
   <div class="admit-card">
     <div class="card-wm">{{ school.name }}</div>
 
-    <!-- ── Header ── -->
-    <div class="card-head">
-      <!-- Logo -->
-      <div class="sch-logo">
-        {{ school.name[:2] | upper }}
-      </div>
-      <!-- Text -->
-      <div class="head-text">
-        <div class="sch-name">{{ school.name }}</div>
-        {% if school.eiin or school.estd %}
-        <div class="sch-estd">
-          {% if school.estd %}Estd. {{ school.estd }}{% endif %}
-          {% if school.eiin %}&nbsp;|&nbsp; EIIN: {{ school.eiin }}{% endif %}
+    <div class="card-content">
+      <!-- ── Header ── -->
+      <div class="card-head">
+        <!-- Logo -->
+        <div class="sch-logo">
+          {{ school.name[:2] | upper }}
         </div>
-        {% endif %}
-        {% if school.address %}
-        <div class="sch-addr">{{ school.address }}</div>
-        {% endif %}
-        {% if school.phone or school.email %}
-        <div class="sch-addr">
-          {% if school.phone %}{{ school.phone }}{% endif %}
-          {% if school.email %}&nbsp;|&nbsp; {{ school.email }}{% endif %}
+        <!-- Text -->
+        <div class="head-text">
+          <div class="sch-name">{{ school.name }}</div>
+          {% if school.address %}
+          <div class="sch-addr">{{ school.address }}</div>
+          {% endif %}
+          {% if school.phone or school.email %}
+          <div class="sch-addr">
+            {% if school.phone %}Ph: {{ school.phone }}{% endif %}
+            {% if school.email %}&nbsp;|&nbsp; Email: {{ school.email }}{% endif %}
+          </div>
+          {% endif %}
         </div>
-        {% endif %}
       </div>
-      <!-- Serial badge -->
-      <div class="serial-badge">
-        <div class="sno">{{ s.serial }}</div>
-        {% if selected_exam %}<div class="syr">{{ selected_exam.year }}</div>{% endif %}
+
+      <!-- Admit Card badge -->
+      <div class="admit-badge-container">
+        <div class="admit-badge">ADMIT CARD</div>
+        <div class="session-text">Session: {% if selected_exam %}{{ selected_exam.year }}-{{ selected_exam.year + 1 }}{% else %}2024-2025{% endif %}</div>
       </div>
-    </div>
 
-    <!-- Admit Card badge -->
-    <div class="admit-badge">
-      <span>✦ &nbsp;Admit Card&nbsp; ✦</span>
-    </div>
+      <!-- ── Body ── -->
+      <div class="card-body">
+        <table class="info-tbl">
+          <tr>
+            <td class="lbl">Student's Name</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.full_name }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Father's Name</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.guardian_name or '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Mother's Name</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.mother_name or '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Date of Birth</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.date_of_birth or '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Class</td>
+            <td class="colon">:</td>
+            <td class="val">{{ selected_class.name if selected_class else '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Section</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.section or '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Roll No.</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.roll or '—' }}</td>
+          </tr>
+          <tr>
+            <td class="lbl">Admission No.</td>
+            <td class="colon">:</td>
+            <td class="val">{{ s.student_id }}</td>
+          </tr>
+        </table>
+        <!-- Photo -->
+        <div class="photo-box">
+          {% if s.profile_image %}
+          <img src="{{ s.profile_image }}" alt="{{ s.full_name }}" />
+          {% else %}
+          <div class="photo-blank">
+            <span>Paste Recent<br>Passport Size<br>Photograph</span>
+          </div>
+          {% endif %}
+        </div>
+      </div>
 
-    <!-- Exam strip -->
-    {% if selected_exam %}
-    <div class="exam-strip">{{ selected_exam.title }}</div>
-    {% endif %}
-
-    <!-- ── Body ── -->
-    <div class="card-body">
-      <table class="info-tbl">
-        <tr>
-          <td class="lbl">Name of Student</td>
-          <td class="colon">:</td>
-          <td class="val">{{ s.full_name }}</td>
-        </tr>
-        <tr>
-          <td class="lbl">Class</td>
-          <td class="colon">:</td>
-          <td class="val">
-            {{ selected_class.name if selected_class else '—' }}{% if s.section %} – {{ s.section }}{% endif %}
-            &emsp;<span style="font-size:10px; font-weight:600; color:#555;">Roll No.&nbsp;</span><span class="val big">{{ s.roll or '—' }}</span>
-          </td>
-        </tr>
-        {% if s.mother_name %}
-        <tr>
-          <td class="lbl">Mother's Name</td>
-          <td class="colon">:</td>
-          <td class="val">{{ s.mother_name }}</td>
-        </tr>
-        {% endif %}
-        <tr>
-          <td class="lbl">Father / Guardian</td>
-          <td class="colon">:</td>
-          <td class="val">{{ s.guardian_name or '—' }}
-            {% if s.guardian_phone %}
-            &emsp;<span style="font-size:10px; font-weight:600; color:#555;">Contact&nbsp;</span><span style="font-weight:700;">{{ s.guardian_phone }}</span>
-            {% endif %}
-          </td>
-        </tr>
-        {% if s.date_of_birth %}
-        <tr>
-          <td class="lbl">Date of Birth</td>
-          <td class="colon">:</td>
-          <td class="val">{{ s.date_of_birth }}</td>
-        </tr>
-        {% endif %}
-        <tr>
-          <td class="lbl">Student ID</td>
-          <td class="colon">:</td>
-          <td class="val" style="font-size:10px;">{{ s.student_id }}</td>
-        </tr>
+      <!-- Exam Schedule Table -->
+      <table class="exam-schedule">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Subject</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
       </table>
-      <!-- Photo -->
-      <div class="photo-box">
-        {% if s.profile_image %}
-        <img src="{{ s.profile_image }}" alt="{{ s.full_name }}" />
-        {% else %}
-        <div class="photo-blank">
-          👤
-          <span>Photo</span>
+
+      <!-- Footer -->
+      <div class="card-foot">
+        <div class="foot-cell">
+          <div class="sig-line">Class Teacher</div>
         </div>
-        {% endif %}
+        <div class="foot-cell">
+          <div class="sig-line">Principal</div>
+        </div>
       </div>
-    </div>
 
-    <!-- Permission line -->
-    <div class="permission">
-      is allowed to appear in the &nbsp;<span class="exam-hi">{% if selected_exam %}{{ selected_exam.title }}{% else %}the Examination{% endif %}</span>&nbsp;
-      commencing from the date &nbsp;<span class="date-hi">{{ print_date }}</span>.
-    </div>
-    <div class="note-line">
-      <strong>Note :</strong> Keep this card safely and must bring to the exam venue on every exam date.
-    </div>
+      <!-- Instructions -->
+      <div class="instructions">
+        <strong>Instructions to the Candidate:</strong>
+        <ul>
+          <li>Please check that all details on this admit card are correct.</li>
+          <li>Candidates must bring this admit card to the examination hall.</li>
+          <li>Electronic devices, including mobile phones and smartwatches, are strictly prohibited.</li>
+          <li>Candidates should report to the examination center at least 30 minutes before the start of the exam.</li>
+        </ul>
+      </div>
 
-    <!-- Footer -->
-    <div class="card-foot">
-      <div class="foot-cell">
-        <div class="sig-line">Class Teacher</div>
-      </div>
-      <div class="foot-cell">
-        <div class="seal-circle">School<br/>Seal</div>
-        <div class="sig-line">School Seal</div>
-      </div>
-      <div class="foot-cell">
-        <div class="sig-line">Head Teacher / Principal</div>
-      </div>
     </div>
-
   </div>
   {% endfor %}
 </div>

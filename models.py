@@ -849,7 +849,8 @@ class TermExam(db.Model):
 
     TERM_FIRST  = '1st_term'
     TERM_SECOND = '2nd_term'
-    TERM_CHOICES = [TERM_FIRST, TERM_SECOND]
+    TERM_ANNUAL = 'annual'
+    TERM_CHOICES = [TERM_FIRST, TERM_SECOND, TERM_ANNUAL]
 
     id = db.Column(db.Integer, primary_key=True)
     school_class_id = db.Column(db.Integer, db.ForeignKey('school_classes.id'), nullable=False)
@@ -876,7 +877,10 @@ class TermExam(db.Model):
 
     @property
     def term_display(self):
-        return '1st Term' if self.term == self.TERM_FIRST else '2nd Term'
+        if self.term == self.TERM_FIRST:  return '1st Term'
+        if self.term == self.TERM_SECOND: return '2nd Term'
+        if self.term == self.TERM_ANNUAL: return 'Annual'
+        return self.term.replace('_', ' ').title()
 
     def __repr__(self):
         return f'<TermExam {self.title}>'
@@ -889,9 +893,11 @@ class TermExam(db.Model):
             'class_name': self.school_class.name if self.school_class else None,
             'term_display': self.term_display,
             'result_published': self.result_published,
+            'result_published_at': self.result_published_at.isoformat() if self.result_published_at else None,
             'show_on_homepage': self.show_on_homepage,
             'start_date': self.start_date.isoformat() if self.start_date else None,
             'end_date': self.end_date.isoformat() if self.end_date else None,
+            'marks_count': len(self.results),
         }
 
 
