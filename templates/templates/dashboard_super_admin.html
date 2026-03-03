@@ -5,10 +5,26 @@
 {% block extra_head %}
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<style>[x-cloak] { display: none !important; }
+@keyframes spin{to{transform:rotate(360deg)}}</style>
 {% endblock %}
 
 {% block content %}
-<div x-data="superAdminDashboard()" class="flex h-screen bg-gray-50">
+<!-- Loading skeleton — visible until Alpine.js initialises -->
+<div id="dash-loader" class="flex h-screen bg-gray-50 items-center justify-center">
+  <div style="text-align:center">
+    <div style="width:48px;height:48px;border:4px solid #e5e7eb;border-top-color:#3b82f6;border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 16px"></div>
+    <p style="color:#6b7280;font-size:14px;font-family:sans-serif">Loading dashboard…</p>
+  </div>
+</div>
+<script>
+  document.addEventListener('alpine:initialized', () => {
+    const el = document.getElementById('dash-loader');
+    if (el) el.remove();
+  });
+</script>
+
+<div x-data="superAdminDashboard()" x-cloak class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
     <div class="w-64 bg-white shadow-lg border-r border-gray-200" :class="{ '-translate-x-full': !sidebarOpen }" 
          x-transition:enter="transition ease-out duration-300"
