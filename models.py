@@ -85,6 +85,7 @@ class User(db.Model):
     exam_fee = db.Column(Numeric(10, 2), default=0.00)  # Student-level exam fee (not per month)
     others_fee = db.Column(Numeric(10, 2), default=0.00)  # Student-level other fees (not per month)
     sms_count = db.Column(db.Integer, default=0)
+    student_code = db.Column(db.String(10), unique=True, nullable=True, index=True)  # 6-digit unique ID e.g. 100001
     is_active = db.Column(db.Boolean, default=True)
     last_login = db.Column(db.DateTime, nullable=True)
     is_archived = db.Column(db.Boolean, default=False, nullable=False)

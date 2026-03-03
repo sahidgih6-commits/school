@@ -98,6 +98,7 @@ def serialize_user(user, include_sensitive=False):
     """Serialize user model with role-specific data"""
     user_data = serialize_model(user, exclude_fields=['password_hash'] if not include_sensitive else [])
     user_data['full_name'] = user.full_name
+    user_data['student_code'] = getattr(user, 'student_code', None)
     # Add admission_date if it exists
     if hasattr(user, 'admission_date') and user.admission_date:
         user_data['admissionDate'] = user.admission_date.isoformat()

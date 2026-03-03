@@ -2,13 +2,13 @@
 Student Management Routes
 CRUD operations specifically for student management from teacher dashboard
 """
-from flask import Blueprint, request, session
+from flask import Blueprint, request, session, make_response
 from flask_bcrypt import generate_password_hash
 from models import db, User, UserRole, Batch, user_batches
 from utils.auth import login_required, require_role, get_current_user
 from utils.response import success_response, error_response, serialize_user
 from utils.rankings import get_batch_latest_rank_map
-from sqlalchemy import or_
+from sqlalchemy import or_, func
 import re
 import secrets
 import string
@@ -21,6 +21,25 @@ def generate_password(length=8):
     """Generate a random password"""
     alphabet = string.ascii_letters + string.digits
     return ''.join(secrets.choice(alphabet) for _ in range(length))
+
+def generate_student_code() -> str:
+    """Generate the next unique 6-digit student code (100001, 100002, ...)"""
+    max_code = db.session.query(func.max(User.student_code)).scalar()
+    if max_code:
+        try:
+            return str(int(max_code) + 1)
+        except (ValueError, TypeError):
+            pass
+    # Find highest numeric code in case of gaps
+    students = User.query.filter(
+        User.student_code.isnot(None),
+        User.role == UserRole.STUDENT
+    ).with_entities(User.student_code).all()
+    codes = []
+    for (c,) in students:
+        try: codes.append(int(c))
+        except: pass
+    return str(max(codes) + 1) if codes else '100001'
 
 def validate_phone(phone):
     """Validate and format phone number"""
@@ -285,7 +304,10 @@ def create_student():
         
         db.session.add(student)
         db.session.flush()  # Get the student ID
-        
+
+        # Assign 6-digit unique student code
+        student.student_code = generate_student_code()
+
         # Assign to batch if provided
         batch_id = data.get('batchId')
         if batch_id:
@@ -858,8 +880,43 @@ def get_my_batches():
 
 
 # ──────────────────────────────────────────────────────────────────────────────
-# PHOTO UPLOAD
+# PHOTO VIEW / DOWNLOAD / UPLOAD / DELETE
 # ──────────────────────────────────────────────────────────────────────────────
+
+@students_bp.route('/<int:student_id>/photo', methods=['GET'])
+@login_required
+def get_student_photo(student_id):
+    """Serve a student's profile photo as an actual image.
+    Add ?download=1 to force browser download.
+    """
+    student = User.query.get(student_id)
+    if not student or student.role != UserRole.STUDENT:
+        return error_response('Student not found', 404)
+    if not student.profile_image:
+        return error_response('No photo', 404)
+
+    try:
+        # profile_image is stored as a data URI: "data:image/jpeg;base64,/9j/..."
+        header, b64data = student.profile_image.split(',', 1)
+        mime = header.split(':')[1].split(';')[0]   # e.g. "image/jpeg"
+        raw  = base64.b64decode(b64data)
+
+        ext_map = {'image/jpeg':'jpg','image/png':'png','image/gif':'gif','image/webp':'webp'}
+        ext = ext_map.get(mime, 'jpg')
+        filename = f"student_{student_id}_photo.{ext}"
+
+        resp = make_response(raw)
+        resp.headers['Content-Type'] = mime
+        resp.headers['Content-Length'] = len(raw)
+        if request.args.get('download'):
+            resp.headers['Content-Disposition'] = f'attachment; filename="{filename}"'
+        else:
+            resp.headers['Content-Disposition'] = f'inline; filename="{filename}"'
+        resp.headers['Cache-Control'] = 'public, max-age=86400'
+        return resp
+    except Exception as e:
+        return error_response(f'Failed to serve photo: {str(e)}', 500)
+
 
 @students_bp.route('/<int:student_id>/photo', methods=['PUT', 'POST'])
 @login_required

@@ -1,18 +1,9 @@
 {
-  "_comment": "Run find_zkbio_db.py first — it fills this automatically. Or copy and edit manually.",
+  "_comment": "Copy to zkbio_config.json and fill in your values",
 
   "zkbio_db": {
-    "_comment_type": "Choose ONE: sqlite | mysql | sqlserver",
-
     "type": "sqlite",
-    "path": "C:\\Program Files\\ZKBio Time.Net\\data\\att.db",
-
-    "_comment_mysql": "Uncomment below and set type=mysql if using MySQL",
-    "_host": "127.0.0.1",
-    "_port": 3306,
-    "_database": "att",
-    "_user": "root",
-    "_password": "zkbiotime"
+    "path": "C:\\Program Files (x86)\\ZKBio Time.Net\\TimeNet.db"
   },
 
   "school_app": {
@@ -23,10 +14,11 @@
 
   "late_after": "09:00",
 
+  "telegram_bot_token": "PASTE_TOKEN_FROM_BOTFATHER",
+  "telegram_chat_id":   0,
+
   "student_mapping": {
-    "_comment": "ZKBio Employee ID (string) → school app student user ID (number)",
-    "001": 2,
-    "002": 3,
-    "003": 4
+    "_comment": "ZKBio emp_code (string) -> school app student student_code or user_id",
+    "1": 2
   }
 }

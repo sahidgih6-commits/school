@@ -179,6 +179,21 @@ def get_biometric_api_key():
     return success_response({'api_key': key})
 
 
+@attendance_bp.route('/biometric-sync/download-script', methods=['GET'])
+def download_sync_script():
+    """Serve zkbio_sync.py for download — no auth needed so Windows can fetch it"""
+    import os
+    script_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+                               'zkbio_sync', 'zkbio_sync.py')
+    if not os.path.exists(script_path):
+        return 'Script not found', 404
+    with open(script_path, 'r', encoding='utf-8') as f:
+        content = f.read()
+    from flask import Response
+    return Response(content, mimetype='text/plain',
+                    headers={'Content-Disposition': 'attachment; filename=zkbio_sync.py'})
+
+
 @attendance_bp.route('', methods=['GET'])
 @login_required
 def get_attendance():
