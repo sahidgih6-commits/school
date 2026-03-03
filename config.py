@@ -16,7 +16,7 @@ class Config:
     SESSION_FILE_THRESHOLD = 500
     
     # File upload configuration
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
+    MAX_CONTENT_LENGTH = 75 * 1024 * 1024  # 75 MB (allows up to ~50 MB base64-encoded files)
     UPLOAD_FOLDER = 'static/uploads'
 
 class DevelopmentConfig(Config):
