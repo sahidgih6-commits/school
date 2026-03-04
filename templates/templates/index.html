@@ -310,10 +310,10 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 </div>
 
 <!-- TEACHERS -->
-<div class="section" id="teachers">
+<div class="section" id="teachers" style="display:none">
   <div class="section-inner">
     <div class="section-title"><h2>Our Teaching Staff</h2><p class="bn">আমাদের শিক্ষক-শিক্ষিকা মণ্ডলী</p><div class="line"></div></div>
-    <div class="teachers-grid" id="teachers-grid"><div class="lb" style="grid-column:1/-1"><span class="sml"></span>Loading staff information…</div></div>
+    <div class="teachers-grid" id="teachers-grid"></div>
   </div>
 </div>
 
@@ -326,14 +326,10 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 </div>
 
 <!-- GALLERY -->
-<div class="section section-alt" id="gallery">
+<div class="section section-alt" id="gallery" style="display:none">
   <div class="section-inner">
-    <div class="section-title"><h2>Photo Gallery</h2><p>Moments from our school life</p><div class="line"></div></div>
-    <div class="gallery-grid" id="gallery-grid">
-      <div class="g-item" style="background:var(--primary-light);display:flex;align-items:center;justify-content:center"><i class="fas fa-image" style="font-size:36px;color:var(--primary);opacity:.3"></i></div>
-      <div class="g-item" style="background:var(--gold-light);display:flex;align-items:center;justify-content:center"><i class="fas fa-image" style="font-size:36px;color:var(--gold);opacity:.3"></i></div>
-      <div class="g-item" style="background:#dcfce7;display:flex;align-items:center;justify-content:center"><i class="fas fa-image" style="font-size:36px;color:var(--green);opacity:.3"></i></div>
-    </div>
+    <div class="section-title"><h2>Photo Gallery</h2><p class="bn">আমাদের বিদ্যালয়ের মুহূর্তসমূহ</p><div class="line"></div></div>
+    <div class="gallery-grid" id="gallery-grid"></div>
   </div>
 </div>
 
@@ -375,7 +371,6 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
         <li><a href="#academic"><i class="fas fa-chevron-right"></i>Academic</a></li>
         <li><a href="/results"><i class="fas fa-chevron-right"></i>Results</a></li>
         <li><a href="#notices"><i class="fas fa-chevron-right"></i>Notice Board</a></li>
-        <li><a href="#documents"><i class="fas fa-chevron-right"></i>Documents</a></li>
         <li><a href="#gallery"><i class="fas fa-chevron-right"></i>Gallery</a></li>
         <li><a href="{{ url_for('templates.login_page') }}"><i class="fas fa-chevron-right"></i>Student Login</a></li>
       </ul>
@@ -425,9 +420,17 @@ async function loadSchoolInfo(){
     if(d.school_name_bn){set('hero-title-bn',d.school_name_bn);set('sch-tagline',d.school_name_bn+' | Class 1 – 5');}
     if(d.school_email){set('sch-email',d.school_email);set('c-email',d.school_email);set('f-email',d.school_email);}
     if(d.school_phone){set('sch-phone',d.school_phone);set('c-phone',d.school_phone);set('f-phone',d.school_phone);}
-    if(d.school_address){set('c-addr',d.school_address);set('f-addr',d.school_address);}
-    if(d.estd_year){set('sch-estd',d.estd_year);set('hero-since',d.estd_year);}
-    if(d.school_eiin){set('sch-eiin',d.school_eiin);set('stat-eiin2',d.school_eiin);}
+    // support both new keys (school_address) and old keys (address)
+    const addr=d.school_address||d.address;
+    const phone=d.school_phone||d.phone;
+    const email=d.school_email||d.email;
+    const estd=d.estd_year||d.established;
+    const eiin=d.school_eiin||d.eiin;
+    if(addr){set('c-addr',addr);set('f-addr',addr);}
+    if(estd){set('sch-estd',estd);set('hero-since',estd);}
+    if(eiin){set('sch-eiin',eiin);set('stat-eiin2',eiin);}
+    if(phone){set('sch-phone',phone);set('c-phone',phone);set('f-phone',phone);}
+    if(email){set('sch-email',email);set('c-email',email);set('f-email',email);}
     if(d.office_hours) set('c-hours',d.office_hours);
     if(d.about_text) set('f-about',d.about_text);
     if(d.facebook_url&&d.facebook_url!='#'){$('fb-link').href=d.facebook_url;$('f-fb').href=d.facebook_url;}
@@ -556,8 +559,9 @@ async function loadTeachers(){
   try{
     const res=await fetch('/api/users?role=teacher&limit=8').then(r=>r.json());
     const teachers=Array.isArray(res)?res:(res.users||res.data||[]);
+    if(!teachers.length){document.getElementById('teachers').style.display='none';return;}
+    document.getElementById('teachers').style.display='';
     const g=$('teachers-grid');
-    if(!teachers.length){g.innerHTML='<p style="color:#94a3b8;grid-column:1/-1;text-align:center;padding:24px">Teacher information will be displayed here.</p>';return;}
     g.innerHTML=teachers.map(t=>`<div class="t-card reveal">
       <div class="t-avatar">${t.profile_image?`<img src="${t.profile_image}" alt="">`:'<i class="fas fa-user-tie"></i>'}</div>
       <h4>${(t.first_name||'')+' '+(t.last_name||'')}</h4>
@@ -565,7 +569,7 @@ async function loadTeachers(){
       <div class="t-sub">${t.subject||''}</div>
     </div>`).join('');
     g.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  }catch(e){$('teachers-grid').innerHTML='<p style="color:#94a3b8;grid-column:1/-1;text-align:center;padding:24px">Teacher information will be displayed here.</p>';}
+  }catch(e){document.getElementById('teachers').style.display='none';}
 }
 
 // Class Teachers
@@ -602,14 +606,15 @@ async function loadClassTeachers(){
 async function loadGalleryPhotos(){
   try{
     const photos=await fetch('/api/school/gallery').then(r=>r.json());
+    if(!photos||!photos.length){document.getElementById('gallery').style.display='none';return;}
+    document.getElementById('gallery').style.display='';
     const g=$('gallery-grid');
-    if(!photos||!photos.length) return;
     g.innerHTML=photos.map(p=>`<div class="g-item reveal">
       <img src="${p.image_data}" alt="${p.title||'Gallery photo'}" loading="lazy" style="width:100%;height:100%;object-fit:cover">
       ${p.title?`<div class="g-overlay"><span>${p.title}</span></div>`:''}
     </div>`).join('');
     g.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  }catch(e){}
+  }catch(e){document.getElementById('gallery').style.display='none';}
 }
 
 $('fy').textContent=new Date().getFullYear();
