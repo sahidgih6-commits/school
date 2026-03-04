@@ -31,6 +31,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 .ticker-inner{display:inline-flex;animation:ticker 45s linear infinite}
 .ticker-item{display:inline-block;padding:10px 48px;color:#e2e8f0;font-size:14px;font-weight:500}
 .ticker-item i{color:var(--gold);margin-right:8px}.ticker-sep{color:var(--gold);margin:0 20px;padding:10px 0}
+.ticker-pdf:hover{background:rgba(255,255,255,.12);border-radius:6px;text-decoration:underline;text-decoration-color:rgba(251,191,36,.6)}
 .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
 .doc-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:.3s;text-decoration:none;color:inherit;cursor:pointer}
 .doc-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(26,86,219,.14);border-color:var(--primary)}
@@ -451,7 +452,13 @@ async function loadAnnouncements(){
   try{
     const items=await fetch('/api/school/announcements').then(r=>r.json());
     if(items.length){
-      const h=items.map(a=>`<span class="ticker-item"><i class="fas fa-bullhorn"></i>${a.title}</span><span class="ticker-sep">◆</span>`).join('');
+      const h=items.map(a=>{
+        const hasPdf=a.has_attachment;
+        const url=hasPdf?`/api/school/announcements/${a.id}/attachment`:'';
+        return `<span class="ticker-item${hasPdf?' ticker-pdf':''}"
+          ${hasPdf?`onclick="window.open('${url}','_blank')" title="Click to download PDF" style="cursor:pointer"`:''}
+        ><i class="fas ${hasPdf?'fa-file-pdf':'fa-bullhorn'}" style="${hasPdf?'color:#fbbf24':''}"></i>${a.title}${hasPdf?' <i class="fas fa-download" style="font-size:9px;opacity:.75;margin-left:3px"></i>':''}</span><span class="ticker-sep">◆</span>`;
+      }).join('');
       $('ticker-inner').innerHTML=h+h;
     }
     const nl=$('notice-list');
