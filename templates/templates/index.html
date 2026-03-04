@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Modern Ideal Non Government Primary School{% endblock %}
+{% block navbar %}{% endblock %}
+{% block content_padding %}{% endblock %}
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -303,7 +305,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 </div>
 
 <!-- CLASS TEACHERS -->
-<div class="section section-alt" id="class-teachers">
+<div class="section section-alt" id="class-teachers" style="display:none">
   <div class="section-inner">
     <div class="section-title"><h2>Class Teachers</h2><p class="bn">শ্রেণি শিক্ষক-শিক্ষিকা</p><div class="line"></div></div>
     <div class="teachers-grid" id="class-teachers-grid"><div class="lb" style="grid-column:1/-1"><span class="sml"></span>Loading…</div></div>
@@ -444,8 +446,11 @@ async function loadAnnouncements(){
     const bc={urgent:'badge-urgent',high:'badge-high',normal:'badge-normal',low:'badge-low'};
     nl.innerHTML=items.slice(0,6).map(a=>`<div class="n-item">
       <span class="n-badge ${bc[a.priority]||'badge-normal'}">${a.category||'Notice'}</span>
-      <div><div class="n-text">${a.title}${a.title_bn?'<br><span class="bn" style="font-size:11.5px;color:#64748b">'+a.title_bn+'</span>':''}</div>
-      <div class="n-date"><i class="fas fa-calendar-alt" style="margin-right:3px"></i>${(a.publish_date||a.created_at||'').split('T')[0]}</div></div>
+      <div style="flex:1">
+        <div class="n-text">${a.title}${a.title_bn?'<br><span class="bn" style="font-size:11.5px;color:#64748b">'+a.title_bn+'</span>':''}</div>
+        ${a.has_attachment?`<a href="/api/school/announcements/${a.id}/attachment" target="_blank" style="display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;color:#1a56db;margin-top:4px;text-decoration:none;background:#e8f0fe;padding:2px 8px;border-radius:4px"><i class="fas fa-paperclip"></i>${a.attachment_name||'Download'}</a>`:''}
+        <div class="n-date"><i class="fas fa-calendar-alt" style="margin-right:3px"></i>${(a.publish_date||a.created_at||'').split('T')[0]}</div>
+      </div>
     </div>`).join('');
   }catch(e){$('notice-list').innerHTML='<p style="color:#94a3b8;font-size:13px">Could not load notices.</p>';}
 }
@@ -547,10 +552,11 @@ async function loadClassTeachers(){
           ${subj?`<div class="t-sub">${subj}</div>`:''}
         </div>`;
       });
-    if(!cards.length){g.innerHTML='<p style="color:#94a3b8;grid-column:1/-1;text-align:center;padding:24px">Class teacher information will be displayed here.</p>';return;}
+    if(!cards.length){document.getElementById('class-teachers').style.display='none';return;}
+    document.getElementById('class-teachers').style.display='';
     g.innerHTML=cards.join('');
     g.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-  }catch(e){g.innerHTML='<p style="color:#94a3b8;grid-column:1/-1;text-align:center;padding:24px">Class teacher information will be displayed here.</p>';}
+  }catch(e){document.getElementById('class-teachers').style.display='none';}
 }
 
 $('fy').textContent=new Date().getFullYear();

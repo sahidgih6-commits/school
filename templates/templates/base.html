@@ -160,6 +160,7 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-gray-50 min-h-screen">
+    {% block navbar %}
     <!-- Navigation Bar -->
     <nav class="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b border-blue-800 fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -240,9 +241,10 @@
             </div>
         </div>
     </nav>
+    {% endblock %}
     
     <!-- Main Content -->
-    <div class="pt-16 min-h-screen">
+    <div class="{% block content_padding %}pt-16{% endblock %} min-h-screen">
         {% block content %}{% endblock %}
     </div>
     
