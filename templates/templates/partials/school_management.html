@@ -652,6 +652,76 @@
     </div>
   </div>
 
+  <!-- ══ PHOTO SLIDER ══ -->
+  <div x-show="activeTab==='slider'" x-cloak x-effect="if(activeTab==='slider' && !sliderImages.length && !sliderLoading) loadSlider()">
+    <div class="bg-white rounded-xl shadow p-6">
+      <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <i class="fas fa-sliders-h text-sky-600"></i> Homepage Photo Slider
+      </h3>
+      <p class="text-sm text-gray-500 mb-6">Upload photos for the homepage carousel/slider. Images are shown in sort order. Max 5 MB each. Recommended: 1400×580px (landscape).</p>
+
+      <!-- Upload form -->
+      <div class="border-2 border-dashed border-indigo-200 rounded-xl p-5 mb-6 bg-sky-50">
+        <div class="flex flex-col sm:flex-row gap-4 items-start">
+          <!-- preview -->
+          <div class="w-40 h-28 rounded-xl border-2 border-indigo-200 overflow-hidden bg-white flex items-center justify-center flex-shrink-0">
+            <img x-show="sliderPreview" :src="sliderPreview" class="w-full h-full object-cover">
+            <i x-show="!sliderPreview" class="fas fa-image text-4xl text-sky-200"></i>
+          </div>
+          <div class="flex-1 space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Slide Title (optional)</label>
+                <input type="text" x-model="sliderForm.title" placeholder="e.g. Annual Prize-Giving 2025"
+                  class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none">
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Caption (optional)</label>
+                <input type="text" x-model="sliderForm.caption" placeholder="Short description…"
+                  class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none">
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-600 mb-1">Photo <span class="text-gray-400">(JPG / PNG / WEBP)</span></label>
+              <input type="file" accept="image/*" x-ref="sliderFileInput"
+                @change="onSliderFileChange($event)"
+                class="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-sky-500 file:text-white hover:file:bg-sky-600 cursor-pointer">
+            </div>
+            <button @click="addSlide()"
+              :disabled="!sliderForm.image_data || sliderUploading"
+              class="bg-sky-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2">
+              <i class="fas" :class="sliderUploading?'fa-spinner fa-spin':'fa-upload'"></i>
+              <span x-text="sliderUploading?'Uploading…':'Add to Slider'"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slides grid -->
+      <div x-show="sliderLoading" class="text-center py-10 text-gray-400"><i class="fas fa-spinner fa-spin text-2xl"></i></div>
+      <div x-show="!sliderLoading && !sliderImages.length" class="text-center py-10 text-gray-400">
+        <i class="fas fa-sliders-h text-4xl mb-3 block opacity-30"></i>
+        No slides yet. Upload the first one above to show it on the homepage carousel.
+      </div>
+      <div x-show="!sliderLoading && sliderImages.length" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <template x-for="s in sliderImages" :key="s.id">
+          <div class="relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50" style="aspect-ratio:16/9">
+            <img :src="s.image_data" class="w-full h-full object-cover transition group-hover:scale-105">
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition flex flex-col items-center justify-center gap-2 p-3">
+              <p class="text-white text-xs font-semibold text-center" x-text="s.title||'No title'"></p>
+              <p class="text-white text-xs opacity-75 text-center" x-text="s.caption||''"></p>
+              <button @click="deleteSlide(s.id)"
+                class="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-red-700 transition mt-1">
+                <i class="fas fa-trash mr-1"></i>Delete
+              </button>
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 bg-black/40 text-white text-xs px-2 py-1 truncate" x-text="s.title||'(no title)'"></div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -665,6 +735,7 @@ function schoolCMS(){
       {id:'results',label:'Term Results',icon:'fas fa-chart-bar'},
       {id:'teachers',label:'Teachers',icon:'fas fa-chalkboard-teacher'},
       {id:'gallery',label:'Gallery',icon:'fas fa-images'},
+      {id:'slider',label:'Photo Slider',icon:'fas fa-sliders-h'},
     ],
     // School info
     infoFields:[
@@ -727,6 +798,13 @@ function schoolCMS(){
     galleryUploading:false,
     galleryPreview:null,
     galleryForm:{title:'',image_data:''},
+
+    // Slider
+    sliderImages:[],
+    sliderLoading:false,
+    sliderUploading:false,
+    sliderPreview:null,
+    sliderForm:{title:'',caption:'',image_data:''},
 
     syncTab(section){
       // Map parent sidebar section IDs to our local tab IDs
@@ -973,6 +1051,40 @@ function schoolCMS(){
       try{
         await fetch(`/api/school/gallery/${id}`,{method:'DELETE'});
         this.galleryPhotos=this.galleryPhotos.filter(p=>p.id!==id);
+      }catch(e){ alert('Delete failed'); }
+    },
+
+    async loadSlider(){
+      this.sliderLoading=true;
+      try{ this.sliderImages=await fetch('/api/school/slides').then(r=>r.json()); }catch(e){}
+      this.sliderLoading=false;
+    },
+    onSliderFileChange(e){
+      const file=e.target.files[0]; if(!file) return;
+      if(file.size>5*1024*1024){ alert('Max file size is 5 MB'); return; }
+      const reader=new FileReader();
+      reader.onload=ev=>{ this.sliderPreview=ev.target.result; this.sliderForm.image_data=ev.target.result; };
+      reader.readAsDataURL(file);
+    },
+    async addSlide(){
+      if(!this.sliderForm.image_data) return;
+      this.sliderUploading=true;
+      try{
+        const r=await fetch('/api/school/slides',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.sliderForm)});
+        if(r.ok){
+          this.sliderForm={title:'',caption:'',image_data:''};
+          this.sliderPreview=null;
+          if(this.$refs.sliderFileInput) this.$refs.sliderFileInput.value='';
+          await this.loadSlider();
+        }else{ const d=await r.json(); alert(d.error||'Upload failed'); }
+      }catch(e){ alert('Upload failed'); }
+      this.sliderUploading=false;
+    },
+    async deleteSlide(id){
+      if(!confirm('Delete this slider image?')) return;
+      try{
+        await fetch(`/api/school/slides/${id}`,{method:'DELETE'});
+        this.sliderImages=this.sliderImages.filter(s=>s.id!==id);
       }catch(e){ alert('Delete failed'); }
     },
   };

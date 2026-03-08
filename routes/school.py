@@ -9,7 +9,7 @@ from models import (
     db, User, UserRole,
     SchoolClass, SchoolSection, SchoolSubject,
     TermExam, StudentTermResult, StudentClassInfo,
-    Announcement, SchoolInfo, GalleryPhoto
+    Announcement, SchoolInfo, GalleryPhoto, SliderImage
 )
 
 school_bp = Blueprint('school', __name__)
@@ -1065,5 +1065,47 @@ def delete_gallery_photo(photo_id):
         return err, code
     photo = GalleryPhoto.query.get_or_404(photo_id)
     db.session.delete(photo)
+    db.session.commit()
+    return jsonify({'success': True})
+
+
+# ---------------------------------------------------------------------------
+# Slider Images
+# ---------------------------------------------------------------------------
+
+@school_bp.route('/api/school/slides', methods=['GET'])
+def get_slides():
+    slides = SliderImage.query.filter_by(is_active=True)\
+        .order_by(SliderImage.sort_order.asc(), SliderImage.created_at.asc()).all()
+    return jsonify([s.to_dict() for s in slides])
+
+
+@school_bp.route('/api/school/slides', methods=['POST'])
+def add_slide():
+    user, err, code = _require_admin()
+    if err:
+        return err, code
+    data = request.get_json() or {}
+    if not data.get('image_data'):
+        return jsonify({'error': 'image_data required'}), 400
+    slide = SliderImage(
+        title       = data.get('title', '').strip() or None,
+        caption     = data.get('caption', '').strip() or None,
+        image_data  = data['image_data'],
+        sort_order  = int(data.get('sort_order', 0)),
+        uploaded_by = user.id,
+    )
+    db.session.add(slide)
+    db.session.commit()
+    return jsonify(slide.to_dict()), 201
+
+
+@school_bp.route('/api/school/slides/<int:slide_id>', methods=['DELETE'])
+def delete_slide(slide_id):
+    user, err, code = _require_admin()
+    if err:
+        return err, code
+    slide = SliderImage.query.get_or_404(slide_id)
+    db.session.delete(slide)
     db.session.commit()
     return jsonify({'success': True})
