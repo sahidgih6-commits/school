@@ -4,8 +4,8 @@
 echo "🔄 Database Restoration Script"
 echo "=============================="
 
-DB_PATH="/var/www/saroyarsir/instance/saro.db"
-BACKUP_DIR="/var/www/saroyarsir/backups"
+DB_PATH="/var/www/school/instance/saro.db"
+BACKUP_DIR="/var/www/school/backups"
 
 # Create backups directory if it doesn't exist
 mkdir -p "$BACKUP_DIR"
@@ -59,7 +59,7 @@ if [ -f "$MADRASHA_DB" ]; then
         # Initialize SMS balance in the restored database
         echo ""
         echo "🔧 Initializing SMS balance in restored database..."
-        cd /var/www/saroyarsir
+        cd /var/www/school
         source venv/bin/activate
         python3 init_sms_balance.py <<EOF
 y

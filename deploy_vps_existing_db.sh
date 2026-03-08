@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # VPS Deployment Script for SQLite Production
-# Run this on your VPS server at /var/www/saroyarsir
+# Run this on your VPS server at /var/www/school
 
 echo "🚀 Starting VPS Deployment..."
 echo "================================"
@@ -20,15 +20,15 @@ pip3 install flask flask-sqlalchemy flask-bcrypt gunicorn
 
 # Set environment variables
 export FLASK_ENV=production
-export DATABASE_URL=sqlite:////var/www/saroyarsir/smartgardenhub.db
+export DATABASE_URL=sqlite:////var/www/school/smartgardenhub.db
 
-echo "✅ Using existing database: /var/www/saroyarsir/smartgardenhub.db"
+echo "✅ Using existing database: /var/www/school/smartgardenhub.db"
 echo "   All existing data will be preserved!"
 echo "   All your users, students, batches, exams will remain intact!"
 
 # Set database permissions
 echo "🔒 Setting database permissions..."
-chmod 644 /var/www/saroyarsir/smartgardenhub.db 2>/dev/null || true
+chmod 644 /var/www/school/smartgardenhub.db 2>/dev/null || true
 
 # Copy service file
 echo "📋 Copying service file..."
@@ -62,7 +62,7 @@ echo ""
 echo "🌐 Access your app at: http://$(hostname -I | awk '{print $1}'):8001"
 echo ""
 echo "🗄️  Using existing database with all your data!"
-echo "   Database: /var/www/saroyarsir/smartgardenhub.db"
+echo "   Database: /var/www/school/smartgardenhub.db"
 echo ""
 echo "✨ New Features Now Available:"
 echo "   ✅ Online Exams (Bangla + Math equations)"

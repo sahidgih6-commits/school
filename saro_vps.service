@@ -5,12 +5,12 @@ After=network.target
 [Service]
 Type=simple
 User=root
-WorkingDirectory=/var/www/saroyarsir
+WorkingDirectory=/var/www/school
 Environment="PATH=/usr/local/bin:/usr/bin:/bin"
 Environment="FLASK_ENV=production"
 Environment="PORT=8001"
 Environment="SECRET_KEY=change-this-to-a-secure-random-string-in-production"
-Environment="DATABASE_URL=sqlite:////var/www/saroyarsir/smartgardenhub.db"
+Environment="DATABASE_URL=sqlite:////var/www/school/smartgardenhub.db"
 
 # Using gunicorn with port 8001 and SQLite
 ExecStart=/usr/bin/python3 -m gunicorn --config gunicorn.conf.py app:app

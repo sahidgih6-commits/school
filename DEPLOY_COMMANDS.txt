@@ -9,12 +9,12 @@ ssh root@YOUR_VPS_IP
 STEP 2: Navigate to Project (if exists) or Clone (if first time)
 --------------------------------------------------------------------------------
 # If project already exists:
-cd /root/saroyarsir
+cd /root/school
 
 # If first time (clone from GitHub):
 cd /root
-git clone https://github.com/sa5613675-jpg/saroyarsir.git
-cd saroyarsir
+git clone https://github.com/sa5613675-jpg/school.git
+cd school
 
 STEP 3: Pull Latest Code
 --------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ Login as Teacher:
 ================================================================================
 📊 DATABASE FILE LOCATION
 ================================================================================
-/root/saroyarsir/smartgardenhub_production.db
+/root/school/smartgardenhub_production.db
 
 ================================================================================
 🔧 USEFUL COMMANDS
@@ -80,7 +80,7 @@ Check if app is running:
   sudo lsof -i :8001
 
 Backup database:
-  cp /root/saroyarsir/smartgardenhub_production.db \
+  cp /root/school/smartgardenhub_production.db \
      /root/backups/backup_$(date +%Y%m%d).db
 
 ================================================================================

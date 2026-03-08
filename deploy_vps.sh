@@ -1,6 +1,6 @@
 #!/bin/bash
 # SmartGardenHub VPS Deployment Script
-# Run this on your VPS at /var/www/saroyarsir
+# Run this on your VPS at /var/www/school
 
 set -e  # Exit on error
 
@@ -14,7 +14,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-PROJECT_DIR="/var/www/saroyarsir"
+PROJECT_DIR="/var/www/school"
 VENV_DIR="$PROJECT_DIR/venv"
 SERVICE_NAME="saro"
 

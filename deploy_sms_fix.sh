@@ -4,7 +4,7 @@ echo "🚀 Deploying SMS Balance Fix to VPS..."
 echo ""
 
 # Navigate to project directory
-cd /var/www/saroyarsir || exit 1
+cd /var/www/school || exit 1
 
 # Pull latest changes
 echo "📥 Pulling latest changes from GitHub..."

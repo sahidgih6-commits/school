@@ -14,7 +14,7 @@ echo ""
 # Configuration
 VPS_USER="root"
 VPS_HOST="103.145.51.132"
-VPS_DIR="/var/www/saroyarsir"
+VPS_DIR="/var/www/school"
 DB_PATH="$VPS_DIR/smartgardenhub.db"
 
 echo "📋 Pre-deployment checklist:"
@@ -75,7 +75,7 @@ echo ""
 echo "Step 7: Restarting application..."
 
 # Try systemd first
-if ssh ${VPS_USER}@${VPS_HOST} "systemctl restart saroyarsir 2>/dev/null"; then
+if ssh ${VPS_USER}@${VPS_HOST} "systemctl restart school 2>/dev/null"; then
     echo "  ✅ Application restarted via systemd"
 else
     echo "  ⚠️  systemd restart failed, trying manual restart..."

@@ -20,7 +20,7 @@ cat << 'VPSCMD'
 sudo systemctl stop saro.service
 
 # Go to project and activate venv
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # Pull ALL latest fixes

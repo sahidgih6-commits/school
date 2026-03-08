@@ -6,11 +6,11 @@ Wants=postgresql.service
 [Service]
 Type=simple
 User=www-data
-WorkingDirectory=/var/www/saroyarsir
+WorkingDirectory=/var/www/school
 # polling mode – safest, no domain/SSL needed
-ExecStart=/var/www/saroyarsir/venv/bin/python telegram_bot.py polling
+ExecStart=/var/www/school/venv/bin/python telegram_bot.py polling
 # Use "webhook" instead of "polling" if you have HTTPS + domain:
-# ExecStart=/var/www/saroyarsir/venv/bin/python telegram_bot.py webhook
+# ExecStart=/var/www/school/venv/bin/python telegram_bot.py webhook
 
 Restart=always
 RestartSec=10
@@ -19,7 +19,7 @@ StandardError=journal
 SyslogIdentifier=school-telegram-bot
 
 # Load environment from .env file
-EnvironmentFile=/var/www/saroyarsir/.env
+EnvironmentFile=/var/www/school/.env
 
 # Security hardening
 NoNewPrivileges=true

@@ -38,11 +38,11 @@ Health:         http://YOUR_VPS_IP:8001/health
 
 └────────────────────────────────────────────────────────────────┘# On VPS:
 
-  cd /var/www/saroyarsirssh user@YOUR_VPS_IP
+  cd /var/www/schoolssh user@YOUR_VPS_IP
 
-  sudo bash deploy_vps_sqlite.shgit clone https://github.com/sahidrahman1/saroyarsir.git
+  sudo bash deploy_vps_sqlite.shgit clone https://github.com/sahidrahman1/school.git
 
-cd saroyarsir
+cd school
 
 ┌────────────────────────────────────────────────────────────────┐chmod +x deploy_vps_final.sh
 
@@ -82,7 +82,7 @@ cd saroyarsir
 
 
 
-  cd /var/www/saroyarsirScript:     python check_database_vps.py
+  cd /var/www/schoolScript:     python check_database_vps.py
 
   bash quick_update.shBrowser:    http://YOUR_VPS_IP:8001/api/database/check
 
@@ -100,7 +100,7 @@ Backup:     cp madrasha.db backups/backup_$(date +%Y%m%d).db
 
   Public:  http://YOUR_SERVER_IP:8001
 
-  Domain:  http://gsteaching.com:8001cd saroyarsir
+  Domain:  http://gsteaching.com:8001cd school
 
 git pull origin main
 
@@ -227,7 +227,7 @@ Complete Guide:      VPS_PRODUCTION_READY.md
 │ 📦 GITHUB                                                      │
 └───────────────────────────────────────────────────────────────┘
 
-Repository: https://github.com/sahidrahman1/saroyarsir
+Repository: https://github.com/sahidrahman1/school
 Branch:     main
 Status:     ✅ All changes pushed
 Commit:     5ad120b

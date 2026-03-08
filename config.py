@@ -38,7 +38,7 @@ class ProductionConfig(Config):
     # Falls back to SQLite during migration period
     SQLALCHEMY_DATABASE_URI = (
         os.environ.get('DATABASE_URL')
-        or "sqlite:////var/www/saroyarsir/school.db"
+        or "sqlite:////var/www/school/school.db"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False

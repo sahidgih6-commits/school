@@ -12,7 +12,7 @@ echo "========================================="
 echo ""
 
 # Navigate to app directory
-cd /var/www/saroyarsir || cd /var/www/saro
+cd /var/www/school || cd /var/www/saro
 
 # Activate virtual environment
 echo "📦 Activating virtual environment..."

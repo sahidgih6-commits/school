@@ -5,11 +5,11 @@ echo "🔄 Copying Database from Madrasha"
 echo "=================================="
 
 SOURCE_DB="/var/www/madrasha/smartgardenhub.db"
-DEST_DB="/var/www/saroyarsir/instance/smartgardenhub.db"
-BACKUP_DIR="/var/www/saroyarsir/backups"
+DEST_DB="/var/www/school/instance/smartgardenhub.db"
+BACKUP_DIR="/var/www/school/backups"
 
 # Create directories
-mkdir -p /var/www/saroyarsir/instance
+mkdir -p /var/www/school/instance
 mkdir -p "$BACKUP_DIR"
 
 # Backup current if exists
@@ -35,8 +35,8 @@ if [ -f "$SOURCE_DB" ]; then
     chmod 664 "$DEST_DB"
     
     # Fix instance directory permissions
-    chown -R root:root /var/www/saroyarsir/instance
-    chmod 775 /var/www/saroyarsir/instance
+    chown -R root:root /var/www/school/instance
+    chmod 775 /var/www/school/instance
     
     echo "✅ Database copied"
     echo "✅ Permissions fixed"
@@ -49,7 +49,7 @@ if [ -f "$SOURCE_DB" ]; then
     # Initialize SMS balance
     echo ""
     echo "🔧 Initializing SMS balance..."
-    cd /var/www/saroyarsir
+    cd /var/www/school
     source venv/bin/activate
     echo "y" | python3 init_sms_balance.py 2>&1 | tail -5
     

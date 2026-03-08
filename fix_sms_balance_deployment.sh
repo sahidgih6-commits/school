@@ -2,24 +2,24 @@
 # Fix SMS balance - Deploy and restart Gunicorn to load /api/sms/personal-balance endpoint
 
 echo "=== Step 1: Verify endpoint exists in code ==="
-cd /var/www/saroyarsir
+cd /var/www/school
 grep -n "personal-balance" routes/sms.py | head -3
 
 echo ""
 echo "=== Step 2: Hard stop Gunicorn and clean PID file ==="
-sudo systemctl stop saroyarsir
-sudo pkill -9 -f "gunicorn.*saroyarsir"
+sudo systemctl stop school
+sudo pkill -9 -f "gunicorn.*school"
 sudo rm -f /tmp/smartgarden-hub.pid
 sleep 2
 
 echo ""
 echo "=== Step 3: Start service ==="
-sudo systemctl start saroyarsir
+sudo systemctl start school
 sleep 3
 
 echo ""
 echo "=== Step 4: Check service status ==="
-sudo systemctl status saroyarsir --no-pager -l | head -15
+sudo systemctl status school --no-pager -l | head -15
 
 echo ""
 echo "=== Step 5: Test endpoint (expect 401/302, NOT 404) ==="

@@ -7,7 +7,7 @@ echo ""
 
 # Push to GitHub
 echo "📦 Step 1: Push to GitHub..."
-cd /workspaces/saroyarsir
+cd /workspaces/school
 git add -A
 git commit -m "Fix fee save and SMS template permanent storage"
 git push origin main
@@ -24,7 +24,7 @@ echo "ssh root@194.233.74.48"
 echo ""
 echo "# Then run on VPS:"
 echo ""
-echo "cd /var/www/saroyarsir"
+echo "cd /var/www/school"
 echo "git pull origin main"
 echo "sudo systemctl restart saro_vps"
 echo "sudo systemctl status saro_vps"

@@ -13,7 +13,7 @@ echo ""
 
 VPS_USER="root"
 VPS_HOST="103.145.51.132"
-VPS_DIR="/var/www/saroyarsir"
+VPS_DIR="/var/www/school"
 
 echo "Step 1: Updating Code on VPS..."
 ssh ${VPS_USER}@${VPS_HOST} "cd ${VPS_DIR} && git reset --hard origin/main && git pull origin main"
@@ -28,7 +28,7 @@ ssh ${VPS_USER}@${VPS_HOST} "
     pkill -f 'python.*app.py' || true
     
     echo '  • Restarting service...'
-    systemctl restart saroyarsir || {
+    systemctl restart school || {
         echo '  ⚠️ systemctl failed, starting manually...'
         cd ${VPS_DIR}
         nohup python3 app.py > logs/app.log 2>&1 &

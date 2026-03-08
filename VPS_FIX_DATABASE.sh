@@ -14,7 +14,7 @@ sudo pkill -f gunicorn
 sudo rm -f /tmp/smartgarden-hub.pid
 
 # 3. Go to project directory
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # 4. Update database schema (add others_fee column if missing)

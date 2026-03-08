@@ -6,7 +6,7 @@ echo "🔧 Fixing the CORRECT Database"
 echo "=================================================="
 
 # The ACTIVE database is in instance/ folder
-DB_PATH="/var/www/saroyarsir/instance/smartgardenhub.db"
+DB_PATH="/var/www/school/instance/smartgardenhub.db"
 
 echo "📁 Using database: $DB_PATH"
 

@@ -10,11 +10,11 @@ pkill -f "gunicorn.*app:app" 2>/dev/null
 sleep 2
 
 # Check if systemd service exists
-if systemctl list-units --type=service --all | grep -q "saroyarsir\|gunicorn"; then
+if systemctl list-units --type=service --all | grep -q "school\|gunicorn"; then
     echo "✅ Found systemd service. Using systemctl..."
-    sudo systemctl restart saroyarsir 2>/dev/null || sudo systemctl restart gunicorn 2>/dev/null
+    sudo systemctl restart school 2>/dev/null || sudo systemctl restart gunicorn 2>/dev/null
     sleep 2
-    sudo systemctl status saroyarsir 2>/dev/null || sudo systemctl status gunicorn 2>/dev/null
+    sudo systemctl status school 2>/dev/null || sudo systemctl status gunicorn 2>/dev/null
 else
     echo "⚠️  No systemd service found. Starting manually..."
     

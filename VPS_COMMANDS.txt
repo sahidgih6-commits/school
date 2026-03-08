@@ -1,6 +1,6 @@
 ############################################################
 # COPY THESE COMMANDS TO YOUR VPS LINE BY LINE
-# Location: /var/www/saroyarsir
+# Location: /var/www/school
 ############################################################
 
 # Step 1: Stop any running Flask servers
@@ -9,7 +9,7 @@ pkill -f "python run.py"
 pkill -f "gunicorn"
 
 # Step 2: Navigate to project
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Step 3: Pull latest code from GitHub
 git pull origin main
@@ -92,7 +92,7 @@ sudo ufw status
 #    Password: admin123
 
 # 3. Database file location:
-#    /var/www/saroyarsir/smartgardenhub.db
+#    /var/www/school/smartgardenhub.db
 
 # 4. Access application:
 #    http://your-vps-ip:5000

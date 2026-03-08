@@ -18,7 +18,7 @@ echo "  🎓 Deploying Online Exam System to VPS"
 echo "════════════════════════════════════════════════════════════"
 echo -e "${NC}"
 
-VPS_DIR="/var/www/saroyarsir"
+VPS_DIR="/var/www/school"
 DB_PATH="$VPS_DIR/smartgardenhub.db"
 
 echo -e "${YELLOW}📋 What's New:${NC}"
@@ -118,7 +118,7 @@ else
     echo "   ${GREEN}ssh your_user@gsteaching.com${NC}"
     echo ""
     echo "3. Run deployment:"
-    echo "   ${GREEN}cd /var/www/saroyarsir${NC}"
+    echo "   ${GREEN}cd /var/www/school${NC}"
     echo "   ${GREEN}sudo bash deploy_online_exam_system.sh${NC}"
     echo ""
 fi

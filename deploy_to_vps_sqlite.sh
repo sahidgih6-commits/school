@@ -20,10 +20,10 @@ pip3 install -r requirements.txt
 
 # Set environment variables
 export FLASK_ENV=production
-export DATABASE_URL=sqlite:////root/saroyarsir/smartgardenhub_production.db
+export DATABASE_URL=sqlite:////root/school/smartgardenhub_production.db
 
 # Check if database exists
-if [ ! -f "/root/saroyarsir/smartgardenhub_production.db" ]; then
+if [ ! -f "/root/school/smartgardenhub_production.db" ]; then
     echo "🗄️  Creating production database..."
     python3 << 'EOF'
 from app import create_app
@@ -83,8 +83,8 @@ fi
 
 # Set database permissions
 echo "🔒 Setting database permissions..."
-chmod 644 /root/saroyarsir/smartgardenhub_production.db
-chown root:root /root/saroyarsir/smartgardenhub_production.db
+chmod 644 /root/school/smartgardenhub_production.db
+chown root:root /root/school/smartgardenhub_production.db
 
 # Copy service file
 echo "📋 Copying service file..."

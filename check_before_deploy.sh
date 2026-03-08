@@ -11,7 +11,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 
 echo -e "${BLUE}================================================${NC}"
 echo -e "${BLUE}   Pre-Deployment Checks${NC}"

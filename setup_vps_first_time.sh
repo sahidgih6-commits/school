@@ -21,8 +21,8 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-APP_DIR="/var/www/saroyarsir"
-REPO_URL="https://github.com/sa5613675-jpg/saroyarsir.git"
+APP_DIR="/var/www/school"
+REPO_URL="https://github.com/sa5613675-jpg/school.git"
 
 echo ""
 echo -e "${GREEN}=== Installing System Dependencies ===${NC}"
@@ -73,7 +73,7 @@ if [ ! -d "$APP_DIR" ]; then
     
     # Clone repository
     cd /var/www
-    git clone $REPO_URL saroyarsir
+    git clone $REPO_URL school
     
     if [ $? -eq 0 ]; then
         echo -e "${GREEN}✅ Repository cloned successfully${NC}"
@@ -112,7 +112,7 @@ echo -e "${GREEN}✅ First-time setup complete!${NC}"
 echo ""
 echo "Next steps:"
 echo "  1. Run: sudo ./deploy_sqlite_production.sh"
-echo "  2. Configure domain in: /etc/nginx/sites-available/saroyarsir"
+echo "  2. Configure domain in: /etc/nginx/sites-available/school"
 echo "  3. Setup SSL: sudo certbot --nginx -d your_domain.com"
 echo ""
 echo "Useful commands:"

@@ -10,7 +10,7 @@ echo "  FORCE RESTART APPLICATION"
 echo "════════════════════════════════════════════════════════════════"
 echo ""
 
-cd /var/www/saroyarsir
+cd /var/www/school
 
 echo "Step 1: Force sync code..."
 git fetch origin main
@@ -30,11 +30,11 @@ export FLASK_ENV=production
 export PORT=8000
 
 # Try systemd first
-if systemctl restart saroyarsir 2>/dev/null; then
+if systemctl restart school 2>/dev/null; then
     echo "  ✅ Started via systemd"
 else
     echo "  ⚠️ systemd failed, starting manually..."
-    cd /var/www/saroyarsir
+    cd /var/www/school
     nohup python3 app.py > logs/app.log 2>&1 &
     echo "  ✅ Started manually"
 fi

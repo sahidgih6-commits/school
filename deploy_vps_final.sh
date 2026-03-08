@@ -45,7 +45,7 @@ else
 fi
 
 # Navigate to app directory (or clone if needed)
-APP_DIR="/home/$(whoami)/saroyarsir"
+APP_DIR="/home/$(whoami)/school"
 if [ ! -d "$APP_DIR" ]; then
     echo -e "\n${YELLOW}📂 App directory not found. Please provide GitHub repository URL:${NC}"
     read -p "GitHub repo URL: " REPO_URL

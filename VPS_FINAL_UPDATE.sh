@@ -12,7 +12,7 @@ sudo systemctl stop saro.service
 sudo pkill -f gunicorn
 
 # Go to project and pull EVERYTHING
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # Check current commit

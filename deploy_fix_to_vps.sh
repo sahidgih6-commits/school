@@ -42,9 +42,9 @@ echo "=================================================="
 if [ ! -f "instance/app.db" ]; then
     echo "${YELLOW}⚠️  Database file not found at instance/app.db - Attempting to find elsewhere or skipping backup${NC}"
     # Try alternate location
-    if [ -f "/var/www/saroyarsir/smartgardenhub.db" ]; then
-        echo "${GREEN}✅ Found database at /var/www/saroyarsir/smartgardenhub.db${NC}"
-        cp "/var/www/saroyarsir/smartgardenhub.db" "/var/www/saroyarsir/smartgardenhub.db.backup.$(date +%Y%m%d_%H%M%S)"
+    if [ -f "/var/www/school/smartgardenhub.db" ]; then
+        echo "${GREEN}✅ Found database at /var/www/school/smartgardenhub.db${NC}"
+        cp "/var/www/school/smartgardenhub.db" "/var/www/school/smartgardenhub.db.backup.$(date +%Y%m%d_%H%M%S)"
     else 
         echo "${YELLOW}⚠️  Skipping database backup (DB not found)${NC}"
     fi

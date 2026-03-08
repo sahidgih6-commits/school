@@ -1,16 +1,16 @@
 #!/bin/bash
-# Quick database copy from madrasha to saroyarsir
+# Quick database copy from madrasha to school
 
 echo "🔄 Quick Database Copy"
 echo "====================="
 
 SOURCE_DB="/var/www/madrasha/instance/saro.db"
-DEST_DB="/var/www/saroyarsir/instance/smartgardenhub.db"
-BACKUP_DIR="/var/www/saroyarsir/backups"
+DEST_DB="/var/www/school/instance/smartgardenhub.db"
+BACKUP_DIR="/var/www/school/backups"
 
 # Create backups and instance directory
 mkdir -p "$BACKUP_DIR"
-mkdir -p "/var/www/saroyarsir/instance"
+mkdir -p "/var/www/school/instance"
 
 # Backup current database if exists
 if [ -f "$DEST_DB" ]; then
@@ -39,7 +39,7 @@ if [ -f "$SOURCE_DB" ]; then
     
     # Initialize SMS balance
     echo "🔧 Setting up SMS balance..."
-    cd /var/www/saroyarsir
+    cd /var/www/school
     source venv/bin/activate
     echo "y" | python3 init_sms_balance.py
     

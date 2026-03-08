@@ -10,10 +10,10 @@ echo "🔧 VPS Quick Fix & Complete Deployment"
 echo "=========================================="
 
 # Get the correct app directory
-if [ -d "/var/www/saroyarsir" ]; then
-    APP_DIR="/var/www/saroyarsir"
-elif [ -d "/home/root/saroyarsir" ]; then
-    APP_DIR="/home/root/saroyarsir"
+if [ -d "/var/www/school" ]; then
+    APP_DIR="/var/www/school"
+elif [ -d "/home/root/school" ]; then
+    APP_DIR="/home/root/school"
 else
     echo "❌ App directory not found!"
     exit 1

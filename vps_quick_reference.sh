@@ -8,23 +8,23 @@ cat << 'EOF'
 ║           SAROYARSIR VPS DEPLOYMENT QUICK REFERENCE            ║
 ╚════════════════════════════════════════════════════════════════╝
 
-📍 LOCATION: /var/www/saroyarsir
+📍 LOCATION: /var/www/school
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🎬 FIRST TIME SETUP (Run once)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-wget https://raw.githubusercontent.com/sa5613675-jpg/saroyarsir/main/setup_vps_first_time.sh
+wget https://raw.githubusercontent.com/sa5613675-jpg/school/main/setup_vps_first_time.sh
 sudo chmod +x setup_vps_first_time.sh
 sudo ./setup_vps_first_time.sh
-cd /var/www/saroyarsir
+cd /var/www/school
 sudo ./deploy_sqlite_production.sh
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🚀 REGULAR DEPLOYMENT (Most common - after pushing to GitHub)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Step 1: Check before deploying (optional but recommended)
 ./check_before_deploy.sh
@@ -45,7 +45,7 @@ ON YOUR LOCAL MACHINE:
 4. git push origin main
 
 ON VPS:
-1. cd /var/www/saroyarsir
+1. cd /var/www/school
 2. sudo ./quick_deploy.sh
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -88,7 +88,7 @@ sudo systemctl restart saro.service
 curl http://localhost:8001
 
 # Fix permissions
-sudo chown -R www-data:www-data /var/www/saroyarsir
+sudo chown -R www-data:www-data /var/www/school
 sudo chmod 664 smartgardenhub.db
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -104,12 +104,12 @@ tail -f /var/log/saro_error.log        # Error logs
 📁 IMPORTANT PATHS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-App:        /var/www/saroyarsir/
-Database:   /var/www/saroyarsir/smartgardenhub.db
-Backups:    /var/www/saroyarsir/backups/
+App:        /var/www/school/
+Database:   /var/www/school/smartgardenhub.db
+Backups:    /var/www/school/backups/
 Logs:       /var/log/saro_*.log
 Service:    /etc/systemd/system/saro.service
-Nginx:      /etc/nginx/sites-available/saroyarsir
+Nginx:      /etc/nginx/sites-available/school
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 💡 HELPFUL TIPS

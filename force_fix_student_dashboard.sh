@@ -3,7 +3,7 @@
 
 echo "🔧 Forcing student dashboard fix..."
 
-cd /var/www/saroyarsir
+cd /var/www/school
 git pull
 
 # Kill any running processes
@@ -12,7 +12,7 @@ pkill -f gunicorn || true
 sleep 2
 
 # Remove PID file if exists
-rm -f /var/www/saroyarsir/saro.pid
+rm -f /var/www/school/saro.pid
 
 # Restart service
 echo "🔄 Restarting service..."

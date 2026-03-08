@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import sys
 
 # Database path
-DB_PATH = '/var/www/saroyarsir/smartgardenhub.db'
+DB_PATH = '/var/www/school/smartgardenhub.db'
 
 def main():
     try:

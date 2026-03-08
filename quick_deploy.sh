@@ -10,7 +10,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 SERVICE_NAME="saro.service"
 
 echo -e "${GREEN}🚀 Quick Deploy Starting...${NC}"

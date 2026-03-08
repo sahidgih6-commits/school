@@ -10,9 +10,9 @@ from sqlalchemy import create_engine, text, inspect, Numeric
 
 # Use the same database as the app (SQLite for production)
 # Check if running on VPS (production) or local (development)
-if os.path.exists('/var/www/saroyarsir'):
+if os.path.exists('/var/www/school'):
     # VPS Production - use production SQLite path
-    DATABASE_URI = 'sqlite:////var/www/saroyarsir/smartgardenhub.db'
+    DATABASE_URI = 'sqlite:////var/www/school/smartgardenhub.db'
     print("🚀 Running on VPS (Production)")
 else:
     # Local Development

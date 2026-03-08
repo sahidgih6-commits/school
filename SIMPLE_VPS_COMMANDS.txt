@@ -4,7 +4,7 @@ COPY THESE COMMANDS TO YOUR VPS TERMINAL
 
 ssh root@195.201.48.84
 
-cd /var/www/saroyarsir
+cd /var/www/school
 
 git pull origin main
 

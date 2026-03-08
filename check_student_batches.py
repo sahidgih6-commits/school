@@ -3,7 +3,7 @@
 Check student batch enrollment and session data
 """
 import sys
-sys.path.insert(0, '/var/www/saroyarsir')
+sys.path.insert(0, '/var/www/school')
 
 from app import app
 from models import db, User, UserRole, Batch

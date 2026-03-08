@@ -2,8 +2,8 @@
 🚀 VPS DEPLOYMENT - FOR EXISTING DATABASE
 ================================================================================
 
-YOUR VPS PATH: /var/www/saroyarsir
-YOUR DATABASE: /var/www/saroyarsir/smartgardenhub.db (will be preserved!)
+YOUR VPS PATH: /var/www/school
+YOUR DATABASE: /var/www/school/smartgardenhub.db (will be preserved!)
 
 ================================================================================
 QUICK DEPLOY COMMANDS
@@ -13,7 +13,7 @@ QUICK DEPLOY COMMANDS
 ssh root@195.201.48.84
 
 # Step 2: Go to your project directory
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Step 3: Pull latest code
 git pull origin main
@@ -44,8 +44,8 @@ NEW FEATURES ADDED
 IMPORTANT FILES
 ================================================================================
 Service File: /etc/systemd/system/saro_vps.service
-Database:     /var/www/saroyarsir/smartgardenhub.db (YOUR EXISTING DB)
-App Dir:      /var/www/saroyarsir/
+Database:     /var/www/school/smartgardenhub.db (YOUR EXISTING DB)
+App Dir:      /var/www/school/
 Logs:         sudo journalctl -u saro_vps -f
 
 ================================================================================

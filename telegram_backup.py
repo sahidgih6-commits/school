@@ -22,8 +22,8 @@ TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN', 'YOUR_BOT_TOKEN_HERE')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID', 'YOUR_CHAT_ID_HERE')
 
 # Database Configuration
-DB_PATH = os.environ.get('DATABASE_PATH', '/var/www/saroyarsir/smartgardenhub.db')
-BACKUP_DIR = os.environ.get('BACKUP_DIR', '/var/www/saroyarsir/backups')
+DB_PATH = os.environ.get('DATABASE_PATH', '/var/www/school/smartgardenhub.db')
+BACKUP_DIR = os.environ.get('BACKUP_DIR', '/var/www/school/backups')
 
 # Backup Settings
 KEEP_BACKUPS_DAYS = 7  # Keep local backups for 7 days

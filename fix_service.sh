@@ -18,11 +18,11 @@ After=network.target
 [Service]
 Type=notify
 User=root
-WorkingDirectory=/var/www/saroyarsir
-Environment="PATH=/var/www/saroyarsir/venv/bin"
+WorkingDirectory=/var/www/school
+Environment="PATH=/var/www/school/venv/bin"
 Environment="FLASK_ENV=production"
 Environment="PORT=8001"
-ExecStart=/var/www/saroyarsir/venv/bin/gunicorn --config gunicorn.conf.py wsgi:app
+ExecStart=/var/www/school/venv/bin/gunicorn --config gunicorn.conf.py wsgi:app
 Restart=always
 RestartSec=10
 

@@ -21,7 +21,7 @@ echo "════════════════════════�
 echo -e "${NC}"
 
 # Configuration
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 SERVICE_NAME="saro"
 VENV_DIR="$APP_DIR/venv"
 PORT=8001

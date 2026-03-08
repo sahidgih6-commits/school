@@ -5,7 +5,7 @@
 echo "🔄 Reloading SmartGardenHub Application"
 echo "========================================"
 
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Pull latest code
 echo "📥 Pulling latest code from GitHub..."

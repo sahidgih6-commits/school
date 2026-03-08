@@ -21,7 +21,7 @@ sudo pkill -f gunicorn
 sudo rm -f /tmp/smartgarden-hub.pid
 
 # Go to project
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # Pull latest code (includes ALL fixes)

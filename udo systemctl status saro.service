@@ -7,11 +7,11 @@
      Memory: 288.4M (peak: 293.9M)
         CPU: 1min 45.360s
      CGroup: /system.slice/saro.service
-             ├─[0;38;5;245m346257 /var/www/saroyarsir/venv/bin/python3 /var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
-             ├─[0;38;5;245m346261 /var/www/saroyarsir/venv/bin/python3 /var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
-             ├─[0;38;5;245m346262 /var/www/saroyarsir/venv/bin/python3 /var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
-             ├─[0;38;5;245m346263 /var/www/saroyarsir/venv/bin/python3 /var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
-             └─[0;38;5;245m346264 /var/www/saroyarsir/venv/bin/python3 /var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
+             ├─[0;38;5;245m346257 /var/www/school/venv/bin/python3 /var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
+             ├─[0;38;5;245m346261 /var/www/school/venv/bin/python3 /var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
+             ├─[0;38;5;245m346262 /var/www/school/venv/bin/python3 /var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
+             ├─[0;38;5;245m346263 /var/www/school/venv/bin/python3 /var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
+             └─[0;38;5;245m346264 /var/www/school/venv/bin/python3 /var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 --timeout 120 --access-logfile - --error-logfile - "app:create_app()"[0m
 
 Oct 23 09:21:34 vmi2823196 gunicorn[346264]: 127.0.0.1 - - [23/Oct/2025:09:21:34 +0200] "GET /api/dashboard/stats HTTP/1.0" 200 1615 "https://gsteaching.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0"
 Oct 23 09:21:39 vmi2823196 gunicorn[346261]: 127.0.0.1 - - [23/Oct/2025:09:21:39 +0200] "GET /api/dashboard/stats HTTP/1.0" 200 1615 "https://gsteaching.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0"

@@ -13,7 +13,7 @@ echo ""
 
 # Install all requirements
 echo "📦 Installing all requirements from requirements.txt..."
-cd /var/www/saroyarsir
+cd /var/www/school
 pip3 install -r requirements.txt
 echo "✅ All requirements installed"
 echo ""

@@ -5,7 +5,7 @@ echo "===================================="
 echo ""
 
 cat << 'VPSCMD'
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # Test saving a template directly

@@ -6,7 +6,7 @@ echo "================================"
 echo ""
 
 cat << 'VPSCMD'
-cd /var/www/saroyarsir
+cd /var/www/school
 
 echo "1️⃣ Current Git Commit:"
 git log --oneline -1

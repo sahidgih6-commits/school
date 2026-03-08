@@ -15,10 +15,10 @@ After=network.target
 [Service]
 Type=exec
 User=root
-WorkingDirectory=/var/www/saroyarsir
-Environment="PATH=/var/www/saroyarsir/venv/bin:/usr/local/bin:/usr/bin:/bin"
-Environment="DATABASE_URL=sqlite:////var/www/saroyarsir/instance/smartgardenhub.db"
-ExecStart=/var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8001 --timeout 120 --access-logfile - --error-logfile - wsgi:app
+WorkingDirectory=/var/www/school
+Environment="PATH=/var/www/school/venv/bin:/usr/local/bin:/usr/bin:/bin"
+Environment="DATABASE_URL=sqlite:////var/www/school/instance/smartgardenhub.db"
+ExecStart=/var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8001 --timeout 120 --access-logfile - --error-logfile - wsgi:app
 Restart=always
 RestartSec=10
 StandardOutput=journal
@@ -37,10 +37,10 @@ sudo systemctl daemon-reload
 sudo systemctl enable saro
 
 # Check if smartgardenhub.db exists, if not copy from saro.db
-SMART_DB="/var/www/saroyarsir/instance/smartgardenhub.db"
-SARO_DB="/var/www/saroyarsir/instance/saro.db"
+SMART_DB="/var/www/school/instance/smartgardenhub.db"
+SARO_DB="/var/www/school/instance/saro.db"
 
-mkdir -p /var/www/saroyarsir/instance
+mkdir -p /var/www/school/instance
 
 if [ ! -f "$SMART_DB" ] && [ -f "$SARO_DB" ]; then
     echo "📋 Copying saro.db to smartgardenhub.db..."
@@ -64,6 +64,6 @@ sudo systemctl status saro --no-pager -l
 echo ""
 echo "=========================================="
 echo "✅ Service updated to use smartgardenhub.db"
-echo "📂 Database location: /var/www/saroyarsir/instance/smartgardenhub.db"
+echo "📂 Database location: /var/www/school/instance/smartgardenhub.db"
 echo ""
 echo "🌐 Site: https://gsteaching.com"

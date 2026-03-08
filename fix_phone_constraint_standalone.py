@@ -170,7 +170,7 @@ def fix_phone_constraint(db_path):
 
 if __name__ == '__main__':
     # Default to production database path
-    db_path = '/var/www/saroyarsir/smartgardenhub.db'
+    db_path = '/var/www/school/smartgardenhub.db'
     
     # Allow override from command line
     if len(sys.argv) > 1:

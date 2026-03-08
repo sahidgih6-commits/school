@@ -5,7 +5,7 @@ echo "=================================================="
 echo "🚀 Deploying Roll Display Fix & Timeout Increase"
 echo "=================================================="
 
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # 1. Pull latest changes
 echo ""

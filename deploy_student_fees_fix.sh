@@ -5,7 +5,7 @@ set -e
 
 VPS_IP="194.233.74.48"
 VPS_USER="root"
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 SERVICE_NAME="saro.service"
 
 echo "======================================"

@@ -11,7 +11,7 @@ def migrate_fee_table():
     
     # Paths for both development and production databases
     dev_db_path = Path(__file__).parent / "smartgardenhub.db"
-    prod_db_path = Path("/var/www/saroyarsir/smartgardenhub.db")
+    prod_db_path = Path("/var/www/school/smartgardenhub.db")
     
     # Determine which database to use
     if prod_db_path.exists():

@@ -32,7 +32,7 @@ fi
 # 6. Go to project and update code
 echo ""
 echo "📦 Updating code..."
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 git pull origin main

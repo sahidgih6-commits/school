@@ -199,7 +199,7 @@
   2. git commit -m "Add Online Exam System"
   3. git push origin main
   4. SSH to VPS
-  5. cd /var/www/saroyarsir
+  5. cd /var/www/school
   6. sudo bash deploy_online_exam_system.sh
 
 ┌────────────────────────────────────────────────────────────────┐

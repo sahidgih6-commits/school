@@ -9,7 +9,7 @@ sudo cp nginx_gsteaching.conf /etc/nginx/sites-available/gsteaching.com
 
 # Remove old symlink if exists
 sudo rm -f /etc/nginx/sites-enabled/gsteaching.com
-sudo rm -f /etc/nginx/sites-enabled/saroyarsir
+sudo rm -f /etc/nginx/sites-enabled/school
 
 # Create symlink
 sudo ln -s /etc/nginx/sites-available/gsteaching.com /etc/nginx/sites-enabled/

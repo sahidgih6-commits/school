@@ -4,7 +4,7 @@
 echo "🔄 Force updating VPS..."
 echo ""
 
-cd /var/www/saroyarsir || cd /var/www/saro
+cd /var/www/school || cd /var/www/saro
 
 echo "1️⃣  Pulling latest code from GitHub..."
 git fetch --all

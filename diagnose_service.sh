@@ -5,7 +5,7 @@ echo "🔍 Diagnosing Saro Service Issues..."
 echo "===================================="
 
 # Check if we're in the right directory
-cd /var/www/saroyarsir || exit 1
+cd /var/www/school || exit 1
 
 # Show recent error logs
 echo ""
@@ -50,7 +50,7 @@ fi
 echo ""
 echo "🧪 Testing Application Startup..."
 echo "Running: source venv/bin/activate && python wsgi.py"
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 timeout 5 python wsgi.py 2>&1 || true
 

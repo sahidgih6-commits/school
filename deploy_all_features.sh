@@ -12,7 +12,7 @@ echo "  ✓ Roll Display Removed from Fees"
 echo "  ✓ Timeout Increased for Marks Saving"
 echo ""
 
-cd /var/www/saroyarsir || exit 1
+cd /var/www/school || exit 1
 
 # 1. Backup current database
 echo "📦 Step 1: Backing up database..."

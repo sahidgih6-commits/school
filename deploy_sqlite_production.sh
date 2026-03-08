@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 DB_FILE="$APP_DIR/smartgardenhub.db"
 BACKUP_DIR="$APP_DIR/backups"
 SERVICE_NAME="saro.service"
@@ -186,7 +186,7 @@ import sqlite3
 import os
 import sys
 
-DB_PATH = '/var/www/saroyarsir/smartgardenhub.db'
+DB_PATH = '/var/www/school/smartgardenhub.db'
 
 def optimize_database():
     """Apply SQLite optimizations"""
@@ -332,7 +332,7 @@ cat > $APP_DIR/backup_daily.sh << 'EOF'
 #!/bin/bash
 # Daily SQLite backup script
 
-APP_DIR="/var/www/saroyarsir"
+APP_DIR="/var/www/school"
 DB_FILE="$APP_DIR/smartgardenhub.db"
 BACKUP_DIR="$APP_DIR/backups/daily"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
@@ -392,7 +392,7 @@ print_section "Step 11: Configuring Nginx (if needed)"
 
 # Check if nginx is installed
 if command -v nginx &> /dev/null; then
-    NGINX_CONFIG="/etc/nginx/sites-available/saroyarsir"
+    NGINX_CONFIG="/etc/nginx/sites-available/school"
     
     if [ ! -f "$NGINX_CONFIG" ]; then
         print_warning "Creating Nginx configuration..."
@@ -424,7 +424,7 @@ server {
     
     # Static files (if serving directly)
     location /static {
-        alias /var/www/saroyarsir/static;
+        alias /var/www/school/static;
         expires 30d;
         add_header Cache-Control "public, immutable";
     }

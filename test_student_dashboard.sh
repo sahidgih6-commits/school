@@ -4,7 +4,7 @@
 echo "=== TESTING STUDENT DASHBOARD ON VPS ==="
 echo ""
 
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 echo "1. Checking published exams..."

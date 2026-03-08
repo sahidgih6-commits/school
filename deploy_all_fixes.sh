@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Complete deployment script for VPS - fixes fee system and SMS templates
-# Run this on VPS at: /var/www/saroyarsir
+# Run this on VPS at: /var/www/school
 
 echo "=========================================="
 echo "DEPLOYING ALL FIXES TO VPS"
@@ -22,7 +22,7 @@ sudo rm -f /tmp/smartgarden-hub.pid
 echo -e "${GREEN}✓ Service stopped${NC}"
 
 # Navigate to project directory
-cd /var/www/saroyarsir || exit 1
+cd /var/www/school || exit 1
 
 # Activate virtual environment
 echo -e "\n${YELLOW}2. Activating virtual environment...${NC}"

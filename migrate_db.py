@@ -10,10 +10,10 @@ import shutil
 from datetime import datetime
 
 # Add app directory to path
-sys.path.insert(0, '/var/www/saroyarsir')
+sys.path.insert(0, '/var/www/school')
 
-DB_PATH = '/var/www/saroyarsir/smartgardenhub.db'
-BACKUP_DIR = '/var/www/saroyarsir/backups/migrations'
+DB_PATH = '/var/www/school/smartgardenhub.db'
+BACKUP_DIR = '/var/www/school/backups/migrations'
 
 def backup_database():
     """Create backup before migration"""

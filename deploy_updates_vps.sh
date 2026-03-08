@@ -9,7 +9,7 @@ echo "DEPLOYMENT: Pull Latest Updates from GitHub"
 echo "=========================================="
 
 # Step 1: Navigate to project directory
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Step 2: Backup current database (safety first!)
 echo "📦 Creating backup before update..."
@@ -55,22 +55,22 @@ echo "✅ Migrations completed"
 
 # Step 8: Set permissions
 echo "🔒 Setting permissions..."
-chown -R www-data:www-data /var/www/saroyarsir
-chmod -R 755 /var/www/saroyarsir
+chown -R www-data:www-data /var/www/school
+chmod -R 755 /var/www/school
 chmod +x telegram_backup.py
 chmod +x telegram_backup_cron.sh
 echo "✅ Permissions set"
 
 # Step 9: Restart application
 echo "🔄 Restarting application..."
-systemctl restart saroyarsir
+systemctl restart school
 
 # Wait a moment
 sleep 3
 
 # Step 10: Check status
 echo "📊 Checking application status..."
-systemctl status saroyarsir --no-pager
+systemctl status school --no-pager
 
 echo ""
 echo "=========================================="

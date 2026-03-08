@@ -8,8 +8,8 @@
 export FLASK_ENV=production
 
 # Paths
-SCRIPT_DIR="/var/www/saroyarsir"
-PYTHON_BIN="/var/www/saroyarsir/venv/bin/python3"
+SCRIPT_DIR="/var/www/school"
+PYTHON_BIN="/var/www/school/venv/bin/python3"
 BACKUP_SCRIPT="$SCRIPT_DIR/telegram_backup.py"
 LOG_DIR="$SCRIPT_DIR/logs"
 LOG_FILE="$LOG_DIR/telegram_backup.log"
@@ -19,8 +19,8 @@ LOG_FILE="$LOG_DIR/telegram_backup.log"
 # export TELEGRAM_CHAT_ID="your_chat_id_here"
 
 # Database Configuration
-export DATABASE_PATH="/var/www/saroyarsir/smartgardenhub.db"
-export BACKUP_DIR="/var/www/saroyarsir/backups"
+export DATABASE_PATH="/var/www/school/smartgardenhub.db"
+export BACKUP_DIR="/var/www/school/backups"
 
 # Create log directory if it doesn't exist
 mkdir -p "$LOG_DIR"

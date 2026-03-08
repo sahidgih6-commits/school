@@ -14,7 +14,7 @@ echo -e "${YELLOW}🔄 Quick Update - SmartGardenHub${NC}"
 echo ""
 
 # Navigate to app directory
-cd /var/www/saroyarsir
+cd /var/www/school
 
 # Pull latest changes
 echo -e "${YELLOW}📥 Pulling latest code...${NC}"

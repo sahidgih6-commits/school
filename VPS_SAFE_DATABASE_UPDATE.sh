@@ -12,7 +12,7 @@ sudo pkill -f gunicorn
 sudo rm -f /tmp/smartgarden-hub.pid
 
 # 2. Go to project
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # 3. Check database and add columns SAFELY (NO DATA DELETION)

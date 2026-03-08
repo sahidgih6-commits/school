@@ -7,7 +7,7 @@ import sqlite3
 from datetime import datetime
 
 # VPS database path
-DB_PATH = '/var/www/saroyarsir/smartgardenhub.db'
+DB_PATH = '/var/www/school/smartgardenhub.db'
 
 def clean_expired_attempts():
     """Auto-submit all expired attempts"""

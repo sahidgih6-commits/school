@@ -9,7 +9,7 @@ import os
 from pathlib import Path
 
 # Database path
-DB_PATH = os.environ.get('DATABASE_PATH', '/var/www/saroyarsir/smartgardenhub.db')
+DB_PATH = os.environ.get('DATABASE_PATH', '/var/www/school/smartgardenhub.db')
 
 # Fallback to local if production doesn't exist
 if not os.path.exists(DB_PATH):

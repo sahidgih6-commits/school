@@ -8,12 +8,12 @@ echo "=============================================="
 # 1. Find database file
 echo ""
 echo "📁 Searching for database files..."
-find /var/www/saroyarsir -name "*.db" 2>/dev/null | head -10
+find /var/www/school -name "*.db" 2>/dev/null | head -10
 
 # 2. Check virtual environment
 echo ""
 echo "🐍 Checking for virtual environments..."
-ls -la /var/www/saroyarsir/ | grep -E "venv|env|.venv"
+ls -la /var/www/school/ | grep -E "venv|env|.venv"
 
 # 3. Check Python packages
 echo ""
@@ -33,7 +33,7 @@ ps aux | grep -E "python|gunicorn" | grep -v grep | head -5
 # 6. Check current directory structure
 echo ""
 echo "📂 Current directory structure:"
-ls -la /var/www/saroyarsir/ | head -20
+ls -la /var/www/school/ | head -20
 
 echo ""
 echo "=============================================="

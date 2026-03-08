@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 
 # Step 1: Check if database exists
 echo -e "${BLUE}Step 1: Checking database...${NC}"
-if [ -f "smartgardenhub.db" ] || [ -f "/var/www/saroyarsir/smartgardenhub.db" ]; then
+if [ -f "smartgardenhub.db" ] || [ -f "/var/www/school/smartgardenhub.db" ]; then
     echo -e "${GREEN}✓ Database found${NC}"
     
     # Run migration
@@ -128,7 +128,7 @@ echo "   {% include 'partials/fee_management_simple.html' %}"
 echo ""
 echo "2. Restart your application:"
 echo "   For development: Ctrl+C and restart Flask"
-echo "   For production: sudo systemctl restart saroyarsir"
+echo "   For production: sudo systemctl restart school"
 echo ""
 echo "3. Test the new fee management:"
 echo "   - Login as teacher"

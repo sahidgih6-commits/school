@@ -22,9 +22,9 @@ After=network.target
 [Service]
 Type=exec
 User=root
-WorkingDirectory=/var/www/saroyarsir
-Environment="PATH=/var/www/saroyarsir/venv/bin:/usr/local/bin:/usr/bin:/bin"
-ExecStart=/var/www/saroyarsir/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8001 --timeout 120 --access-logfile - --error-logfile - wsgi:app
+WorkingDirectory=/var/www/school
+Environment="PATH=/var/www/school/venv/bin:/usr/local/bin:/usr/bin:/bin"
+ExecStart=/var/www/school/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:8001 --timeout 120 --access-logfile - --error-logfile - wsgi:app
 Restart=always
 RestartSec=10
 StandardOutput=journal
@@ -47,7 +47,7 @@ echo "✅ Service enabled"
 # Test if we can import the app
 echo ""
 echo "🧪 Testing application..."
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 # Quick test

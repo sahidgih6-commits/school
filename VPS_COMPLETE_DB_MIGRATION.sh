@@ -6,7 +6,7 @@ echo "========================================"
 echo ""
 
 cat << 'VPSCMD'
-cd /var/www/saroyarsir
+cd /var/www/school
 source venv/bin/activate
 
 python3 << 'EOF'

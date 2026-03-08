@@ -11,7 +11,7 @@ from pathlib import Path
 def migrate_holiday_to_leave():
     """Update all attendance records from holiday to leave status"""
     # Determine database path
-    db_path = os.environ.get('DATABASE_PATH', '/var/www/saroyarsir/smartgardenhub.db')
+    db_path = os.environ.get('DATABASE_PATH', '/var/www/school/smartgardenhub.db')
     
     # Fallback to local if production doesn't exist
     if not os.path.exists(db_path):
