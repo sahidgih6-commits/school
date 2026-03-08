@@ -5,196 +5,242 @@
 {% block extra_head %}
 <!-- Bootstrap 5 -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+<!-- AOS animations -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
-  --primary-color:#2F5D8A;
+  --primary:#2F5D8A;
   --primary-dark:#1a3d63;
-  --info-color:#6FA8BF;
-  --accent-color:#d97706;
+  --primary-light:#e8f0fe;
+  --info:#6FA8BF;
   --gold:#F2C94C;
-  --success-color:#059669;
-  --body-color:#374151;
-  --muted-text:#6b7280;
-  --light-color:#f3f4f6;
-  --border-color:#e5e7eb;
-  --box-shadow:0 2px 12px rgba(47,93,138,.10);
-  --border-radius-md:10px;
-  --border-radius-pill:50px;
-  --border-radius-circle:50%;
-  --transition:all .25s ease;
-  --font-weight-medium:500;
-  --font-weight-semibold:600;
-  --font-weight-bold:700;
-  --hover-color:#1a3d63;
+  --gold-dark:#d4a017;
+  --success:#059669;
+  --muted:#6b7280;
+  --border:#e5e7eb;
+  --light:#f3f4f6;
+  --shadow:0 2px 16px rgba(47,93,138,.12);
+  --radius:10px;
+  --transition:all .3s ease;
 }
-*{box-sizing:border-box}
-body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);overflow-x:hidden}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins','Hind Siliguri',sans-serif;color:#374151;overflow-x:hidden}
 .bn{font-family:'Hind Siliguri','Poppins',sans-serif!important}
+img{max-width:100%}
 
-/* ── TOP BAR ── */
-.top-bar{background:var(--primary-dark);color:rgba(255,255,255,.8);font-size:13px;padding:7px 0;border-bottom:3px solid var(--gold)}
-.top-bar .contact-info span,.top-bar .school-info span{margin-right:18px}
-.top-bar i{color:var(--gold);margin-right:5px}
+/* ═══ TOP BAR ═══ */
+.top-bar{background:var(--primary-dark);color:rgba(255,255,255,.85);font-size:12.5px;padding:6px 0;border-bottom:3px solid var(--gold)}
+.top-bar i{color:var(--gold);margin-right:4px}
 .top-bar a{color:rgba(255,255,255,.85);text-decoration:none;transition:.2s}
-.top-bar a:hover{color:#fff}
+.top-bar a:hover{color:var(--gold)}
+.top-bar .tb-item{margin-right:16px;display:inline-flex;align-items:center}
+.social-pill a{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);font-size:12px;text-decoration:none;transition:.2s;margin-left:4px}
+.social-pill a:hover{background:var(--gold);color:var(--primary-dark)}
 
-/* ── SCHOOL HEADER ── */
-.school-header{background:#fff;box-shadow:0 3px 20px rgba(47,93,138,.15);padding:14px 0}
-.school-name{font-size:clamp(17px,2.3vw,26px);font-weight:800;color:var(--primary-color);line-height:1.2}
-.school-motto{font-size:13px;color:var(--muted-text);margin:3px 0 0}
-.quick-access-buttons .btn{background:var(--primary-color);color:#fff;border:none;font-size:13px;padding:7px 14px;margin:3px;border-radius:20px;transition:.2s}
-.quick-access-buttons .btn:hover{background:var(--primary-dark);color:#fff;transform:translateY(-2px)}
+/* ═══ SCHOOL HEADER BANNER ═══ */
+.school-banner{background:#fff;border-bottom:3px solid var(--primary-light);box-shadow:0 3px 20px rgba(47,93,138,.10);position:relative;overflow:hidden}
+.school-banner::before{content:'';position:absolute;top:0;left:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--primary),var(--gold))}
+.school-banner-logo{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--primary-light);box-shadow:0 2px 12px rgba(47,93,138,.15);flex-shrink:0}
+.school-banner-icon{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--info));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(47,93,138,.3)}
+.school-banner-name-en{font-size:clamp(15px,2.2vw,24px);font-weight:800;color:var(--primary);line-height:1.2;font-family:'Poppins',sans-serif}
+.school-banner-name-bn{font-size:clamp(13px,1.6vw,18px);font-weight:700;color:var(--primary);font-family:'Hind Siliguri',sans-serif;line-height:1.3}
+.school-banner-tagline{font-size:12.5px;color:var(--muted);margin-top:3px;font-family:'Hind Siliguri',sans-serif}
+.banner-btn{background:var(--primary);color:#fff!important;border:none;font-size:12px;padding:6px 14px;border-radius:20px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:.25s;margin:2px}
+.banner-btn:hover{background:var(--primary-dark);transform:translateY(-2px)}
+.banner-btn-gold{background:var(--gold)!important;color:var(--primary-dark)!important;font-weight:700}
+.banner-btn-gold:hover{background:var(--gold-dark)!important}
 
-/* ── NOTICE BAR (marquee) ── */
-.notice-bar{background:var(--primary-color);padding:8px 0;border-bottom:2px solid var(--gold)}
-.notice-label{background:var(--gold);color:var(--primary-dark);font-weight:700;font-size:12px;padding:4px 12px;border-radius:4px;white-space:nowrap;margin-right:10px;flex-shrink:0}
-.notice-marquee a{color:#e8f4f8;text-decoration:none;font-size:13px;margin:0 20px}
-.notice-marquee a:hover{color:#fff;text-decoration:underline}
-.notice-marquee i{color:var(--gold);font-size:8px;margin-right:6px}
+/* ═══ NOTICE MARQUEE BAR ═══ */
+.notice-bar{background:var(--primary);padding:7px 0;border-bottom:2px solid var(--gold)}
+.notice-label{background:var(--gold);color:var(--primary-dark);font-weight:800;font-size:11px;padding:3px 11px;border-radius:3px;white-space:nowrap;margin-right:10px;flex-shrink:0;letter-spacing:.5px}
+.notice-marquee a{color:#d4eaf7;text-decoration:none;font-size:12.5px;margin:0 18px;transition:.2s}
+.notice-marquee a:hover,.notice-marquee span{color:#fff}
+.notice-marquee .bul{color:var(--gold);font-size:7px;margin-right:5px;vertical-align:middle}
 
-/* ── NAVBAR ── */
-.navbar{background:var(--primary-dark)!important;padding:0}
-.navbar .nav-link{color:rgba(255,255,255,.9)!important;font-size:14px;font-weight:500;padding:14px 14px!important;display:flex;align-items:center;gap:5px;transition:.2s}
-.navbar .nav-link:hover,.navbar .nav-link.active{color:#fff!important;background:rgba(255,255,255,.15)}
-.navbar .nav-link i{font-size:13px}
-.navbar .dropdown-menu{border:none;border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(47,93,138,.2);min-width:220px}
-.navbar .dropdown-item{font-size:14px;padding:10px 20px;transition:.2s}
-.navbar .dropdown-item:hover{background:var(--light-color);color:var(--primary-color)}
-.navbar-toggler{background:rgba(255,255,255,.2)!important;border:none}
+/* ═══ STICKY NAVBAR ═══ */
+.main-nav{background:var(--primary-dark)!important;padding:0;position:sticky;top:0;z-index:1000;transition:box-shadow .3s}
+.main-nav.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.main-nav .nav-link{color:rgba(255,255,255,.9)!important;font-size:13.5px;font-weight:500;padding:13px 13px!important;transition:.2s;position:relative}
+.main-nav .nav-link::after{content:'';position:absolute;bottom:0;left:50%;right:50%;height:3px;background:var(--gold);transition:.25s}
+.main-nav .nav-link:hover::after,.main-nav .nav-link.active::after{left:0;right:0}
+.main-nav .nav-link:hover,.main-nav .nav-link.active{color:#fff!important;background:rgba(255,255,255,.08)}
+.main-nav .dropdown-menu{border:none;border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.15);min-width:220px;padding:6px 0}
+.main-nav .dropdown-item{font-size:13px;padding:9px 18px;transition:.2s}
+.main-nav .dropdown-item:hover{background:var(--primary-light);color:var(--primary)}
+.main-nav .dropdown-item i{width:20px;color:var(--primary)}
+.main-nav .navbar-toggler{background:rgba(255,255,255,.15)!important;border:none!important;outline:none!important;box-shadow:none!important;padding:6px 9px}
+.main-nav .navbar-brand{padding:6px 0}
+.portal-btn{background:var(--gold)!important;color:var(--primary-dark)!important;font-weight:700;border-radius:20px;padding:7px 18px;font-size:13px;border:none;transition:.25s}
+.portal-btn:hover{background:var(--gold-dark)!important;transform:translateY(-2px)}
 
-/* ── QUICK-LINK BUTTONS ── */
-.highlight-btn{display:inline-block;padding:9px 18px;font-weight:600;text-decoration:none;color:#fff;border-radius:30px;transition:.3s;box-shadow:0 2px 8px rgba(0,0,0,.1);margin:4px;text-align:center;min-width:155px;font-size:0.9rem}
-.highlight-btn:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(0,0,0,.18);color:#fff}
-.btn-grad-blue{background-image:linear-gradient(135deg,#1e3c72,#2a5298)}
-.btn-grad-green{background-image:linear-gradient(135deg,#0ba360,#3cba92)}
-.btn-grad-orange{background-image:linear-gradient(135deg,#f46b45,#eea849)}
-.btn-grad-red{background-image:linear-gradient(135deg,#d31027,#ea384d)}
-.btn-grad-purple{background-image:linear-gradient(135deg,#6a11cb,#2575fc)}
+/* ═══ QUICK-LINK BUTTONS ═══ */
+.quicklinks{background:var(--light);padding:10px 0;border-bottom:1px solid var(--border)}
+.ql-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;font-weight:600;text-decoration:none;color:#fff;border-radius:30px;transition:.3s;box-shadow:0 2px 8px rgba(0,0,0,.12);margin:3px;font-size:13px}
+.ql-btn:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,.2);color:#fff}
+.ql-blue{background:linear-gradient(135deg,#1e3c72,#2a5298)}
+.ql-green{background:linear-gradient(135deg,#0ba360,#3cba92)}
+.ql-orange{background:linear-gradient(135deg,#f46b45,#eea849)}
+.ql-red{background:linear-gradient(135deg,#d31027,#ea384d)}
+.ql-purple{background:linear-gradient(135deg,#6a11cb,#2575fc)}
 
-/* ── SECTION TITLEBAR ── */
-.section-title{position:relative;display:inline-block;padding-bottom:10px;color:#1e293b;font-weight:800;font-family:'Poppins',sans-serif}
-.section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:3px;background:linear-gradient(90deg,var(--primary-color),var(--info-color));border-radius:3px}
-.text-start .section-title::after{left:0;transform:none}
+/* ═══ FULL-WIDTH SLIDER ═══ */
+.main-slider{background:#000}
+#homeSlider .carousel-item img{width:100%;height:520px;object-fit:cover;display:block}
+@media(max-width:768px){#homeSlider .carousel-item img{height:230px}}
+#homeSlider .carousel-caption{background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 100%);border-radius:0;padding:24px 32px 20px;left:0;right:0;bottom:0;text-align:left}
+#homeSlider .carousel-caption h5{font-size:clamp(15px,2.5vw,26px);font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+#homeSlider .carousel-caption p{font-size:clamp(12px,1.5vw,15px);opacity:.9;text-shadow:0 1px 4px rgba(0,0,0,.4)}
+#homeSlider .carousel-control-prev-icon,#homeSlider .carousel-control-next-icon{background-color:rgba(47,93,138,.7);border-radius:50%;padding:22px;background-size:50%}
+#homeSlider .carousel-indicators button{width:10px;height:10px;border-radius:50%;border:2px solid #fff;margin:0 4px}
+.slider-fallback{background:linear-gradient(135deg,var(--primary),var(--info));min-height:420px;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
+@media(max-width:768px){.slider-fallback{min-height:220px}}
 
-/* ── CAROUSEL ── */
-#homeSlider .carousel-caption{background:linear-gradient(to top,rgba(0,0,0,.7),transparent);border-radius:0}
-#homeSlider img{object-fit:cover;width:100%;height:auto;max-height:600px}
+/* ═══ SECTION HEADING ═══ */
+.sec-title{position:relative;font-weight:800;color:#1e293b;font-family:'Poppins',sans-serif;padding-bottom:12px;display:inline-block}
+.sec-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:70px;height:3px;background:linear-gradient(90deg,var(--primary),var(--gold));border-radius:3px}
+.text-start .sec-title::after{left:0;transform:none}
+.sec-sub{color:var(--muted);font-size:14.5px;max-width:560px;margin:12px auto 0}
 
-/* ── LEADERSHIP ── */
-.leadership-card{border:none;border-left:4px solid var(--primary-color)!important;border-radius:var(--border-radius-md);box-shadow:var(--box-shadow);transition:.3s}
-.leadership-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(47,93,138,.18)}
+/* ═══ LEADERSHIP ═══ */
+.leadership-card{border:none!important;border-left:4px solid var(--primary)!important;border-radius:var(--radius);box-shadow:var(--shadow);transition:.3s;overflow:hidden}
+.leadership-card:hover{transform:translateY(-5px);box-shadow:0 14px 32px rgba(47,93,138,.2)}
+.leadership-photo{width:130px;height:170px;object-fit:cover;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.leadership-icon{width:130px;height:170px;background:linear-gradient(135deg,var(--primary),var(--info));border-radius:8px;display:flex;align-items:center;justify-content:center}
 
-/* ── NOTICEBOARD ── */
-.noticeboard-section{background:linear-gradient(135deg,#f3f4f6,#e5e9f0);border-radius:12px;overflow:hidden;position:relative}
-.noticeboard-section::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary-color),var(--info-color))}
-.ticker-container{height:320px;position:relative;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,.05);transition:.3s}
-.ticker-container:hover{box-shadow:0 8px 25px rgba(0,0,0,.08);transform:translateY(-2px)}
-.ticker-list{position:absolute;width:100%;top:0;margin:0;padding:0}
-.ticker-list li{background:#f9fafb;margin-bottom:8px;border-radius:6px;padding:8px 10px;display:flex;align-items:center;font-size:14px;transition:background .3s}
+/* ═══ NOTICE BOARD / TICKERS ═══ */
+.noticeboard-wrap{background:linear-gradient(135deg,#f3f4f6,#e5e9f0);border-radius:14px;overflow:hidden;position:relative}
+.noticeboard-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--gold))}
+.ticker-box{height:330px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:var(--shadow);transition:.3s;position:relative}
+.ticker-box:hover{box-shadow:0 10px 28px rgba(47,93,138,.12);transform:translateY(-2px)}
+.ticker-list{position:absolute;width:100%;margin:0;padding:0;list-style:none}
+.ticker-list li{background:#f9fafb;margin-bottom:6px;border-radius:7px;padding:8px 10px;display:flex;align-items:center;transition:background .25s;cursor:default}
 .ticker-list li:hover{background:#eef2ff}
-.date-box{width:58px;padding:7px;border-radius:6px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));color:#fff;text-align:center;margin-right:10px;flex-shrink:0}
-.date-box .date-num{font-size:17px;font-weight:700;line-height:1}
-.date-box .date-mon{font-size:11px;text-transform:uppercase}
-.view-all-btn{border:2px solid transparent;background:linear-gradient(135deg,var(--primary-color),var(--info-color)) padding-box,linear-gradient(145deg,var(--info-color),#93c5fd) border-box;transition:.3s}
-.view-all-btn:hover{transform:translateY(-3px);box-shadow:0 10px 20px rgba(0,0,0,.08)}
+.date-badge{width:54px;padding:6px 4px;border-radius:6px;background:linear-gradient(135deg,var(--primary),var(--info));color:#fff;text-align:center;margin-right:10px;flex-shrink:0}
+.date-badge .dn{font-size:16px;font-weight:700;line-height:1;display:block}
+.date-badge .dm{font-size:10px;text-transform:uppercase;display:block}
+.notice-text{font-size:12.5px;flex:1;overflow:hidden}
+.pdf-tag{display:inline-flex;align-items:center;gap:3px;background:#dc2626;color:#fff;border-radius:4px;padding:2px 7px;font-size:10.5px;font-weight:700;text-decoration:none;flex-shrink:0;margin-left:6px;transition:.2s;white-space:nowrap}
+.pdf-tag:hover{background:#b91c1c;color:#fff}
 
-/* ── WELCOME SECTION ── */
-.about-img{border-radius:var(--border-radius-md);box-shadow:0 8px 24px rgba(47,93,138,.15)}
+/* ═══ ABOUT ═══ */
+.about-img{border-radius:12px;box-shadow:0 8px 24px rgba(47,93,138,.15);width:100%;height:360px;object-fit:cover}
+.about-placeholder{border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--info));min-height:320px;display:flex;align-items:center;justify-content:center}
 
-/* ── NEWS CARDS ── */
-.news-card{background:#fff;border-radius:var(--border-radius-md);overflow:hidden;box-shadow:var(--box-shadow);transition:.3s;height:100%}
-.news-card:hover{transform:translateY(-6px);box-shadow:0 12px 28px rgba(0,0,0,.12)}
-.news-img-container{height:200px;overflow:hidden;position:relative}
-.news-img-container img{width:100%;height:100%;object-fit:cover;transition:.4s}
-.news-card:hover .news-img-container img{transform:scale(1.06)}
-.news-date-badge{position:absolute;left:15px;top:15px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));color:#fff;width:56px;height:56px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,.2)}
-.news-day{font-size:1.1rem;line-height:1}
-.news-month{font-size:.75rem;text-transform:uppercase}
+/* ═══ FEATURE CARDS ═══ */
+.feat-card{background:#fff;border-radius:12px;padding:28px 22px;box-shadow:var(--shadow);transition:.35s;height:100%;border:1px solid transparent}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 14px 28px rgba(47,93,138,.15);border-color:var(--primary-light)}
+.feat-icon{width:66px;height:66px;background:linear-gradient(135deg,var(--primary),var(--info));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.feat-icon i{color:#fff;font-size:28px}
 
-/* ── STATS / ACHIEVEMENT ── */
-.achievement-box{background:#fff;border-radius:var(--border-radius-md);padding:28px 20px;box-shadow:var(--box-shadow);text-align:center;transition:.3s}
-.achievement-box:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(47,93,138,.18)}
-.achievement-box h3{font-size:2rem;font-weight:800;color:var(--primary-color)}
+/* ═══ TEACHERS ═══ */
+.teacher-card{background:#fff;border-radius:12px;box-shadow:var(--shadow);text-align:center;padding:24px 16px;transition:.35s;overflow:hidden;position:relative}
+.teacher-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--gold))}
+.teacher-card:hover{transform:translateY(-6px);box-shadow:0 14px 28px rgba(47,93,138,.18)}
+.teacher-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid var(--primary-light);box-shadow:0 4px 10px rgba(0,0,0,.1);margin:0 auto 12px}
+.teacher-avatar-icon{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--info));display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 
-/* ── PDF BUTTON ── */
-.pdf-dl-btn{display:inline-flex;align-items:center;gap:4px;background:#dc2626;color:#fff;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700;text-decoration:none;flex-shrink:0;margin-left:8px;transition:.2s;white-space:nowrap}
-.pdf-dl-btn:hover{background:#b91c1c;color:#fff}
+/* ═══ GALLERY ═══ */
+.gallery-item{border-radius:10px;overflow:hidden;position:relative;aspect-ratio:4/3;cursor:pointer;box-shadow:var(--shadow)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.gallery-item:hover img{transform:scale(1.07)}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(47,93,138,.82),transparent);opacity:0;transition:.35s;display:flex;align-items:flex-end;padding:12px}
+.gallery-item:hover .gallery-overlay{opacity:1}
 
-/* ── FOOTER ── */
-.site-footer{background:var(--primary-dark);color:rgba(255,255,255,.8);padding:48px 0 20px}
-.site-footer h5{color:#fff;border-bottom:2px solid var(--gold);display:inline-block;padding-bottom:6px;margin-bottom:14px}
-.footer-links li{margin-bottom:8px}
-.footer-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:7px;transition:.2s}
-.footer-links a:hover{color:var(--gold)}
-.footer-links a::before{content:'›';color:var(--gold)}
-.contact-info-list li{display:flex;gap:10px;font-size:13px;margin-bottom:10px;color:rgba(255,255,255,.8)}
-.contact-info-list li i{color:var(--gold);flex-shrink:0;margin-top:2px}
-.social-icons a{width:36px;height:36px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;transition:.2s;font-size:15px;text-decoration:none;margin-right:6px}
-.social-icons a:hover{background:var(--primary-color);color:#fff}
-.f-bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:32px;padding-top:16px;font-size:12px;color:rgba(255,255,255,.6)}
+/* ═══ STATS / COUNTER ═══ */
+.stats-section{background:linear-gradient(135deg,var(--primary-dark),var(--primary));position:relative;overflow:hidden}
+.stats-section::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.05)}
+.stats-section::after{content:'';position:absolute;bottom:-60px;left:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04)}
+.stat-item{text-align:center;padding:20px 10px;position:relative}
+.stat-item::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:rgba(255,255,255,.15)}
+.stat-item:last-child::after{display:none}
+.stat-num{font-size:2.6rem;font-weight:800;color:var(--gold);line-height:1;font-family:'Poppins',sans-serif;display:block}
+.stat-label{font-size:13px;color:rgba(255,255,255,.8);margin-top:4px;display:block}
+.stat-icon{font-size:2rem;color:rgba(255,255,255,.3);margin-bottom:8px;display:block}
 
-/* ── TICKER BAR (old horizontal) kept for compat ── */
-.hticker-wrap{background:var(--primary-dark);overflow:hidden;white-space:nowrap;display:none}
+/* ═══ RESULT SEARCH ═══ */
+.search-wrap{background:linear-gradient(135deg,#e8f0fe,#f1f5f9)}
 
-/* ── VISITOR COUNTER ── */
-.counter-item{display:flex;align-items:center;background:var(--light-color);border-radius:10px;padding:14px;transition:.3s;margin-bottom:14px}
-.counter-item:hover{transform:translateX(5px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
-.counter-icon{width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:var(--primary-color);color:#fff;border-radius:50%;margin-right:14px;font-size:1.1rem;flex-shrink:0}
-.counter-icon.secondary{background:var(--info-color)}
-.counter-icon.success{background:var(--success-color)}
-.counter-value{font-size:1.4rem;font-weight:700;color:var(--primary-color);line-height:1.2}
-.counter-label{font-size:.8rem;color:var(--muted-text)}
+/* ═══ CONTACT ═══ */
+.contact-card{background:#fff;border-radius:12px;box-shadow:var(--shadow);height:100%}
+.contact-row li{display:flex;gap:12px;font-size:13.5px;margin-bottom:12px;color:#374151;align-items:flex-start}
+.contact-row li i{color:var(--gold);flex-shrink:0;margin-top:2px;width:18px;text-align:center}
+
+/* ═══ FOOTER ═══ */
+.site-footer{background:var(--primary-dark);color:rgba(255,255,255,.82);padding:52px 0 20px}
+.site-footer h5{color:#fff;font-size:15px;font-weight:700;border-bottom:2px solid var(--gold);padding-bottom:7px;margin-bottom:16px;display:inline-block}
+.f-links li{margin-bottom:7px}
+.f-links a{color:rgba(255,255,255,.75);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:6px;transition:.2s}
+.f-links a:hover{color:var(--gold)}
+.f-links a::before{content:'›';color:var(--gold);font-size:16px}
+.f-contact li{display:flex;gap:10px;font-size:13px;margin-bottom:9px;color:rgba(255,255,255,.82);align-items:flex-start}
+.f-contact li i{color:var(--gold);flex-shrink:0;margin-top:2px;width:16px;text-align:center}
+.f-social a{width:34px;height:34px;background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;transition:.25s;font-size:14px;text-decoration:none;margin-right:5px}
+.f-social a:hover{background:var(--primary);color:#fff}
+.f-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:16px;font-size:12px;color:rgba(255,255,255,.55);text-align:center}
+
+/* ═══ BACK TO TOP ═══ */
+#back-top{position:fixed;bottom:28px;right:22px;width:42px;height:42px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;box-shadow:0 4px 14px rgba(0,0,0,.22);cursor:pointer;opacity:0;transform:translateY(12px);transition:.3s;z-index:9999;text-decoration:none;border:none}
+#back-top.show{opacity:1;transform:translateY(0)}
+#back-top:hover{background:var(--primary-dark)}
+
+/* ═══ PULSE new badges ═══ */
+@keyframes pulse-dot{0%{box-shadow:0 0 0 0 rgba(242,201,76,.6)}70%{box-shadow:0 0 0 8px rgba(242,201,76,0)}100%{box-shadow:0 0 0 0 rgba(242,201,76,0)}}
+.new-badge{display:inline-block;background:var(--gold);color:var(--primary-dark);font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:5px;animation:pulse-dot 1.6s infinite;vertical-align:middle}
+
+/* ═══ AOS overrides ═══ */
+[data-aos]{pointer-events:none}
+[data-aos].aos-animate{pointer-events:auto}
 </style>
 {% endblock %}
+
 {% block content %}
 
 <!-- ═══ TOP BAR ═══ -->
-<div class="top-bar py-2">
-  <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-    <div class="contact-info">
-      <span><i class="fas fa-phone-alt"></i><span id="tb-phone">01700-000000</span></span>
-      <span><i class="fas fa-envelope"></i><span id="tb-email">info@modernidealschool.edu.bd</span></span>
+<div class="top-bar">
+  <div class="container d-flex flex-wrap justify-content-between align-items-center gap-1">
+    <div>
+      <span class="tb-item"><i class="fas fa-phone-alt"></i><a href="tel:" id="tb-phone">01700-000000</a></span>
+      <span class="tb-item d-none d-sm-inline-flex"><i class="fas fa-envelope"></i><a href="mailto:" id="tb-email">info@modernidealschool.edu.bd</a></span>
+      <span class="tb-item d-none d-md-inline-flex"><i class="fas fa-id-card"></i>EIIN: <span id="tb-eiin">—</span></span>
+      <span class="tb-item d-none d-md-inline-flex"><i class="fas fa-calendar-alt"></i>প্রতিষ্ঠা: <span id="tb-estd">—</span></span>
     </div>
-    <div class="school-info d-none d-md-flex">
-      <span><i class="fas fa-calendar-alt"></i>Estd: <span id="tb-estd">2005</span></span>
-      <span><i class="fas fa-id-card"></i>EIIN: <span id="tb-eiin">—</span></span>
-    </div>
-    <div class="social-icons" style="margin-bottom:0">
+    <div class="social-pill">
       <a id="tb-fb" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
       <a id="tb-yt" href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
     </div>
   </div>
 </div>
 
-<!-- ═══ SCHOOL HEADER (desktop) ═══ -->
-<div class="school-header d-none d-lg-block">
+<!-- ═══ SCHOOL HEADER BANNER (ALL screen sizes) ═══ -->
+<div class="school-banner py-3">
   <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-7">
-        <div class="d-flex align-items-center gap-3">
-          <a href="/" id="hdr-logo-link">
-            <img id="hdr-logo" src="" alt="" height="80" style="display:none;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,.15)">
-            <div id="hdr-logo-icon" style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--primary-color),var(--info-color));display:flex;align-items:center;justify-content:center">
-              <i class="fas fa-graduation-cap" style="color:#fff;font-size:36px"></i>
-            </div>
-          </a>
-          <div>
-            <h1 class="school-name mb-0" id="hdr-name">Modern Ideal Non-Govt. Primary School</h1>
-            <div class="bn" style="font-size:16px;font-weight:700;color:var(--primary-color);font-family:'Hind Siliguri',sans-serif" id="hdr-name-bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
-            <p class="school-motto" id="hdr-tagline">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি</p>
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <!-- Logo + Name -->
+      <div class="d-flex align-items-center gap-3">
+        <a href="/" id="logo-link">
+          <img id="hdr-logo" src="" alt="Logo" class="school-banner-logo" style="display:none">
+          <div id="hdr-logo-icon" class="school-banner-icon">
+            <i class="fas fa-graduation-cap" style="color:#fff;font-size:34px"></i>
           </div>
+        </a>
+        <div>
+          <div class="school-banner-name-en" id="hdr-name-en">Modern Ideal Non-Govt. Primary School</div>
+          <div class="school-banner-name-bn bn" id="hdr-name-bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
+          <div class="school-banner-tagline bn" id="hdr-tagline">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি</div>
         </div>
       </div>
-      <div class="col-md-5 text-end">
-        <div class="quick-access-buttons">
-          <a id="hdr-ht-btn" href="#leadership" class="btn" style="display:none">
-            <i class="fas fa-user-tie"></i> <span id="hdr-ht-title">Head Teacher</span>
-          </a>
-          <a href="{{ url_for('templates.login_page') }}" class="btn" style="background:var(--gold);color:var(--primary-dark)!important;font-weight:700">
-            <i class="fas fa-user-graduate"></i> Student Portal
-          </a>
-        </div>
+      <!-- Quick access buttons -->
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <a id="hdr-ht-btn" href="#leadership" class="banner-btn" style="display:none">
+          <i class="fas fa-user-tie"></i> <span id="hdr-ht-label">প্রধান শিক্ষক</span>
+        </a>
+        <a href="{{ url_for('templates.login_page') }}" class="banner-btn banner-btn-gold">
+          <i class="fas fa-user-graduate"></i> শিক্ষার্থী পোর্টাল
+        </a>
       </div>
     </div>
   </div>
@@ -204,174 +250,196 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 <div class="notice-bar">
   <div class="container">
     <div class="d-flex align-items-center">
-      <span class="notice-label">NOTICE</span>
-      <marquee id="notice-marquee" behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();" style="flex:1" scrollamount="5">
-        <span style="color:#e8f4f8;font-size:13px"><i class="fas fa-circle" style="font-size:7px;color:var(--gold)"></i> মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়-তে আপনাকে স্বাগতম</span>
-      </marquee>
+      <span class="notice-label">নোটিশ</span>
+      <div style="flex:1;overflow:hidden">
+        <marquee id="notice-marquee" behavior="scroll" direction="left"
+          onmouseover="this.stop();" onmouseout="this.start();" scrollamount="5" style="font-size:12.5px">
+          <span style="color:#e0f0fa"><span class="bul">●</span> মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়-তে আপনাকে স্বাগতম</span>
+        </marquee>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ═══ NAVBAR ═══ -->
-<nav class="navbar navbar-expand-lg navbar-dark">
+<!-- ═══ STICKY NAVBAR ═══ -->
+<nav class="main-nav navbar navbar-expand-lg navbar-dark" id="mainNav">
   <div class="container">
-    <a class="navbar-brand d-lg-none" href="/">
-      <img id="nav-logo" src="" alt="" height="50" style="display:none;border-radius:6px">
-      <i class="fas fa-graduation-cap d-lg-none" id="nav-logo-icon" style="color:var(--gold);font-size:26px"></i>
+    <!-- Mobile: logo + school name short -->
+    <a class="navbar-brand d-lg-none d-flex align-items-center gap-2 py-1" href="/">
+      <img id="nav-logo" src="" alt="" height="38" style="display:none;border-radius:6px">
+      <i class="fas fa-graduation-cap" id="nav-logo-icon" style="color:var(--gold);font-size:22px"></i>
+      <span style="font-size:13px;font-weight:700;color:#fff;line-height:1.2;max-width:200px" id="nav-school-short">Modern Ideal School</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMain">
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item"><a class="nav-link active" href="/"><i class="fas fa-home"></i> হোম</a></li>
+      <ul class="navbar-nav mx-auto gap-0">
+        <li class="nav-item"><a class="nav-link active" href="/"><i class="fas fa-home me-1"></i>হোম</a></li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fas fa-info-circle me-1"></i>আমাদের সম্পর্কে</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#about"><i class="fas fa-university me-2"></i>বিদ্যালয় পরিচিতি</a></li>
-            <li><a class="dropdown-item" href="#leadership"><i class="fas fa-user-tie me-2"></i>নেতৃত্ব বার্তা</a></li>
-            <li><a class="dropdown-item" href="#teachers"><i class="fas fa-chalkboard-teacher me-2"></i>শিক্ষকদের তথ্য</a></li>
+            <li><a class="dropdown-item" href="#about"><i class="fas fa-university"></i>বিদ্যালয় পরিচিতি</a></li>
+            <li><a class="dropdown-item" href="#leadership"><i class="fas fa-user-tie"></i>নেতৃত্ব বার্তা</a></li>
+            <li><a class="dropdown-item" href="#teachers"><i class="fas fa-chalkboard-teacher"></i>শিক্ষকমণ্ডলী</a></li>
           </ul>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fas fa-graduation-cap"></i> একাডেমিক</a>
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"><i class="fas fa-graduation-cap me-1"></i>একাডেমিক</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#academic"><i class="fas fa-book me-2"></i>শ্রেণি ও বিষয়</a></li>
-            <li><a class="dropdown-item" href="/results"><i class="fas fa-chart-bar me-2"></i>ফলাফল</a></li>
-            <li><a class="dropdown-item" href="/results/transcript"><i class="fas fa-file-alt me-2"></i>রেজাল্ট কার্ড</a></li>
+            <li><a class="dropdown-item" href="#academic"><i class="fas fa-book"></i>শ্রেণি ও বিষয়</a></li>
+            <li><a class="dropdown-item" href="/results"><i class="fas fa-chart-bar"></i>ফলাফল</a></li>
+            <li><a class="dropdown-item" href="/results/transcript"><i class="fas fa-file-alt"></i>রেজাল্ট কার্ড</a></li>
           </ul>
         </li>
-        <li class="nav-item"><a class="nav-link" href="#notices"><i class="fas fa-bullhorn"></i> নোটিশ বোর্ড</a></li>
-        <li class="nav-item"><a class="nav-link" href="#gallery"><i class="fas fa-images"></i> গ্যালারি</a></li>
-        <li class="nav-item"><a class="nav-link" href="#contact"><i class="fas fa-phone-alt"></i> যোগাযোগ</a></li>
+        <li class="nav-item"><a class="nav-link" href="#notices"><i class="fas fa-bullhorn me-1"></i>নোটিশ বোর্ড</a></li>
+        <li class="nav-item"><a class="nav-link" href="#gallery"><i class="fas fa-images me-1"></i>গ্যালারি</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact"><i class="fas fa-phone-alt me-1"></i>যোগাযোগ</a></li>
       </ul>
-      <a href="{{ url_for('templates.login_page') }}" class="btn" style="background:var(--gold);color:var(--primary-dark);font-weight:700;border-radius:20px;padding:8px 18px">
-        <i class="fas fa-user-graduate"></i> Portal
+      <a href="{{ url_for('templates.login_page') }}" class="portal-btn btn ms-2">
+        <i class="fas fa-user-graduate me-1"></i>পোর্টাল
       </a>
     </div>
   </div>
 </nav>
 
 <!-- ═══ QUICK-LINK BUTTONS ═══ -->
-<section style="background:var(--light-color);padding:12px 0">
-  <div class="container">
-    <div class="d-flex flex-wrap justify-content-center gap-2">
-      <a href="#notices" class="highlight-btn btn-grad-blue"><i class="fas fa-bullhorn me-1"></i>সর্বশেষ নোটিশ</a>
-      <a href="/results" class="highlight-btn btn-grad-green"><i class="fas fa-chart-bar me-1"></i>পরীক্ষার ফলাফল</a>
-      <a href="{{ url_for('templates.login_page') }}" class="highlight-btn btn-grad-orange"><i class="fas fa-sign-in-alt me-1"></i>শিক্ষার্থী লগিন</a>
-      <a href="#contact" class="highlight-btn btn-grad-red"><i class="fas fa-phone-alt me-1"></i>যোগাযোগ</a>
-      <a href="#gallery" class="highlight-btn btn-grad-purple"><i class="fas fa-images me-1"></i>গ্যালারি</a>
-    </div>
+<div class="quicklinks">
+  <div class="container text-center">
+    <a href="#notices"  class="ql-btn ql-blue"><i class="fas fa-bullhorn"></i>সর্বশেষ নোটিশ</a>
+    <a href="/results"  class="ql-btn ql-green"><i class="fas fa-chart-bar"></i>পরীক্ষার ফলাফল</a>
+    <a href="{{ url_for('templates.login_page') }}" class="ql-btn ql-orange"><i class="fas fa-sign-in-alt"></i>শিক্ষার্থী লগিন</a>
+    <a href="#contact"  class="ql-btn ql-red"><i class="fas fa-phone-alt"></i>যোগাযোগ</a>
+    <a href="#gallery"  class="ql-btn ql-purple"><i class="fas fa-images"></i>গ্যালারি</a>
   </div>
-</section>
+</div>
 
-<!-- ═══ PHOTO SLIDER ═══ -->
-<section style="background:var(--light-color);padding:20px 0 0">
-  <div class="container">
-    <div id="homeSlider" class="carousel slide shadow rounded overflow-hidden" data-bs-ride="carousel">
-      <div class="carousel-indicators" id="slider-indicators"></div>
-      <div class="carousel-inner" id="slider-inner">
-        <!-- Fallback item shown until JS loads -->
-        <div class="carousel-item active" id="slider-fallback">
-          <div style="background:linear-gradient(135deg,var(--primary-color),var(--info-color));min-height:350px;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px">
-            <div>
-              <i class="fas fa-graduation-cap" style="font-size:64px;color:var(--gold);margin-bottom:20px;display:block"></i>
-              <h2 class="text-white fw-bold" id="slider-school-name">Modern Ideal Non-Govt. Primary School</h2>
-              <p class="text-white opacity-75 bn" style="font-size:18px">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</p>
-              <p class="text-white opacity-75">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি</p>
-            </div>
+<!-- ═══ FULL-WIDTH PHOTO SLIDER ═══ -->
+<div class="main-slider">
+  <div id="homeSlider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
+    <div class="carousel-indicators" id="slider-indicators"></div>
+    <div class="carousel-inner" id="slider-inner">
+      <div class="carousel-item active" id="slider-fallback">
+        <div class="slider-fallback">
+          <div>
+            <i class="fas fa-graduation-cap" style="font-size:70px;color:var(--gold);margin-bottom:20px;display:block"></i>
+            <h2 class="text-white fw-bold fs-3" id="slider-school-name">Modern Ideal Non-Govt. Primary School</h2>
+            <p class="text-white opacity-75 bn fs-5 mt-2">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</p>
+            <p class="text-white opacity-60 mt-1">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি</p>
           </div>
         </div>
       </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#homeSlider" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#homeSlider" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
     </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#homeSlider" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#homeSlider" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
   </div>
-</section>
+</div>
 
 <!-- ═══ LEADERSHIP MESSAGES ═══ -->
 <section class="py-5 bg-light" id="leadership">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">নেতৃত্বের বার্তা</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">নেতৃত্বের বার্তা</h2>
+      <p class="sec-sub bn">বিদ্যালয়ের নেতৃত্বের পক্ষ থেকে বিশেষ বার্তা</p>
     </div>
     <div class="row g-4 justify-content-center" id="leadership-row">
-      <!-- dynamically populated -->
       <div class="col-12 text-center" id="leadership-loading">
-        <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading…</span></div>
+        <div class="spinner-border text-primary" role="status"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ NOTICE BOARD (dual-column ticker) ═══ -->
-<section class="py-5 noticeboard-section" id="notices">
-  <div class="container py-3">
-    <h2 class="text-center mb-5 fw-bold section-title">নোটিশ বোর্ড</h2>
-    <div class="row g-4">
-      <!-- Left column → scrolls UP -->
-      <div class="col-12 col-md-6" x-data="noticeTickerL()" x-init="init()">
-        <div class="ticker-container" @mouseenter="pause()" @mouseleave="play()">
-          <ul class="ticker-list list-unstyled" x-ref="list">
-            <li>
-              <div class="date-box"><span class="date-num">—</span><span class="date-mon">—</span></div>
-              <span class="flex-grow-1 text-muted" style="font-size:13px">নোটিশ লোড হচ্ছে…</span>
-            </li>
-          </ul>
+<!-- ═══ NOTICE BOARD ═══ -->
+<section class="py-5" id="notices" style="background:#f0f4f8">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">নোটিশ বোর্ড</h2>
+      <p class="sec-sub bn">সর্বশেষ গুরুত্বপূর্ণ বিজ্ঞপ্তি ও নোটিশ</p>
+    </div>
+    <div class="noticeboard-wrap p-4 p-md-5">
+      <div class="row g-4">
+        <!-- Left ticker (scrolls UP) -->
+        <div class="col-12 col-md-6" data-aos="fade-right">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="fas fa-circle-notch fa-spin" style="color:var(--primary);font-size:13px" id="ticker-l-spin"></i>
+            <span class="fw-bold" style="color:var(--primary);font-size:14px">সাম্প্রতিক বিজ্ঞপ্তি</span>
+          </div>
+          <div class="ticker-box" x-data="noticeTickerL()" x-init="init()" @mouseenter="pause()" @mouseleave="play()">
+            <ul class="ticker-list list-unstyled" x-ref="list">
+              <li>
+                <div class="date-badge"><span class="dn">—</span><span class="dm">—</span></div>
+                <span class="notice-text text-muted">নোটিশ লোড হচ্ছে…</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <!-- Right ticker (scrolls DOWN) -->
+        <div class="col-12 col-md-6" data-aos="fade-left">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="fas fa-bell" style="color:var(--gold);font-size:13px"></i>
+            <span class="fw-bold" style="color:var(--primary);font-size:14px">গুরুত্বপূর্ণ নোটিশ</span>
+          </div>
+          <div class="ticker-box" x-data="noticeTickerR()" x-init="init()" @mouseenter="pause()" @mouseleave="play()">
+            <ul class="ticker-list list-unstyled" x-ref="list">
+              <li>
+                <div class="date-badge"><span class="dn">—</span><span class="dm">—</span></div>
+                <span class="notice-text text-muted">নোটিশ লোড হচ্ছে…</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      <!-- Right column → scrolls DOWN -->
-      <div class="col-12 col-md-6" x-data="noticeTickerR()" x-init="init()">
-        <div class="ticker-container" @mouseenter="pause()" @mouseleave="play()">
-          <ul class="ticker-list list-unstyled" x-ref="list">
-            <li>
-              <div class="date-box"><span class="date-num">—</span><span class="date-mon">—</span></div>
-              <span class="flex-grow-1 text-muted" style="font-size:13px">নোটিশ লোড হচ্ছে…</span>
-            </li>
-          </ul>
-        </div>
+      <div class="text-center mt-5">
+        <button onclick="showAllNotices()" class="btn btn-lg px-5 fw-semibold text-white rounded-pill" style="background:linear-gradient(135deg,var(--primary),var(--info));box-shadow:0 4px 14px rgba(47,93,138,.3);border:none">
+          <i class="fas fa-list me-2"></i>সকল নোটিশ দেখুন
+        </button>
       </div>
-    </div>
-    <div class="text-center mt-5">
-      <a href="#notices-all" class="btn btn-lg view-all-btn text-white fw-semibold px-4 py-2" onclick="showAllNotices()">
-        <i class="fas fa-list me-2"></i>সকল নোটিশ দেখুন
-      </a>
-    </div>
-    <!-- All notices expanded list (hidden by default) -->
-    <div id="all-notices-panel" style="display:none;margin-top:28px">
-      <div class="bg-white rounded-3 shadow-sm p-4" id="all-notices-list"></div>
+      <div id="all-notices-panel" style="display:none;margin-top:28px">
+        <div class="bg-white rounded-3 shadow-sm p-4" id="all-notices-list"></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ WELCOME / ABOUT ═══ -->
+<!-- ═══ ABOUT / WELCOME ═══ -->
 <section class="py-5 bg-light" id="about">
   <div class="container">
     <div class="row align-items-center g-5">
-      <div class="col-lg-6">
-        <h2 class="section-title text-start mb-4" id="about-school-title">আমাদের বিদ্যালয়ে স্বাগতম</h2>
-        <p id="about-text" class="bn" style="line-height:1.9;font-size:15px">
-          মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় একটি আধুনিক এবং মানসম্পন্ন প্রাথমিক শিক্ষা প্রতিষ্ঠান। আমরা প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি পর্যন্ত মানসম্পন্ন শিক্ষা প্রদান করি।
+      <div class="col-lg-6" data-aos="fade-right">
+        <h2 class="sec-title text-start mb-4" id="about-title">আমাদের বিদ্যালয়ে স্বাগতম</h2>
+        <p id="about-text" class="bn" style="line-height:1.95;font-size:15px;color:#4b5563">
+          মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় একটি আধুনিক ও মানসম্পন্ন প্রাথমিক শিক্ষা প্রতিষ্ঠান। আমরা প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি পর্যন্ত মানসম্পন্ন শিক্ষা প্রদান করি।
         </p>
-        <a href="{{ url_for('templates.login_page') }}" class="btn btn-lg mt-3" style="background:var(--primary-color);color:#fff;border-radius:8px">
+        <div class="row g-3 mt-2 mb-3">
+          <div class="col-4 text-center">
+            <div class="fw-bold fs-4" style="color:var(--primary)" id="stat-students-a">—</div>
+            <div class="small text-muted">শিক্ষার্থী</div>
+          </div>
+          <div class="col-4 text-center">
+            <div class="fw-bold fs-4" style="color:var(--primary)" id="stat-teachers-a">—</div>
+            <div class="small text-muted">শিক্ষক</div>
+          </div>
+          <div class="col-4 text-center">
+            <div class="fw-bold fs-4" style="color:var(--primary)" id="stat-estd">—</div>
+            <div class="small text-muted">প্রতিষ্ঠা</div>
+          </div>
+        </div>
+        <a href="{{ url_for('templates.login_page') }}" class="btn btn-lg mt-1" style="background:var(--primary);color:#fff;border-radius:8px;padding:11px 32px">
           <i class="fas fa-door-open me-2"></i>আরও জানুন
         </a>
       </div>
-      <div class="col-lg-6 text-center">
-        <img id="about-img" src="" alt="School" class="img-fluid about-img" style="display:none;max-height:380px;width:100%;object-fit:cover">
-        <div id="about-img-placeholder" style="background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:12px;min-height:300px;display:flex;align-items:center;justify-content:center">
-          <div class="text-center text-white px-4">
-            <i class="fas fa-school" style="font-size:64px;color:var(--gold);margin-bottom:16px;display:block"></i>
-            <h4 class="fw-bold" id="about-school-name-ph">Modern Ideal Primary School</h4>
-            <div class="row g-3 mt-3">
-              <div class="col-4"><div class="fw-bold" style="font-size:1.5rem" id="stat-students-a">—</div><div style="font-size:12px;opacity:.8">শিক্ষার্থী</div></div>
-              <div class="col-4"><div class="fw-bold" style="font-size:1.5rem" id="stat-teachers-a">—</div><div style="font-size:12px;opacity:.8">শিক্ষক</div></div>
-              <div class="col-4"><div class="fw-bold" style="font-size:1.5rem" id="stat-estd">—</div><div style="font-size:12px;opacity:.8">প্রতিষ্ঠা</div></div>
-            </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <img id="about-img" src="" alt="School" class="about-img" style="display:none">
+        <div id="about-img-placeholder" class="about-placeholder">
+          <div class="text-center text-white px-4 py-5">
+            <i class="fas fa-school" style="font-size:70px;color:var(--gold);margin-bottom:16px;display:block"></i>
+            <h4 class="fw-bold" id="about-name-ph">Modern Ideal Primary School</h4>
+            <p class="opacity-75 mt-2 bn">শিক্ষা, নৈতিকতা ও মানবতার আলোকে গড়ি আগামীর নাগরিক</p>
           </div>
         </div>
       </div>
@@ -380,26 +448,27 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 </section>
 
 <!-- ═══ RESULT SEARCH ═══ -->
-<section class="py-5" style="background:linear-gradient(135deg,#e8f0fe,#f1f5f9)" id="academic">
+<section class="py-5 search-wrap" id="academic">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">ফলাফল অনুসন্ধান</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">ফলাফল অনুসন্ধান</h2>
+      <p class="sec-sub bn">আপনার শ্রেণি ও পরীক্ষা নির্বাচন করে ফলাফল দেখুন</p>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
       <div class="col-lg-8">
-        <div class="bg-white rounded-3 shadow p-4">
-          <h3 class="fw-bold mb-4 text-center" style="color:var(--primary-color)"><i class="fas fa-search me-2" style="color:var(--gold)"></i>আপনার ফলাফল খুঁজুন</h3>
+        <div class="bg-white rounded-3 shadow p-4 p-md-5">
+          <h4 class="fw-bold mb-4 text-center" style="color:var(--primary)"><i class="fas fa-search me-2" style="color:var(--gold)"></i>আপনার ফলাফল খুঁজুন</h4>
           <div class="row g-3">
             <div class="col-md-4">
-              <label class="form-label fw-semibold" style="font-size:12px;color:var(--muted-text)">শ্রেণি</label>
+              <label class="form-label fw-semibold small text-muted">শ্রেণি</label>
               <select id="s-class" class="form-select" onchange="loadSSections()"><option value="">-- শ্রেণি নির্বাচন --</option></select>
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-semibold" style="font-size:12px;color:var(--muted-text)">সেকশন</label>
+              <label class="form-label fw-semibold small text-muted">সেকশন</label>
               <select id="s-section" class="form-select"><option value="">-- সব সেকশন --</option></select>
             </div>
             <div class="col-md-4">
-              <label class="form-label fw-semibold" style="font-size:12px;color:var(--muted-text)">পরীক্ষা</label>
+              <label class="form-label fw-semibold small text-muted">পরীক্ষা</label>
               <select id="s-term" class="form-select">
                 <option value="">-- পরীক্ষা নির্বাচন --</option>
                 <option value="1st_term">১ম সাময়িক</option>
@@ -407,7 +476,7 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
               </select>
             </div>
             <div class="col-12 text-center mt-2">
-              <button class="btn btn-lg px-5" style="background:var(--primary-color);color:#fff;border-radius:8px" onclick="doSearch()">
+              <button class="btn btn-lg px-5" style="background:var(--primary);color:#fff;border-radius:8px" onclick="doSearch()">
                 <i class="fas fa-search me-2"></i>অনুসন্ধান করুন
               </button>
             </div>
@@ -416,64 +485,58 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
         </div>
       </div>
     </div>
-    <!-- Published result cards -->
     <div class="row g-3 mt-4" id="term-cards"></div>
   </div>
 </section>
 
-<!-- ═══ WHY CHOOSE ═══ -->
+<!-- ═══ WHY CHOOSE US ═══ -->
 <section class="py-5 bg-light">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">কেন আমাদের বিদ্যালয়?</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">কেন আমাদের বিদ্যালয়?</h2>
+      <p class="sec-sub bn">আমাদের বিদ্যালয়কে অনন্য করে তোলে যা</p>
     </div>
     <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-user-graduate" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">মানসম্পন্ন শিক্ষা</h4>
-          <p style="font-size:14px;color:var(--muted-text)">প্লে থেকে পঞ্চম শ্রেণি পর্যন্ত জাতীয় পাঠ্যক্রম অনুযায়ী যুগোপযোগী শিক্ষা।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-user-graduate"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">মানসম্পন্ন শিক্ষা</h5>
+          <p class="text-muted small bn">প্লে থেকে পঞ্চম শ্রেণি পর্যন্ত জাতীয় পাঠ্যক্রম অনুযায়ী যুগোপযোগী শিক্ষা।</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-chalkboard-teacher" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">অভিজ্ঞ শিক্ষকমণ্ডলী</h4>
-          <p style="font-size:14px;color:var(--muted-text)">প্রশিক্ষিত ও অভিজ্ঞ শিক্ষকরা প্রতিটি শিক্ষার্থীকে ব্যক্তিগত যত্নে পাঠদান করেন।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">অভিজ্ঞ শিক্ষকমণ্ডলী</h5>
+          <p class="text-muted small bn">প্রশিক্ষিত ও অভিজ্ঞ শিক্ষকরা প্রতিটি শিক্ষার্থীকে ব্যক্তিগত যত্নে পাঠদান করেন।</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-shield-alt" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">নিরাপদ পরিবেশ</h4>
-          <p style="font-size:14px;color:var(--muted-text)">সিসিটিভি পর্যবেক্ষণ ও নিরাপদ ক্যাম্পাসে শিশুর সুরক্ষা নিশ্চিত করা হয়।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-shield-alt"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">নিরাপদ পরিবেশ</h5>
+          <p class="text-muted small bn">সিসিটিভি পর্যবেক্ষণ ও নিরাপদ ক্যাম্পাসে শিশুর সুরক্ষা নিশ্চিত করা হয়।</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-palette" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">সৃজনশীল কার্যক্রম</h4>
-          <p style="font-size:14px;color:var(--muted-text)">চিত্রাঙ্কন, সংগীত, ক্রীড়া ও সাংস্কৃতিক কর্মসূচিতে শিশুর সর্বাঙ্গীণ বিকাশ।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-palette"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">সৃজনশীল কার্যক্রম</h5>
+          <p class="text-muted small bn">চিত্রাঙ্কন, সংগীত, ক্রীড়া ও সাংস্কৃতিক কর্মসূচিতে শিশুর সর্বাঙ্গীণ বিকাশ।</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-laptop" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">ডিজিটাল শিক্ষা</h4>
-          <p style="font-size:14px;color:var(--muted-text)">কম্পিউটার ও ডিজিটাল বোর্ডের মাধ্যমে আধুনিক ও ইন্টারেক্টিভ শিক্ষাদান।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="80">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-laptop"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">ডিজিটাল শিক্ষা</h5>
+          <p class="text-muted small bn">কম্পিউটার ও ডিজিটাল বোর্ডের মাধ্যমে আধুনিক ও ইন্টারেক্টিভ শিক্ষাদান।</p>
         </div>
       </div>
-      <div class="col-md-6 col-lg-4">
-        <div class="achievement-box h-100 text-center">
-          <div style="width:64px;height:64px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
-            <i class="fas fa-trophy" style="color:#fff;font-size:28px"></i></div>
-          <h4 style="color:var(--primary-color);font-weight:700">কৃতিত্ব ও পুরস্কার</h4>
-          <p style="font-size:14px;color:var(--muted-text)">জাতীয় ও আঞ্চলিক পর্যায়ে বিভিন্ন প্রতিযোগিতায় বিদ্যালয়ের সাফল্য।</p>
+      <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="160">
+        <div class="feat-card text-center">
+          <div class="feat-icon"><i class="fas fa-trophy"></i></div>
+          <h5 class="fw-bold mb-2" style="color:var(--primary)">কৃতিত্ব ও পুরস্কার</h5>
+          <p class="text-muted small bn">জাতীয় ও আঞ্চলিক পর্যায়ে বিভিন্ন প্রতিযোগিতায় বিদ্যালয়ের সাফল্য।</p>
         </div>
       </div>
     </div>
@@ -483,8 +546,9 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 <!-- ═══ TEACHERS ═══ -->
 <section class="py-5" id="teachers" style="display:none">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">আমাদের শিক্ষকমণ্ডলী</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">আমাদের শিক্ষকমণ্ডলী</h2>
+      <p class="sec-sub bn">দক্ষ ও অভিজ্ঞ শিক্ষকবৃন্দ</p>
     </div>
     <div class="row g-4" id="teachers-grid"></div>
   </div>
@@ -493,43 +557,44 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 <!-- ═══ GALLERY ═══ -->
 <section class="py-5 bg-light" id="gallery" style="display:none">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">ছবি গ্যালারি</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">ছবি গ্যালারি</h2>
+      <p class="sec-sub bn">আমাদের বিদ্যালয়ের কিছু স্মরণীয় মুহূর্ত</p>
     </div>
     <div class="row g-3" id="gallery-grid"></div>
   </div>
 </section>
 
-<!-- ═══ STATS ═══ -->
-<section class="py-5" style="background:linear-gradient(135deg,var(--primary-dark),var(--primary-color))">
+<!-- ═══ STATS (count-up on scroll) ═══ -->
+<section class="stats-section py-5" id="stats-section">
   <div class="container">
-    <div class="row g-4 text-center text-white">
+    <div class="row g-0" data-aos="zoom-in">
       <div class="col-6 col-md-3">
-        <div class="py-3">
-          <i class="fas fa-trophy mb-3" style="font-size:2.5rem;color:var(--gold)"></i>
-          <div class="display-6 fw-bold" id="stat-pass-rate">—</div>
-          <p class="mb-0 opacity-75" style="font-size:14px">% পাসের হার</p>
+        <div class="stat-item">
+          <span class="stat-icon"><i class="fas fa-trophy"></i></span>
+          <span class="stat-num" id="stat-pass">98</span>
+          <span class="stat-label">% পাসের হার</span>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="py-3">
-          <i class="fas fa-user-graduate mb-3" style="font-size:2.5rem;color:var(--gold)"></i>
-          <div class="display-6 fw-bold" id="stat-students-b">—</div>
-          <p class="mb-0 opacity-75" style="font-size:14px">+ শিক্ষার্থী</p>
+        <div class="stat-item">
+          <span class="stat-icon"><i class="fas fa-user-graduate"></i></span>
+          <span class="stat-num" id="stat-students-b">—</span>
+          <span class="stat-label">+ শিক্ষার্থী</span>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="py-3">
-          <i class="fas fa-chalkboard-teacher mb-3" style="font-size:2.5rem;color:var(--gold)"></i>
-          <div class="display-6 fw-bold" id="stat-teachers-b">—</div>
-          <p class="mb-0 opacity-75" style="font-size:14px">+ শিক্ষক</p>
+        <div class="stat-item">
+          <span class="stat-icon"><i class="fas fa-chalkboard-teacher"></i></span>
+          <span class="stat-num" id="stat-teachers-b">—</span>
+          <span class="stat-label">+ শিক্ষক</span>
         </div>
       </div>
       <div class="col-6 col-md-3">
-        <div class="py-3">
-          <i class="fas fa-calendar-alt mb-3" style="font-size:2.5rem;color:var(--gold)"></i>
-          <div class="display-6 fw-bold" id="stat-years">—</div>
-          <p class="mb-0 opacity-75" style="font-size:14px">বছরের অভিজ্ঞতা</p>
+        <div class="stat-item">
+          <span class="stat-icon"><i class="fas fa-calendar-alt"></i></span>
+          <span class="stat-num" id="stat-years">—</span>
+          <span class="stat-label">বছরের অভিজ্ঞতা</span>
         </div>
       </div>
     </div>
@@ -539,28 +604,29 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 <!-- ═══ CONTACT ═══ -->
 <section class="py-5 bg-light" id="contact">
   <div class="container">
-    <div class="text-center mb-5">
-      <h2 class="section-title">যোগাযোগ করুন</h2>
+    <div class="text-center mb-5" data-aos="fade-up">
+      <h2 class="sec-title">যোগাযোগ করুন</h2>
+      <p class="sec-sub bn">আমাদের সাথে যোগাযোগ করতে নিচের তথ্য ব্যবহার করুন</p>
     </div>
     <div class="row g-4 justify-content-center">
-      <div class="col-md-5">
-        <div class="bg-white rounded-3 shadow-sm p-4 h-100">
-          <h4 class="fw-bold mb-4" style="color:var(--primary-color)"><i class="fas fa-address-book me-2"></i>যোগাযোগের তথ্য</h4>
-          <ul class="list-unstyled contact-info-list">
+      <div class="col-md-5" data-aos="fade-right">
+        <div class="contact-card p-4">
+          <h4 class="fw-bold mb-4" style="color:var(--primary)"><i class="fas fa-address-book me-2"></i>যোগাযোগের তথ্য</h4>
+          <ul class="list-unstyled contact-row">
             <li><i class="fas fa-map-marker-alt"></i><span id="c-addr">—</span></li>
-            <li><i class="fas fa-phone-alt"></i><span id="c-phone">—</span></li>
-            <li><i class="fas fa-envelope"></i><span id="c-email">info@modernidealschool.edu.bd</span></li>
+            <li><i class="fas fa-phone-alt"></i><a href="tel:" id="c-phone" style="color:inherit;text-decoration:none">—</a></li>
+            <li><i class="fas fa-envelope"></i><a href="mailto:" id="c-email" style="color:inherit;text-decoration:none">info@modernidealschool.edu.bd</a></li>
             <li><i class="fas fa-clock"></i><span id="c-hours">শনি – বৃহস্পতি: সকাল ৮টা – দুপুর ২টা</span></li>
-            <li><i class="fas fa-globe"></i><a href="https://modernidealschool.edu.bd" style="color:var(--gold)">modernidealschool.edu.bd</a></li>
+            <li><i class="fas fa-globe"></i><a href="https://modernidealschool.edu.bd" style="color:var(--primary)">modernidealschool.edu.bd</a></li>
           </ul>
-          <div class="social-icons mt-3">
+          <div class="f-social mt-3">
             <a id="c-fb" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a id="c-yt" href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-md-7" id="map-col" style="display:none">
-        <div id="map-wrap" class="rounded-3 overflow-hidden shadow-sm" style="min-height:280px"></div>
+      <div class="col-md-7" id="map-col" style="display:none" data-aos="fade-left">
+        <div id="map-wrap" class="rounded-3 overflow-hidden shadow-sm" style="min-height:300px"></div>
       </div>
     </div>
   </div>
@@ -570,20 +636,24 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
 <footer class="site-footer">
   <div class="container">
     <div class="row g-4">
-      <div class="col-lg-4 mb-2">
-        <img id="f-logo" src="" alt="" height="56" style="display:none;margin-bottom:12px;border-radius:6px">
-        <h5 id="f-name">Modern Ideal Primary School</h5>
-        <p id="f-tagline" class="bn" style="font-family:'Hind Siliguri',sans-serif;font-size:14px;margin-top:4px">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</p>
-        <p id="f-about" style="font-size:13px;margin-top:8px;opacity:.85">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি পর্যন্ত মানসম্পন্ন প্রাথমিক শিক্ষা।</p>
-        <div class="social-icons mt-3">
+      <div class="col-lg-4 col-md-6">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img id="f-logo" src="" alt="" height="52" style="display:none;border-radius:6px">
+          <div>
+            <h5 id="f-name" style="border-bottom:none;padding-bottom:0;margin-bottom:2px">Modern Ideal Primary School</h5>
+            <div class="bn text-white-50" style="font-size:13px" id="f-name-bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
+          </div>
+        </div>
+        <p id="f-about" style="font-size:13px;opacity:.8;line-height:1.75" class="bn">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি পর্যন্ত মানসম্পন্ন প্রাথমিক শিক্ষা।</p>
+        <div class="f-social mt-3">
           <a id="f-fb" href="#"><i class="fab fa-facebook-f"></i></a>
           <a id="f-yt" href="#"><i class="fab fa-youtube"></i></a>
           <a href="#contact"><i class="fas fa-envelope"></i></a>
         </div>
       </div>
-      <div class="col-lg-2 col-md-4">
+      <div class="col-lg-2 col-md-3 col-6">
         <h5>দ্রুত লিংক</h5>
-        <ul class="list-unstyled footer-links">
+        <ul class="list-unstyled f-links">
           <li><a href="#about">বিদ্যালয় পরিচিতি</a></li>
           <li><a href="#leadership">নেতৃত্ব বার্তা</a></li>
           <li><a href="#notices">নোটিশ বোর্ড</a></li>
@@ -592,249 +662,241 @@ body{font-family:'Poppins','Hind Siliguri',sans-serif;color:var(--body-color);ov
           <li><a href="{{ url_for('templates.login_page') }}">শিক্ষার্থী লগিন</a></li>
         </ul>
       </div>
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-3 col-md-3 col-6">
         <h5>একাডেমিক</h5>
-        <ul class="list-unstyled footer-links">
+        <ul class="list-unstyled f-links">
           <li><a href="#academic">শ্রেণি ও বিষয়</a></li>
           <li><a href="/results?term=1st_term">১ম সাময়িক ফলাফল</a></li>
           <li><a href="/results?term=2nd_term">২য় সাময়িক ফলাফল</a></li>
           <li><a href="/results/transcript">রেজাল্ট কার্ড</a></li>
         </ul>
       </div>
-      <div class="col-lg-3 col-md-4">
+      <div class="col-lg-3 col-md-6">
         <h5>যোগাযোগ</h5>
-        <ul class="list-unstyled contact-info-list">
+        <ul class="list-unstyled f-contact">
           <li><i class="fas fa-map-marker-alt"></i><span id="ff-addr">—</span></li>
           <li><i class="fas fa-phone-alt"></i><span id="ff-phone">—</span></li>
           <li><i class="fas fa-envelope"></i><span id="ff-email">info@modernidealschool.edu.bd</span></li>
         </ul>
       </div>
     </div>
-    <div class="f-bottom text-center">
-      &copy; <span id="fy"></span> <strong id="f-sname">Modern Ideal Non-Govt. Primary School</strong>. All Rights Reserved.
-      &nbsp;|&nbsp; <span class="bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</span>
+    <div class="f-bottom">
+      &copy; <span id="fy"></span>
+      <strong id="f-sname">Modern Ideal Non-Govt. Primary School</strong>. সকল অধিকার সংরক্ষিত।
+      &nbsp;|&nbsp;<span class="bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</span>
     </div>
   </div>
 </footer>
 
+<!-- ═══ BACK TO TOP ═══ -->
+<a href="#" id="back-top" title="উপরে যান"><i class="fas fa-chevron-up"></i></a>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AOS JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 <!-- Alpine.js -->
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <script>
+/* ── Helpers ── */
 const $=id=>document.getElementById(id);
 const set=(id,v)=>{const e=$(id);if(e&&v!=null&&v!=='')e.textContent=v;};
-function setLink(id,href){const e=$(id);if(e&&href&&href!=='#'&&href!=='')e.href=href;}
-const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function setHref(id,href){const e=$(id);if(e&&href&&href!=='#'&&href!=='')e.href=href;}
+const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-/* ── SCROLL REVEAL ── */
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.1});
+/* ── Init AOS ── */
+AOS.init({duration:700,once:true,offset:60,easing:'ease-out-quart'});
 
-/* ── COUNT UP ── */
-function countUp(el,target,dur=1400){
-  let s=0,step=Math.max(1,target/70);
-  const t=setInterval(()=>{s+=step;if(s>=target){s=target;clearInterval(t);}el.textContent=Math.round(s);},dur/70);
+/* ── Sticky nav shadow ── */
+window.addEventListener('scroll',()=>{
+  const nav=$('mainNav');if(nav) nav.classList.toggle('scrolled',window.scrollY>60);
+  const bt=$('back-top');if(bt) bt.classList.toggle('show',window.scrollY>300);
+});
+
+/* ── Count-up on scroll ── */
+function countUp(el,target,dur=1600){
+  if(!el||!target) return;
+  let s=0;const step=Math.max(1,target/80);
+  const t=setInterval(()=>{s+=step;if(s>=target){s=target;clearInterval(t);}el.textContent=Math.round(s);},dur/80);
 }
+const statsObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      statsObs.unobserve(e.target);
+      // trigger count up for all stat numbers that have a numeric value stored
+      document.querySelectorAll('.stat-num[data-val]').forEach(el=>{
+        el.textContent='0';
+        countUp(el,parseInt(el.dataset.val));
+      });
+    }
+  });
+},{threshold:0.3});
+const statEl=$('stats-section');if(statEl) statsObs.observe(statEl);
 
-/* ── SCHOOL INFO ── */
+/* ── School Info ── */
 async function loadSchoolInfo(){
   try{
     const d=await fetch('/api/school/info').then(r=>r.json());
     const name=d.school_name||'Modern Ideal Non-Govt. Primary School';
     const nameBn=d.school_name_bn||'মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়';
     const phone=d.school_phone||d.phone||'';
-    const email=d.school_email||d.email||'';
+    const email=d.school_email||d.email||'info@modernidealschool.edu.bd';
     const addr=d.school_address||d.address||'';
     const estd=d.estd_year||d.established||'';
     const eiin=d.school_eiin||d.eiin||'';
     const logo=d.logo_url||'';
-    const fb=d.facebook_url||'';
-    const yt=d.youtube_url||'';
+    const fb=d.facebook_url||''; const yt=d.youtube_url||'';
 
-    // header
-    set('hdr-name',name); set('hdr-name-bn',nameBn);
+    // header banner
+    set('hdr-name-en',name); set('hdr-name-bn',nameBn);
     if(d.school_tagline) set('hdr-tagline',d.school_tagline);
-    if(logo){const l=$('hdr-logo');if(l){l.src=logo;l.style.display='';$('hdr-logo-icon').style.display='none';}}
-    // nav logo
+    if(logo){const l=$('hdr-logo');if(l){l.src=logo;l.alt=name;l.style.display='';$('hdr-logo-icon').style.display='none';}}
+    // nav (mobile)
     if(logo){const nl=$('nav-logo');if(nl){nl.src=logo;nl.style.display='';$('nav-logo-icon').style.display='none';}}
+    set('nav-school-short', name.length>24 ? name.substring(0,22)+'…' : name);
     // top bar
-    if(phone) set('tb-phone',phone);
-    if(email) set('tb-email',email);
+    if(phone){set('tb-phone',phone);setHref('tb-phone','tel:'+phone.replace(/\D/g,''));}
+    if(email){set('tb-email',email);setHref('tb-email','mailto:'+email);}
     if(estd) set('tb-estd',estd);
     if(eiin) set('tb-eiin',eiin);
     // socials
-    if(fb){setLink('tb-fb',fb);setLink('c-fb',fb);setLink('f-fb',fb);}
-    if(yt){setLink('tb-yt',yt);setLink('c-yt',yt);setLink('f-yt',yt);}
-    // contact
+    if(fb){setHref('tb-fb',fb);setHref('c-fb',fb);setHref('f-fb',fb);}
+    if(yt){setHref('tb-yt',yt);setHref('c-yt',yt);setHref('f-yt',yt);}
+    // contact section
     if(addr){set('c-addr',addr);set('ff-addr',addr);}
-    if(phone){set('c-phone',phone);set('ff-phone',phone);}
-    if(email){set('c-email',email);set('ff-email',email);}
+    if(phone){set('c-phone',phone);setHref('c-phone','tel:'+phone.replace(/\D/g,''));set('ff-phone',phone);}
+    if(email){set('c-email',email);setHref('c-email','mailto:'+email);set('ff-email',email);}
     if(d.office_hours) set('c-hours',d.office_hours);
     // footer
-    set('f-name',name); set('f-sname',name);
-    if(logo){const fl=$('f-logo');if(fl){fl.src=logo;fl.style.display='';}}
-    if(d.about_text) set('f-about',d.about_text);
-    // about section
-    set('about-school-title','আমাদের বিদ্যালয়ে স্বাগতম');
-    set('about-school-name-ph',name);
-    if(d.about_text) set('about-text',d.about_text);
-    if(estd){set('stat-estd',estd);const yr=new Date().getFullYear();const exp=yr-parseInt(estd)||'';if(exp>0){set('stat-years',exp);}}
-    // slider fallback name
+    set('f-name',name); set('f-sname',name); set('f-name-bn',nameBn);
+    if(logo){const fl=$('f-logo');if(fl){fl.src=logo;fl.alt=name;fl.style.display='';}}
+    if(d.about_text){set('f-about',d.about_text);set('about-text',d.about_text);}
+    // about
+    set('about-name-ph',name);
+    if(estd){
+      set('stat-estd',estd);
+      const exp=new Date().getFullYear()-parseInt(estd); if(exp>0){
+        const el=$('stat-years');if(el){el.dataset.val=exp;el.textContent=exp;}
+      }
+    }
+    // slider fallback
     set('slider-school-name',name);
     // head teacher button
     if(d.head_teacher_name||d.head_teacher_name_bn){
-      const b=$('hdr-ht-btn');if(b) b.style.display='';
-      const t=$('hdr-ht-title');if(t) t.textContent=d.head_teacher_designation||'Head Teacher';
+      const b=$('hdr-ht-btn');if(b)b.style.display='';
+      if(d.head_teacher_designation) set('hdr-ht-label',d.head_teacher_designation);
     }
-    // map
+    // map embed
     const mapUrl=d.map_embed_url||d.map_url||'';
     if(mapUrl){
-      const mw=$('map-wrap');const mc=$('map-col');
-      if(mw&&mc){mc.style.display='';mw.innerHTML=`<iframe src="${mapUrl}" width="100%" height="280" style="border:0" allowfullscreen loading="lazy"></iframe>`;}
+      const mw=$('map-wrap'),mc=$('map-col');
+      if(mw&&mc){mc.style.display='';mw.innerHTML=`<iframe src="${mapUrl}" width="100%" height="300" style="border:0;display:block" allowfullscreen loading="lazy"></iframe>`;}
     }
-    // hero image for slider (if no slides uploaded)
     window._heroImage=d.hero_image||'';
   }catch(e){}
 }
 
-/* ── STATS ── */
+/* ── Stats ── */
 async function loadStats(){
   try{
     const d=await fetch('/api/school/dashboard').then(r=>r.json());
     if(d.total_students){
-      const s=$('stat-students-a');const s2=$('stat-students-b');
-      if(s){s.textContent='0';countUp(s,d.total_students);}
-      if(s2){s2.textContent='0';countUp(s2,d.total_students);}
+      ['stat-students-a','stat-students-b'].forEach(id=>{const el=$(id);if(el){el.dataset.val=d.total_students;el.textContent=d.total_students;}});
     }
     if(d.total_teachers){
-      const t=$('stat-teachers-a');const t2=$('stat-teachers-b');
-      if(t){t.textContent='0';countUp(t,d.total_teachers);}
-      if(t2){t2.textContent='0';countUp(t2,d.total_teachers);}
+      ['stat-teachers-a','stat-teachers-b'].forEach(id=>{const el=$(id);if(el){el.dataset.val=d.total_teachers;el.textContent=d.total_teachers;}});
     }
-    set('stat-pass-rate','98');
+    const sp=$('stat-pass');if(sp){sp.dataset.val=98;}
   }catch(e){}
 }
 
-/* ── SLIDES ── */
+/* ── Slides ── */
 window._allNotices=[];
 async function loadSlides(){
   try{
     const slides=await fetch('/api/school/slides').then(r=>r.json());
     if(slides&&slides.length){
-      const inner=$('slider-inner');
-      const indicators=$('slider-indicators');
-      const fallback=$('slider-fallback');
-      if(fallback) fallback.remove();
-      inner.innerHTML='';
-      indicators.innerHTML='';
+      const inner=$('slider-inner'),ind=$('slider-indicators'),fb=$('slider-fallback');
+      if(fb) fb.remove();
+      inner.innerHTML=''; ind.innerHTML='';
       slides.forEach((s,i)=>{
-        indicators.innerHTML+=`<button type="button" data-bs-target="#homeSlider" data-bs-slide-to="${i}" ${i===0?'class="active"':''}></button>`;
+        ind.innerHTML+=`<button type="button" data-bs-target="#homeSlider" data-bs-slide-to="${i}" ${i===0?'class="active"aria-current="true"':''}></button>`;
         inner.innerHTML+=`<div class="carousel-item ${i===0?'active':''}">
-          <img src="${s.image_data}" class="d-block w-100" style="max-height:580px;object-fit:cover" alt="${s.title||'Slide'}">
-          ${s.title||s.caption?`<div class="carousel-caption d-none d-md-block">
-            ${s.title?`<h5 class="fw-bold text-light">${s.title}</h5>`:''}
-            ${s.caption?`<p class="text-light">${s.caption}</p>`:''}
+          <img src="${s.image_data}" alt="${s.title||'Slide '+i}" loading="${i===0?'eager':'lazy'}">
+          ${s.title||s.caption?`<div class="carousel-caption">
+            ${s.title?`<h5>${s.title}</h5>`:''}
+            ${s.caption?`<p>${s.caption}</p>`:''}
           </div>`:''}
         </div>`;
       });
-    }else if(window._heroImage){
-      // use hero image if no slides
-      const inner=$('slider-inner');
-      const fallback=$('slider-fallback');
-      if(fallback&&window._heroImage){
-        fallback.innerHTML=`<img src="${window._heroImage}" class="d-block w-100" style="max-height:580px;object-fit:cover" alt="School">`;
-      }
+    } else if(window._heroImage){
+      const fb=$('slider-fallback');
+      if(fb) fb.innerHTML=`<img src="${window._heroImage}" alt="School" style="width:100%;height:520px;object-fit:cover;display:block">`;
     }
   }catch(e){}
 }
 
-/* ── ANNOUNCEMENTS → marquee + notice tickers ── */
+/* ── Announcements → marquee + tickers ── */
 async function loadAnnouncements(){
   try{
     const items=await fetch('/api/school/announcements').then(r=>r.json());
     window._allNotices=items;
-    // Marquee
     if(items.length){
       const mq=$('notice-marquee');
-      if(mq){
-        mq.innerHTML=items.map(a=>{
-          const url=a.has_attachment?`/api/school/announcements/${a.id}/attachment`:'';
-          if(url) return `<a href="${url}" target="_blank"><i class="fas fa-circle"></i>${a.title}</a>`;
-          return `<span style="color:#e8f4f8;font-size:13px;margin:0 20px"><i class="fas fa-circle" style="font-size:7px;color:var(--gold)"></i> ${a.title}</span>`;
-        }).join('');
-      }
+      if(mq) mq.innerHTML=items.map(a=>{
+        const url=a.has_attachment?`/api/school/announcements/${a.id}/attachment`:'';
+        return url
+          ?`<a href="${url}" target="_blank"><span class="bul">●</span>${a.title}</a>`
+          :`<span style="color:#e0f0fa;margin:0 18px"><span class="bul">●</span> ${a.title}</span>`;
+      }).join('');
+      // hide spinner
+      const sp=$('ticker-l-spin');if(sp)sp.style.display='none';
     }
-    // Build ticker items HTML and dispatch to Alpine components
     window.dispatchEvent(new CustomEvent('notices-loaded',{detail:items}));
   }catch(e){}
 }
 
-/* ── Alpine.js notice ticker factory ── */
+/* ── Alpine ticker factory ── */
 function makeTickerData(direction){
   return {
-    step:0.5, isPlaying:false, frameId:null,
-    items:[],
+    step:0.45,isPlaying:false,frameId:null,items:[],
     init(){
-      window.addEventListener('notices-loaded',e=>{
-        this.items=e.detail;
-        this.buildList();
-        this.$nextTick(()=>{ this.startScroll(); });
-      });
-      // if notices already loaded
-      if(window._allNotices&&window._allNotices.length){
-        this.items=window._allNotices;
-        this.buildList();
-        this.$nextTick(()=>{ this.startScroll(); });
-      }
+      window.addEventListener('notices-loaded',e=>{this.items=e.detail;this.buildList();this.$nextTick(()=>this.startScroll());});
+      if(window._allNotices&&window._allNotices.length){this.items=window._allNotices;this.buildList();this.$nextTick(()=>this.startScroll());}
     },
     buildList(){
       const list=this.$refs.list;
       if(!this.items.length) return;
-      const doubled=[...this.items,...this.items]; // duplicate for seamless loop
+      const doubled=[...this.items,...this.items];
       list.innerHTML=doubled.map(a=>{
         const d=new Date(a.publish_date||a.created_at||Date.now());
-        const day=d.getDate();const mon=MONTHS[d.getMonth()]||'—';
+        const day=d.getDate(),mon=MN[d.getMonth()]||'—';
         const url=a.has_attachment?`/api/school/announcements/${a.id}/attachment`:'';
         return `<li>
-          <div class="date-box"><span class="date-num">${day}</span><span class="date-mon">${mon}</span></div>
-          ${url
-            ?`<a href="${url}" target="_blank" class="flex-grow-1 text-dark" style="text-decoration:none">
-                <p class="mb-1 fw-semibold" style="font-size:13px">${a.title}</p>
-                ${a.title_bn?`<p class="mb-0 small text-muted bn">${a.title_bn}</p>`:''}
-              </a>
-              <a href="${url}" target="_blank" class="pdf-dl-btn"><i class="fas fa-file-pdf"></i> PDF</a>`
-            :`<div class="flex-grow-1">
-                <p class="mb-1 fw-semibold" style="font-size:13px">${a.title}</p>
-                ${a.title_bn?`<p class="mb-0 small text-muted bn">${a.title_bn}</p>`:''}
-              </div>`}
-          <i class="fas fa-chevron-right ms-2" style="color:var(--primary-color);font-size:11px"></i>
+          <div class="date-badge"><span class="dn">${day}</span><span class="dm">${mon}</span></div>
+          <div class="notice-text fw-semibold" style="font-size:12.5px">${a.title}${a.title_bn?`<div class="text-muted fw-normal small bn" style="margin-top:2px">${a.title_bn}</div>`:''}</div>
+          ${url?`<a href="${url}" target="_blank" class="pdf-tag"><i class="fas fa-file-pdf"></i>PDF</a>`:''}
         </li>`;
       }).join('');
     },
     startScroll(){
-      const list=this.$refs.list;
-      if(!list) return;
-      list.style.top = direction==='up' ? '0' : `-${list.scrollHeight/2}px`;
+      const list=this.$refs.list;if(!list) return;
+      list.style.top=direction==='up'?'0':`-${list.scrollHeight/2}px`;
       this.play();
     },
     play(){
       if(this.isPlaying) return;
       this.isPlaying=true;
       const list=this.$refs.list;
-      const animate=()=>{
+      const run=()=>{
         const cur=parseFloat(list.style.top||'0');
-        let newPos;
-        if(direction==='up'){
-          newPos=cur-this.step;
-          list.style.top=(newPos<=-list.scrollHeight/2)?'0px':`${newPos}px`;
-        }else{
-          newPos=cur+this.step;
-          list.style.top=(newPos>=0)?`-${list.scrollHeight/2}px`:`${newPos}px`;
-        }
-        if(this.isPlaying) this.frameId=requestAnimationFrame(animate);
+        let nxt;
+        if(direction==='up'){nxt=cur-this.step;list.style.top=(nxt<=-list.scrollHeight/2)?'0px':`${nxt}px`;}
+        else{nxt=cur+this.step;list.style.top=(nxt>=0)?`-${list.scrollHeight/2}px`:`${nxt}px`;}
+        if(this.isPlaying) this.frameId=requestAnimationFrame(run);
       };
-      this.frameId=requestAnimationFrame(animate);
+      this.frameId=requestAnimationFrame(run);
     },
     pause(){this.isPlaying=false;cancelAnimationFrame(this.frameId);this.frameId=null;},
   };
@@ -842,82 +904,77 @@ function makeTickerData(direction){
 function noticeTickerL(){return makeTickerData('up');}
 function noticeTickerR(){return makeTickerData('down');}
 
-/* ── ALL NOTICES panel ── */
+/* ── All Notices panel ── */
 function showAllNotices(){
-  const panel=$('all-notices-panel');
-  if(!panel) return;
+  const panel=$('all-notices-panel');if(!panel) return;
   if(panel.style.display==='none'){
     panel.style.display='';
-    const list=$('all-notices-list');
-    if(!list) return;
+    const list=$('all-notices-list');if(!list) return;
     const items=window._allNotices||[];
     if(!items.length){list.innerHTML='<p class="text-muted">কোনো নোটিশ নেই।</p>';return;}
-    list.innerHTML=`<h5 class="fw-bold mb-4" style="color:var(--primary-color)"><i class="fas fa-list me-2"></i>সকল নোটিশ</h5>`+
+    list.innerHTML=`<h5 class="fw-bold mb-4" style="color:var(--primary)"><i class="fas fa-list me-2"></i>সকল নোটিশ (${items.length}টি)</h5>`+
       items.map(a=>{
         const d=new Date(a.publish_date||a.created_at||Date.now());
-        const day=d.getDate();const mon=MONTHS[d.getMonth()]||'—';const yr=d.getFullYear();
+        const day=d.getDate(),mon=MN[d.getMonth()]||'—',yr=d.getFullYear();
         const url=a.has_attachment?`/api/school/announcements/${a.id}/attachment`:'';
         return `<div class="d-flex align-items-start gap-3 mb-3 pb-3 border-bottom">
-          <div class="date-box flex-shrink-0"><span class="date-num">${day}</span><span class="date-mon">${mon}</span></div>
+          <div class="date-badge flex-shrink-0"><span class="dn">${day}</span><span class="dm">${mon}</span></div>
           <div class="flex-grow-1">
-            <div class="fw-semibold">${a.title}</div>
+            <div class="fw-semibold" style="font-size:14px">${a.title}</div>
             ${a.title_bn?`<div class="bn small text-muted">${a.title_bn}</div>`:''}
             <div class="small text-muted mt-1">${day} ${mon} ${yr}</div>
           </div>
-          ${url?`<a href="${url}" target="_blank" class="pdf-dl-btn flex-shrink-0"><i class="fas fa-file-pdf"></i> PDF</a>`:''}
+          ${url?`<a href="${url}" target="_blank" class="pdf-tag flex-shrink-0"><i class="fas fa-file-pdf"></i>PDF</a>`:''}
         </div>`;
       }).join('');
     panel.scrollIntoView({behavior:'smooth',block:'start'});
-  }else{
-    panel.style.display='none';
-  }
+  }else{panel.style.display='none';}
 }
 
-/* ── LEADERSHIP ── */
+/* ── Leadership ── */
 async function loadLeadership(){
   try{
     const d=await fetch('/api/school/info').then(r=>r.json());
     const row=$('leadership-row');
-    const loading=$('leadership-loading');
-    if(loading) loading.remove();
-
+    $('leadership-loading')?.remove();
     const cards=[];
     if(d.head_teacher_name){
       const photo=d.head_teacher_photo||'';
       const desig=d.head_teacher_designation||'প্রধান শিক্ষক';
       const msg=d.head_teacher_bani||d.head_teacher_bani_bn||'';
-      cards.push(`<div class="col-lg-6">
-        <div class="card leadership-card h-100 border-0 shadow-sm">
-          <div class="card-body py-3">
+      cards.push(`<div class="col-lg-8" data-aos="fade-up">
+        <div class="card leadership-card h-100">
+          <div class="card-body py-4 px-4">
             <div class="row align-items-center g-0">
-              <div class="col-md-4 text-center mb-3 mb-md-0">
+              <div class="col-md-3 text-center mb-3 mb-md-0">
                 ${photo
-                  ?`<img src="${photo}" alt="${d.head_teacher_name}" class="shadow rounded img-fluid" style="max-width:160px;max-height:220px;width:100%;object-fit:cover">`
-                  :`<div style="width:120px;height:140px;background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:10px;display:flex;align-items:center;justify-content:center;margin:0 auto"><i class="fas fa-user-tie text-white" style="font-size:48px"></i></div>`}
+                  ?`<img src="${photo}" alt="${d.head_teacher_name}" class="leadership-photo">`
+                  :`<div class="leadership-icon mx-auto"><i class="fas fa-user-tie text-white" style="font-size:52px"></i></div>`}
               </div>
-              <div class="col-md-8 ps-md-4">
-                <h5 class="mb-1 fw-bold" style="color:var(--primary-color)">${desig}</h5>
-                <span class="badge rounded-pill px-3 py-1 mb-2" style="background:var(--primary-color)">${d.head_teacher_name}</span>
-                ${d.head_teacher_name_bn?`<div class="bn small text-muted mb-2">${d.head_teacher_name_bn}</div>`:''}
-                ${msg?`<p class="small text-muted mb-2" style="line-height:1.7">${msg.substring(0,200)}${msg.length>200?'…':''}</p>`:''}
+              <div class="col-md-9 ps-md-4">
+                <div class="small text-muted text-uppercase fw-bold mb-1" style="letter-spacing:.8px">${desig}</div>
+                <h4 class="fw-bold mb-1" style="color:var(--primary)">${d.head_teacher_name}</h4>
+                ${d.head_teacher_name_bn?`<div class="bn text-muted fs-6 mb-2">${d.head_teacher_name_bn}</div>`:''}
+                ${msg?`<blockquote class="mt-3 ps-3 border-start border-3 border-warning">
+                  <p class="text-muted bn" style="font-size:14px;line-height:1.8;margin:0">"${msg.substring(0,250)}${msg.length>250?'…':''}"</p>
+                </blockquote>`:''}
               </div>
             </div>
           </div>
         </div>
       </div>`);
     }
-
     if(row){
-      if(cards.length){
-        row.innerHTML=cards.join('');
-      }else{
-        row.innerHTML='<div class="col-12 text-center text-muted py-4"><i class="fas fa-user-tie fa-3x opacity-25 mb-3 d-block"></i>নেতৃত্বের তথ্য যোগ করুন (Admin → School Info CMS)</div>';
-      }
+      row.innerHTML=cards.length?cards.join(''):`<div class="col-12 text-center text-muted py-4">
+        <i class="fas fa-user-tie fa-3x opacity-25 mb-3 d-block"></i>
+        <div class="bn">Admin Panel থেকে School Info CMS-এ নেতৃত্বের তথ্য যোগ করুন</div>
+      </div>`;
     }
-  }catch(e){const loading=$('leadership-loading');if(loading)loading.remove();}
+    if(cards.length) AOS.refreshHard();
+  }catch(e){$('leadership-loading')?.remove();}
 }
 
-/* ── TEACHERS ── */
+/* ── Teachers ── */
 async function loadTeachers(){
   try{
     const res=await fetch('/api/users?role=teacher&limit=8').then(r=>r.json());
@@ -925,94 +982,95 @@ async function loadTeachers(){
     if(!teachers.length){$('teachers').style.display='none';return;}
     $('teachers').style.display='';
     const g=$('teachers-grid');
-    g.innerHTML=teachers.map(t=>`<div class="col-md-6 col-lg-3">
-      <div class="card h-100 border-0 shadow-sm text-center p-3">
-        <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary-color),var(--info-color));display:flex;align-items:center;justify-content:center;margin:0 auto 12px;overflow:hidden;border:3px solid #f0f2f5">
-          ${t.profile_image?`<img src="${t.profile_image}" style="width:100%;height:100%;object-fit:cover" alt="">`:'<i class="fas fa-user-tie text-white" style="font-size:32px"></i>'}
-        </div>
-        <h6 class="fw-bold mb-1" style="color:var(--primary-color)">${(t.first_name||'')+' '+(t.last_name||'')}</h6>
-        <span class="badge rounded-pill px-3 py-1 mb-1" style="background:var(--primary-color);font-size:11px">
+    g.innerHTML=teachers.map((t,i)=>`<div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="${i*60}">
+      <div class="teacher-card">
+        ${t.profile_image
+          ?`<img src="${t.profile_image}" class="teacher-avatar" alt="${t.first_name||''}">`
+          :`<div class="teacher-avatar-icon"><i class="fas fa-user-tie text-white" style="font-size:32px"></i></div>`}
+        <h6 class="fw-bold mb-1" style="color:var(--primary);font-size:14px">${(t.first_name||'')+' '+(t.last_name||'')}</h6>
+        <span class="badge rounded-pill px-3 py-1 mb-1" style="background:var(--primary);font-size:11px">
           ${t.role==='head_teacher'?'Head Teacher':t.role==='super_user'?'Head Master':'Teacher'}
         </span>
-        ${t.subject?`<div class="small text-muted">${t.subject}</div>`:''}
+        ${t.subject?`<div class="small text-muted mt-1">${t.subject}</div>`:''}
       </div>
     </div>`).join('');
+    AOS.refreshHard();
   }catch(e){$('teachers').style.display='none';}
 }
 
-/* ── GALLERY ── */
+/* ── Gallery ── */
 async function loadGallery(){
   try{
     const photos=await fetch('/api/school/gallery').then(r=>r.json());
     if(!photos||!photos.length){$('gallery').style.display='none';return;}
     $('gallery').style.display='';
     const g=$('gallery-grid');
-    g.innerHTML=photos.map(p=>`<div class="col-6 col-md-4">
-      <div class="rounded-3 overflow-hidden shadow-sm position-relative" style="aspect-ratio:4/3;cursor:pointer">
-        <img src="${p.image_data}" alt="${p.title||''}" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:.4s">
-        ${p.title?`<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(47,93,138,.8),transparent);display:flex;align-items:flex-end;padding:12px;opacity:0;transition:.3s" class="g-overlay">
-          <span class="text-white fw-semibold" style="font-size:12px">${p.title}</span></div>`:''}
+    g.innerHTML=photos.map((p,i)=>`<div class="col-6 col-md-4" data-aos="zoom-in" data-aos-delay="${(i%3)*60}">
+      <div class="gallery-item">
+        <img src="${p.image_data}" alt="${p.title||''}" loading="lazy">
+        <div class="gallery-overlay">
+          <span class="text-white fw-semibold" style="font-size:12px">${p.title||''}</span>
+        </div>
       </div>
     </div>`).join('');
-    // hover effect
-    document.querySelectorAll('.g-overlay').forEach(el=>{
-      el.parentElement.addEventListener('mouseenter',()=>el.style.opacity='1');
-      el.parentElement.addEventListener('mouseleave',()=>el.style.opacity='0');
-    });
+    AOS.refreshHard();
   }catch(e){$('gallery').style.display='none';}
 }
 
-/* ── RESULT SEARCH ── */
+/* ── Result search ── */
 async function loadSClasses(){
   try{
     const cls=await fetch('/api/school/classes').then(r=>r.json());
     const s=$('s-class');
-    const pre=cls.filter(c=>c.class_number<=0), pri=cls.filter(c=>c.class_number>0);
-    if(pre.length){const g=document.createElement('optgroup');g.label='প্রি-প্রাইমারি';pre.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});s.appendChild(g);}
-    if(pri.length){const g=document.createElement('optgroup');g.label='প্রাইমারি';pri.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});s.appendChild(g);}
+    const pre=cls.filter(c=>c.class_number<=0),pri=cls.filter(c=>c.class_number>0);
+    if(pre.length){const g=document.createElement('optgroup');g.label='প্রি-প্রাইমারি';pre.forEach(c=>{const o=new Option(c.name,c.id);g.appendChild(o);});s.appendChild(g);}
+    if(pri.length){const g=document.createElement('optgroup');g.label='প্রাইমারি';pri.forEach(c=>{const o=new Option(c.name,c.id);g.appendChild(o);});s.appendChild(g);}
   }catch(e){}
 }
 async function loadSSections(){
-  const cid=$('s-class').value; const s=$('s-section');
+  const cid=$('s-class').value,s=$('s-section');
   s.innerHTML='<option value="">-- সব সেকশন --</option>';
   if(!cid) return;
-  try{const secs=await fetch('/api/school/classes/'+cid+'/sections').then(r=>r.json());secs.forEach(sec=>{const o=document.createElement('option');o.value=sec.id;o.textContent='Section '+sec.name;s.appendChild(o);});}catch(e){}
+  try{const secs=await fetch('/api/school/classes/'+cid+'/sections').then(r=>r.json());secs.forEach(sec=>{s.appendChild(new Option('Section '+sec.name,sec.id));});}catch(e){}
 }
 async function doSearch(){
   const cid=$('s-class').value,sid=$('s-section').value,term=$('s-term').value,out=$('s-out');
-  if(!cid||!term){out.innerHTML='<div class="alert alert-warning py-2"><i class="fas fa-exclamation-triangle me-2"></i>শ্রেণি ও পরীক্ষা নির্বাচন করুন।</div>';return;}
-  out.innerHTML='<p class="text-muted"><span class="spinner-border spinner-border-sm me-2"></span>অনুসন্ধান হচ্ছে…</p>';
+  if(!cid||!term){out.innerHTML='<div class="alert alert-warning py-2 mt-2"><i class="fas fa-exclamation-triangle me-2"></i>শ্রেণি ও পরীক্ষা নির্বাচন করুন।</div>';return;}
+  out.innerHTML='<p class="text-muted mt-2"><span class="spinner-border spinner-border-sm me-2"></span>অনুসন্ধান হচ্ছে…</p>';
   try{
     const yr=new Date().getFullYear();
     const exams=await fetch('/api/school/term-exams?year='+yr+'&class_id='+cid).then(r=>r.json());
     const exam=exams.find(e=>e.term===term&&e.result_published);
-    if(!exam){out.innerHTML='<div class="alert alert-danger py-2"><i class="fas fa-times-circle me-2"></i>এই নির্বাচনে প্রকাশিত ফলাফল পাওয়া যায়নি।</div>';return;}
+    if(!exam){out.innerHTML='<div class="alert alert-danger py-2 mt-2"><i class="fas fa-times-circle me-2"></i>এই নির্বাচনে প্রকাশিত ফলাফল পাওয়া যায়নি।</div>';return;}
     const url=sid?`/results?exam_id=${exam.id}&section_id=${sid}`:`/results?exam_id=${exam.id}`;
-    out.innerHTML=`<div class="alert alert-success py-2"><i class="fas fa-check-circle me-2"></i>ফলাফল পাওয়া গেছে! <a href="${url}" class="fw-bold">এখানে ক্লিক করুন →</a></div>`;
-  }catch(e){out.innerHTML='<div class="alert alert-danger py-2"><i class="fas fa-times-circle me-2"></i>ফলাফল লোড করতে সমস্যা হয়েছে।</div>';}
+    out.innerHTML=`<div class="alert alert-success py-2 mt-2"><i class="fas fa-check-circle me-2"></i>ফলাফল পাওয়া গেছে! <a href="${url}" class="fw-bold">এখানে ক্লিক করুন →</a></div>`;
+  }catch(e){out.innerHTML='<div class="alert alert-danger py-2 mt-2"><i class="fas fa-times-circle me-2"></i>ফলাফল লোড করতে সমস্যা হয়েছে।</div>';}
 }
 
-/* ── PUBLISHED RESULTS ── */
+/* ── Published result cards ── */
 async function loadPublishedResults(){
   try{
     const yr=new Date().getFullYear();
     const exams=await fetch('/api/school/term-exams?year='+yr).then(r=>r.json());
     const pub=exams.filter(e=>e.result_published);
     const cards=$('term-cards');
-    if(!pub.length||!cards){return;}
-    cards.innerHTML=pub.map(e=>`<div class="col-md-4 col-lg-3">
-      <a href="/results?exam_id=${e.id}" class="card text-white text-decoration-none h-100 border-0" style="background:linear-gradient(135deg,var(--primary-color),var(--info-color));border-radius:12px;padding:20px;transition:.3s;display:block">
+    if(!pub.length||!cards) return;
+    cards.innerHTML=pub.map(e=>`<div class="col-md-4 col-lg-3" data-aos="fade-up">
+      <a href="/results?exam_id=${e.id}" class="text-decoration-none h-100 d-block" style="background:linear-gradient(135deg,var(--primary),var(--info));border-radius:12px;padding:22px;transition:.3s;color:#fff" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform=''">
         <i class="fas fa-scroll fa-2x mb-3" style="color:var(--gold)"></i>
         <h6 class="fw-bold">${e.title}</h6>
         <p class="small opacity-75 mb-2">${e.year} শিক্ষাবর্ষ</p>
         <div class="fw-bold" style="color:var(--gold)"><i class="fas fa-arrow-right me-1"></i>ফলাফল দেখুন</div>
       </a>
     </div>`).join('');
+    AOS.refreshHard();
   }catch(e){}
 }
 
+/* ── Footer year ── */
 $('fy').textContent=new Date().getFullYear();
 
+/* ── Boot ── */
 document.addEventListener('DOMContentLoaded',async()=>{
   await loadSchoolInfo();
   loadStats();
@@ -1022,8 +1080,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
   loadTeachers();
   loadGallery();
   loadLeadership();
-  // wait a tick for _heroImage to be set, then load slides
-  setTimeout(loadSlides,200);
+  setTimeout(loadSlides,150);
 });
 </script>
 {% endblock %}
