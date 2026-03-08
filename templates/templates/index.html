@@ -89,13 +89,13 @@ img{max-width:100%}
 
 /* ═══ FULL-WIDTH SLIDER ═══ */
 .main-slider{background:#000}
-#homeSlider .carousel-item img{width:100%;height:520px;object-fit:cover;display:block}
-@media(max-width:768px){#homeSlider .carousel-item img{height:230px}}
-#homeSlider .carousel-caption{background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 100%);border-radius:0;padding:24px 32px 20px;left:0;right:0;bottom:0;text-align:left}
-#homeSlider .carousel-caption h5{font-size:clamp(15px,2.5vw,26px);font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.5)}
-#homeSlider .carousel-caption p{font-size:clamp(12px,1.5vw,15px);opacity:.9;text-shadow:0 1px 4px rgba(0,0,0,.4)}
-#homeSlider .carousel-control-prev-icon,#homeSlider .carousel-control-next-icon{background-color:rgba(47,93,138,.7);border-radius:50%;padding:22px;background-size:50%}
-#homeSlider .carousel-indicators button{width:10px;height:10px;border-radius:50%;border:2px solid #fff;margin:0 4px}
+.home-slider-img{width:100%;height:520px;object-fit:cover;display:block}
+@media(max-width:768px){.home-slider-img{height:230px}}
+.carousel-caption-custom{background:linear-gradient(to top,rgba(0,0,0,.72) 0%,transparent 100%);border-radius:0;padding:24px 32px 20px;position:absolute;left:0;right:0;bottom:0;text-align:left}
+.carousel-caption-custom h5{font-size:clamp(15px,2.5vw,26px);font-weight:700;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.carousel-caption-custom p{font-size:clamp(12px,1.5vw,15px);color:#fff;opacity:.9;text-shadow:0 1px 4px rgba(0,0,0,.4);margin:0}
+.carousel-ctrl-icon{background-color:rgba(47,93,138,.7);border-radius:50%;padding:22px;background-size:50%}
+.carousel-ind-btn{width:10px!important;height:10px!important;border-radius:50%!important;border:2px solid #fff!important;margin:0 4px!important}
 .slider-fallback{background:linear-gradient(135deg,var(--primary),var(--info));min-height:420px;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 20px}
 @media(max-width:768px){.slider-fallback{min-height:220px}}
 
@@ -331,10 +331,10 @@ img{max-width:100%}
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#homeSlider" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
+      <span class="carousel-control-prev-icon carousel-ctrl-icon"></span>
     </button>
     <button class="carousel-control-next" type="button" data-bs-target="#homeSlider" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
+      <span class="carousel-control-next-icon carousel-ctrl-icon"></span>
     </button>
   </div>
 </div>
@@ -821,10 +821,10 @@ async function loadSlides(){
       if(fb) fb.remove();
       inner.innerHTML=''; ind.innerHTML='';
       slides.forEach((s,i)=>{
-        ind.innerHTML+=`<button type="button" data-bs-target="#homeSlider" data-bs-slide-to="${i}" ${i===0?'class="active"aria-current="true"':''}></button>`;
+        ind.innerHTML+=`<button type="button" class="carousel-ind-btn" data-bs-target="#homeSlider" data-bs-slide-to="${i}" ${i===0?'class="active"aria-current="true"':''}></button>`;
         inner.innerHTML+=`<div class="carousel-item ${i===0?'active':''}">
-          <img src="${s.image_data}" alt="${s.title||'Slide '+i}" loading="${i===0?'eager':'lazy'}">
-          ${s.title||s.caption?`<div class="carousel-caption">
+          <img src="${s.image_data}" class="home-slider-img" alt="${s.title||'Slide '+i}" loading="${i===0?'eager':'lazy'}">
+          ${s.title||s.caption?`<div class="carousel-caption-custom">
             ${s.title?`<h5>${s.title}</h5>`:''}
             ${s.caption?`<p>${s.caption}</p>`:''}
           </div>`:''}
@@ -832,7 +832,7 @@ async function loadSlides(){
       });
     } else if(window._heroImage){
       const fb=$('slider-fallback');
-      if(fb) fb.innerHTML=`<img src="${window._heroImage}" alt="School" style="width:100%;height:520px;object-fit:cover;display:block">`;
+      if(fb) fb.innerHTML=`<img src="${window._heroImage}" class="home-slider-img" alt="School">`;
     }
   }catch(e){}
 }
