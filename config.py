@@ -36,19 +36,19 @@ class ProductionConfig(Config):
 
     # On VPS set: DATABASE_URL=postgresql+psycopg2://user:pass@localhost:5432/school_db
     # Falls back to SQLite during migration period
-    SQLALCHEMY_DATABASE_URI = (
-        os.environ.get('DATABASE_URL')
-        or "sqlite:////var/www/school/school.db"
-    )
+    _db_url = os.environ.get('DATABASE_URL') or "sqlite:////var/www/school/school.db"
+    SQLALCHEMY_DATABASE_URI = _db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
-    # PostgreSQL connection pool (ignored for SQLite)
-    SQLALCHEMY_ENGINE_OPTIONS = {
-        'pool_pre_ping': True,
-        'pool_recycle': 300,
-        'pool_size': 10,
-        'max_overflow': 20,
-    }
+
+    # Only apply PostgreSQL pool options when NOT using SQLite
+    if not _db_url.startswith('sqlite'):
+        SQLALCHEMY_ENGINE_OPTIONS = {
+            'pool_pre_ping': True,
+            'pool_recycle': 300,
+            'pool_size': 10,
+            'max_overflow': 20,
+        }
 
 config_by_name = {
     'development': DevelopmentConfig,
