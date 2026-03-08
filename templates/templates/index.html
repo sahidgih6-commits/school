@@ -31,7 +31,8 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:'Poppins','Hind Siliguri',sans-serif
 .dropdown:hover .dropdown-menu{display:block}
 .ticker-wrap{background:#2F5D8A;overflow:hidden;white-space:nowrap;border-bottom:3px solid var(--gold)}
 .ticker-inner{display:inline-flex;animation:ticker 45s linear infinite}
-.ticker-item{display:inline-block;padding:10px 48px;color:#e8f4f8;font-size:14px;font-weight:500}
+.ticker-item{display:inline-block;padding:10px 48px;color:#e8f4f8;font-size:14px;font-weight:500;text-decoration:none}
+.ticker-wrap:hover .ticker-inner{animation-play-state:paused}
 .ticker-item i{color:var(--gold);margin-right:8px}.ticker-sep{color:var(--gold);margin:0 20px;padding:10px 0}
 .ticker-pdf:hover{background:rgba(255,255,255,.12);border-radius:6px;text-decoration:underline;text-decoration-color:rgba(251,191,36,.6)}
 .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
@@ -493,9 +494,9 @@ async function loadAnnouncements(){
       const h=items.map(a=>{
         const hasPdf=a.has_attachment;
         const url=hasPdf?`/api/school/announcements/${a.id}/attachment`:'';
-        return `<span class="ticker-item${hasPdf?' ticker-pdf':''}"
-          ${hasPdf?`onclick="window.open('${url}','_blank')" title="Click to download PDF" style="cursor:pointer"`:''}
-        ><i class="fas ${hasPdf?'fa-file-pdf':'fa-bullhorn'}" style="${hasPdf?'color:#fbbf24':''}"></i>${a.title}${hasPdf?'<span class="ticker-pdf-badge"><i class="fas fa-download"></i> PDF</span>':''}</span><span class="ticker-sep">◆</span>`;
+        return hasPdf
+          ? `<a class="ticker-item ticker-pdf" href="${url}" target="_blank" title="Click to download PDF" style="cursor:pointer"><i class="fas fa-file-pdf" style="color:#fbbf24"></i>${a.title}<span class="ticker-pdf-badge"><i class="fas fa-download"></i> PDF</span></a><span class="ticker-sep">◆</span>`
+          : `<span class="ticker-item"><i class="fas fa-bullhorn"></i>${a.title}</span><span class="ticker-sep">◆</span>`;
       }).join('');
       $('ticker-inner').innerHTML=h+h;
     }
