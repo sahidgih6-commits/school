@@ -1,27 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Result Cards – Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}Result Cards – মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}
 {% block extra_head %}
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 [x-cloak]{display:none!important}
-body{font-family:'Poppins',sans-serif;background:#eef2f7;color:#1e293b}
+body{font-family:'Poppins',sans-serif;background:#eef2f7;color:#2F5D8A}
 .ctrl{max-width:860px;margin:0 auto;padding:24px 18px}
-.ctrl-box{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,.08);margin-bottom:18px}
+.ctrl-box{background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 12px rgba(47,93,138,0.12);margin-bottom:18px}
 .ctrl-box h2{font-size:15px;font-weight:700;margin-bottom:14px;color:#1a56db}
 .fg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;align-items:end}
-.fg label{font-size:11.5px;font-weight:600;color:#64748b;display:block;margin-bottom:4px}
+.fg label{font-size:11.5px;font-weight:600;color:#555555;display:block;margin-bottom:4px}
 .fg select,.fg input{width:100%;padding:9px 12px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;background:#fff}
 .fg select:focus,.fg input:focus{border-color:#1a56db}
 .btn{padding:10px 20px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:.2s}
 .btn-primary{background:#1a56db;color:#fff}.btn-primary:hover{background:#1238a0}
-.btn-gold{background:#f59e0b;color:#1e293b}.btn-gold:hover{background:#d97706}
+.btn-gold{background:#f59e0b;color:#2F5D8A}.btn-gold:hover{background:#d97706}
 .btn-green{background:#059669;color:#fff}.btn-green:hover{background:#047857}
 .spin{display:inline-block;width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:60px 20px;color:#94a3b8}
+.empty{text-align:center;padding:60px 20px;color:#6FA8BF}
 .empty i{font-size:44px;display:block;margin-bottom:10px}
-.card-count{font-size:13px;color:#64748b;margin-bottom:12px}
+.card-count{font-size:13px;color:#555555;margin-bottom:12px}
 
 /* ===== SCREEN: card preview ===== */
 .cards-wrap{display:flex;flex-direction:column;gap:24px;margin-bottom:40px}
@@ -175,7 +175,7 @@ body{font-family:'Poppins',sans-serif;background:#eef2f7;color:#1e293b}
   <div class="ctrl no-print" x-show="loading">
     <div class="empty">
       <span class="spin" style="width:32px;height:32px;border-width:3px;border-top-color:#1a56db;border-color:#e2e8f0;display:inline-block"></span>
-      <p style="margin-top:12px;color:#64748b">Generating cards…</p>
+      <p style="margin-top:12px;color:#555555">Generating cards…</p>
     </div>
   </div>
 
@@ -187,7 +187,7 @@ body{font-family:'Poppins',sans-serif;background:#eef2f7;color:#1e293b}
           <!-- ===== SCHOOL HEADER ===== -->
           <div class="rc-header">
             <div class="rc-header-left">
-              <div class="rc-school-name" x-text="schoolInfo.school_name||'Modern Ideal Non Govt. Primary School'"></div>
+              <div class="rc-school-name" x-text="schoolInfo.school_name||'মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়'"></div>
               <div class="rc-school-addr" x-text="(schoolInfo.address||'') + (schoolInfo.phone?' | Ph: '+schoolInfo.phone:'')"></div>
             </div>
             <div class="rc-header-center">

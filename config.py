@@ -31,14 +31,24 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_ECHO = False
 
 class ProductionConfig(Config):
-    """Production configuration with SQLite"""
+    """Production configuration – PostgreSQL on VPS, SQLite fallback"""
     DEBUG = False
-    
-    # SQLite database for production
-    # Using absolute path for VPS deployment at /var/www/saroyarsir
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or "sqlite:////var/www/saroyarsir/school.db"
+
+    # On VPS set: DATABASE_URL=postgresql+psycopg2://user:pass@localhost:5432/school_db
+    # Falls back to SQLite during migration period
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get('DATABASE_URL')
+        or "sqlite:////var/www/saroyarsir/school.db"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
+    # PostgreSQL connection pool (ignored for SQLite)
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+        'pool_size': 10,
+        'max_overflow': 20,
+    }
 
 config_by_name = {
     'development': DevelopmentConfig,

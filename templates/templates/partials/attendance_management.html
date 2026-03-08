@@ -47,7 +47,7 @@
             <!-- Mark Attendance Tab -->
             <div x-show="activeTab === 'mark'" class="p-6">
                 <!-- Batch & Date Selection -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mb-6 border border-blue-100">
+                <div class="bg-gradient-to-r from-blue-50 to-sky-50 p-6 rounded-xl mb-6 border border-blue-100">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-cog mr-3 text-blue-600"></i>Select Batch & Date
                     </h3>
@@ -168,7 +168,7 @@
                                             <span class="text-white text-sm font-bold" x-text="student.roll_number"></span>
                                         </div>
                                         <!-- Student Initial (if no roll number) -->
-                                        <div x-show="!student.roll_number" class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                                        <div x-show="!student.roll_number" class="w-12 h-12 bg-gradient-to-br from-blue-500 to-sky-600 rounded-full flex items-center justify-center flex-shrink-0">
                                             <span class="text-white text-lg font-bold" x-text="getStudentInitial(student)"></span>
                                         </div>
                                         <div class="ml-3 min-w-0 flex-1">
@@ -307,7 +307,7 @@
                 </div>
 
                 <!-- Monthly Sheet Controls -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl mb-6 border border-blue-100">
+                <div class="bg-gradient-to-r from-blue-50 to-sky-50 p-6 rounded-xl mb-6 border border-blue-100">
                     <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
                         <i class="fas fa-calendar-alt mr-3 text-blue-600"></i>Select Batch & Month
                     </h3>

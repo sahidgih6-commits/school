@@ -1,40 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় | Modern Ideal Non-Govt. Primary School{% endblock %}
 {% block navbar %}{% endblock %}
 {% block content_padding %}{% endblock %}
 {% block extra_head %}
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--primary:#1a56db;--primary-dark:#1238a0;--primary-light:#e8f0fe;--gold:#f59e0b;--gold-light:#fef3c7;--green:#059669;--dark:#1e293b;--gray:#64748b;--light:#f1f5f9;--gradient:linear-gradient(135deg,#1a56db 0%,#0e3fa0 40%,#0a2d7a 100%)}
+/* AI Color Update: #6FA8BF */
+:root{--primary:#6FA8BF;--primary-dark:#2F5D8A;--primary-light:#e8f4f8;--gold:#F2C94C;--gold-light:#FEF8DC;--green:#059669;--dark:#333333;--gray:#6FA8BF;--light:#FFFFFF;--gradient:linear-gradient(135deg,#6FA8BF 0%,#2F5D8A 100%)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overflow-x:hidden}
-.bn{font-family:'Hind Siliguri','Poppins',sans-serif}
-.top-bar{background:#0f172a;color:#cbd5e1;font-size:13px;padding:8px 0;border-bottom:2px solid var(--gold)}
+body{font-family:'Roboto','Hind Siliguri',sans-serif !important;background:var(--light);color:var(--dark);overflow-x:hidden}
+h1,h2,h3,h4,h5,h6,.font-heading{font-family:'Poppins','Hind Siliguri',sans-serif !important}
+.bn,[lang="bn"],.font-bangla{font-family:'Hind Siliguri','Poppins',sans-serif !important}
+.top-bar{background:#2F5D8A;color:rgba(255,255,255,0.8);font-size:13px;padding:8px 0;border-bottom:3px solid var(--gold)}
 .top-bar .wrap{max-width:1320px;margin:0 auto;padding:0 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
-.top-bar i{margin-right:5px;color:var(--gold)}.top-bar a{color:#cbd5e1;text-decoration:none;transition:.2s}.top-bar a:hover{color:#fff}
-.school-header{background:#fff;box-shadow:0 3px 20px rgba(0,0,0,.1);padding:18px 0;position:sticky;top:0;z-index:1000}
+.top-bar i{margin-right:5px;color:var(--gold)}.top-bar a{color:rgba(255,255,255,0.8);text-decoration:none;transition:.2s}.top-bar a:hover{color:#fff}
+.school-header{background:#fff;box-shadow:0 3px 20px rgba(111,168,191,.2);padding:18px 0;position:sticky;top:0;z-index:1000}
 .school-header .wrap{max-width:1320px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:20px}
-.logo-circle{width:82px;height:82px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(26,86,219,.4);animation:pulse-logo 3s ease-in-out infinite}
-@keyframes pulse-logo{0%,100%{box-shadow:0 4px 16px rgba(26,86,219,.4)}50%{box-shadow:0 4px 28px rgba(26,86,219,.7)}}
+.logo-circle{width:82px;height:82px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 16px rgba(111,168,191,.5);animation:pulse-logo 3s ease-in-out infinite}
+@keyframes pulse-logo{0%,100%{box-shadow:0 4px 16px rgba(111,168,191,.5)}50%{box-shadow:0 4px 28px rgba(111,168,191,.8)}}
 .logo-circle img{width:60px;height:60px;border-radius:50%;object-fit:cover}
-.school-info-head h1{font-size:clamp(18px,2.5vw,28px);font-weight:800;color:var(--primary);line-height:1.2}
-.school-info-head .estd-line{font-size:13px;color:#94a3b8;font-weight:600;letter-spacing:.5px}
+.school-info-head h1{font-size:clamp(18px,2.5vw,28px);font-weight:800;color:var(--primary-dark);line-height:1.2;font-family:'Poppins',sans-serif}
+.school-info-head .estd-line{font-size:13px;color:#6FA8BF;font-weight:600;letter-spacing:.5px}
 .school-info-head .tagline{font-size:13.5px;color:var(--gray);margin-top:3px}
-.school-nav{background:var(--primary)}.school-nav .wrap{max-width:1320px;margin:0 auto;padding:0 20px;display:flex;align-items:center;flex-wrap:wrap}
-.school-nav a{color:rgba(255,255,255,.9);text-decoration:none;padding:14px 15px;font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:.2s}
+.school-nav{background:var(--primary-dark)}.school-nav .wrap{max-width:1320px;margin:0 auto;padding:0 20px;display:flex;align-items:center;flex-wrap:wrap}
+.school-nav a{color:rgba(255,255,255,.9);text-decoration:none;padding:14px 15px;font-size:14px;font-weight:500;font-family:'Poppins',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:.2s}
 .school-nav a:hover,.school-nav a.active{color:#fff;background:rgba(255,255,255,.18)}
-.dropdown{position:relative}.dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:220px;border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(0,0,0,.15);z-index:2000}
+.dropdown{position:relative}.dropdown-menu{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:220px;border-radius:0 0 10px 10px;box-shadow:0 10px 30px rgba(47,93,138,0.2);z-index:2000}
 .dropdown-menu a{color:var(--dark)!important;padding:12px 20px!important;background:transparent!important;display:block;font-size:14px;transition:.2s}
 .dropdown-menu a:hover{background:var(--primary-light)!important;color:var(--primary)!important}
 .dropdown:hover .dropdown-menu{display:block}
-.ticker-wrap{background:#1e3a5f;overflow:hidden;white-space:nowrap;border-bottom:3px solid var(--gold)}
+.ticker-wrap{background:#2F5D8A;overflow:hidden;white-space:nowrap;border-bottom:3px solid var(--gold)}
 .ticker-inner{display:inline-flex;animation:ticker 45s linear infinite}
-.ticker-item{display:inline-block;padding:10px 48px;color:#e2e8f0;font-size:14px;font-weight:500}
+.ticker-item{display:inline-block;padding:10px 48px;color:#e8f4f8;font-size:14px;font-weight:500}
 .ticker-item i{color:var(--gold);margin-right:8px}.ticker-sep{color:var(--gold);margin:0 20px;padding:10px 0}
 .ticker-pdf:hover{background:rgba(255,255,255,.12);border-radius:6px;text-decoration:underline;text-decoration-color:rgba(251,191,36,.6)}
 .doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px}
-.doc-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);transition:.3s;text-decoration:none;color:inherit;cursor:pointer}
-.doc-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(26,86,219,.14);border-color:var(--primary)}
+.doc-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 12px rgba(47,93,138,0.08);transition:.3s;text-decoration:none;color:inherit;cursor:pointer}
+.doc-card:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(111,168,191,.18);border-color:var(--primary)}
 .doc-icon{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
 .doc-icon.pdf{background:#fef2f2;color:#dc2626}
 .doc-icon.doc{background:#eff6ff;color:#2563eb}
@@ -43,15 +45,15 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 .doc-meta{flex:1;min-width:0}
 .doc-meta h5{font-size:14.5px;font-weight:700;color:var(--dark);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .doc-meta span{font-size:12px;color:var(--gray);display:block}
-.doc-meta small{font-size:11px;color:#94a3b8}
-.doc-dl{width:36px;height:36px;background:var(--primary-light);color:var(--primary);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;transition:.2s}
+.doc-meta small{font-size:11px;color:#6FA8BF}
+.doc-dl{width:36px;height:36px;background:var(--primary-light);color:var(--primary-dark);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;transition:.2s}
 .doc-card:hover .doc-dl{background:var(--primary);color:#fff}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .hero{background:var(--gradient);min-height:420px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:64px 20px}
 .hero-p span{position:absolute;border-radius:50%;animation:fp var(--d) ease-in-out infinite}
 .hero-p span:nth-child(1){width:180px;height:180px;background:rgba(255,255,255,.05);top:-50px;right:8%;--d:9s}
 .hero-p span:nth-child(2){width:120px;height:120px;background:rgba(255,255,255,.06);bottom:-30px;left:6%;--d:7s;animation-delay:2s}
-.hero-p span:nth-child(3){width:60px;height:60px;background:rgba(245,158,11,.15);top:35%;right:18%;--d:6s;animation-delay:1s}
+.hero-p span:nth-child(3){width:60px;height:60px;background:rgba(242,201,76,.15);top:35%;right:18%;--d:6s;animation-delay:1s}
 .hero-p span:nth-child(4){width:90px;height:90px;background:rgba(255,255,255,.04);top:20%;left:12%;--d:11s;animation-delay:3s}
 @keyframes fp{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-25px) rotate(12deg)}}
 .hero-content{text-align:center;color:#fff;position:relative;z-index:1;max-width:800px}
@@ -63,85 +65,85 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 @keyframes fiu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fiu .9s ease .4s both}
 .hero-btn{padding:14px 32px;border-radius:50px;font-weight:700;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .3s;border:2px solid transparent}
-.hero-btn-gold{background:var(--gold);color:#1e293b;box-shadow:0 8px 24px rgba(245,158,11,.5);animation:pb 2.5s infinite}
+.hero-btn-gold{background:var(--gold);color:#2F5D8A;box-shadow:0 8px 24px rgba(242,201,76,.5);animation:pb 2.5s infinite}
 .hero-btn-gold:hover{background:#d97706;transform:translateY(-3px)}
-@keyframes pb{0%,100%{box-shadow:0 8px 24px rgba(245,158,11,.4)}50%{box-shadow:0 8px 36px rgba(245,158,11,.8)}}
+@keyframes pb{0%,100%{box-shadow:0 8px 24px rgba(242,201,76,.4)}50%{box-shadow:0 8px 36px rgba(242,201,76,.8)}}
 .hero-btn-out{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}.hero-btn-out:hover{background:rgba(255,255,255,.15);transform:translateY(-3px)}
-.stats-strip{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.08)}.stats-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
+.stats-strip{background:#fff;box-shadow:0 4px 20px rgba(47,93,138,0.12)}.stats-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr)}
 @media(max-width:900px){.stats-inner{grid-template-columns:repeat(2,1fr)}}
 .stat-box{padding:22px 20px;text-align:center;border-right:1px solid #e2e8f0;transition:.3s}.stat-box:last-child{border-right:none}.stat-box:hover{background:var(--primary-light)}
-.stat-label{font-size:11.5px;color:#64748b;font-weight:500;display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:6px}.stat-label i{color:var(--primary)}
-.stat-value{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--primary)}
+.stat-label{font-size:11.5px;color:#555555;font-weight:500;font-family:'Poppins',sans-serif;display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:6px}.stat-label i{color:var(--primary)}
+.stat-value{font-size:clamp(20px,3vw,28px);font-weight:800;font-family:'Poppins',sans-serif;color:var(--primary-dark)}
 .section{padding:44px 20px}.section-alt{background:#fff}.section-inner{max-width:1320px;margin:0 auto}
-.section-title{text-align:center;margin-bottom:44px}.section-title h2{font-size:clamp(22px,3.5vw,34px);font-weight:800;color:var(--dark)}
+.section-title{text-align:center;margin-bottom:44px}.section-title h2{font-size:clamp(22px,3.5vw,34px);font-weight:800;font-family:'Poppins',sans-serif;color:var(--dark)}
 .section-title p{font-size:15px;color:var(--gray);margin-top:6px}
 .section-title .line{width:60px;height:4px;background:linear-gradient(90deg,var(--gold),var(--primary));margin:12px auto 0;border-radius:2px}
 .features-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
 @media(max-width:1100px){.features-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:680px){.features-grid{grid-template-columns:1fr}}
-.feature-card{background:#fff;border-radius:16px;padding:32px 24px;text-align:center;box-shadow:0 2px 20px rgba(0,0,0,.07);border:1px solid #e2e8f0;transition:all .35s}
-.feature-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(26,86,219,.18);border-color:var(--primary)}
+.feature-card{background:#fff;border-radius:16px;padding:32px 24px;text-align:center;box-shadow:0 2px 20px rgba(47,93,138,0.1);border:1px solid #e2e8f0;transition:all .35s}
+.feature-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(111,168,191,.22);border-color:var(--primary)}
 .feature-icon{width:76px;height:76px;background:var(--gradient);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;transition:.3s}
 .feature-card:hover .feature-icon{transform:rotate(8deg) scale(1.1)}.feature-icon i{color:#fff;font-size:28px}
-.feature-card h3{font-size:17px;font-weight:700;color:var(--primary);margin-bottom:10px}.feature-card p{font-size:14px;color:#64748b;line-height:1.7}
+.feature-card h3{font-size:17px;font-weight:700;font-family:'Poppins',sans-serif;color:var(--primary-dark);margin-bottom:10px}.feature-card p{font-size:14px;color:#555555;line-height:1.7}
 .nr-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 @media(max-width:768px){.nr-grid{grid-template-columns:1fr}}
-.board-card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 2px 20px rgba(0,0,0,.07);border:1px solid #e2e8f0}
-.board-title{font-size:19px;font-weight:700;color:var(--dark);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.board-card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 2px 20px rgba(47,93,138,0.1);border:1px solid #e2e8f0}
+.board-title{font-size:19px;font-weight:700;font-family:'Poppins',sans-serif;color:var(--dark);margin-bottom:18px;display:flex;align-items:center;gap:10px}
 .board-title i{color:var(--primary);font-size:20px}
 .board-title::after{content:'';flex:1;height:3px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin-left:10px}
 .n-item{padding:13px 0;border-bottom:1px solid #f1f5f9;display:flex;align-items:flex-start;gap:12px}
 .n-item:last-child{border-bottom:none}
 .n-badge{font-size:11px;font-weight:700;padding:4px 11px;border-radius:5px;white-space:nowrap;flex-shrink:0;color:#fff}
-.badge-urgent{background:#dc2626}.badge-high{background:#d97706}.badge-normal{background:var(--primary)}.badge-low{background:#64748b}
+.badge-urgent{background:#dc2626}.badge-high{background:#d97706}.badge-normal{background:var(--primary)}.badge-low{background:#555555}
 .n-text{font-size:14.5px;color:var(--dark);line-height:1.55}
-.n-date{font-size:12px;color:#94a3b8;margin-top:3px}
-.view-all{display:block;text-align:right;color:var(--primary);font-size:13px;font-weight:600;text-decoration:none;margin-top:14px;transition:.2s}.view-all:hover{color:var(--primary-dark)}
+.n-date{font-size:12px;color:#6FA8BF;margin-top:3px}
+.view-all{display:block;text-align:right;color:var(--primary-dark);font-size:13px;font-weight:600;font-family:'Poppins',sans-serif;text-decoration:none;margin-top:14px;transition:.2s}.view-all:hover{color:var(--primary)}
 .result-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px}
 .r-card{background:var(--gradient);border-radius:16px;padding:28px 20px;color:#fff;text-align:center;transition:all .3s;cursor:pointer;text-decoration:none;display:block}
-.r-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(26,86,219,.4)}
+.r-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(111,168,191,.45)}
 .r-card i{font-size:34px;margin-bottom:12px;color:var(--gold)}
-.r-card h3{font-size:17px;font-weight:700;margin-bottom:6px}.r-card p{font-size:12.5px;opacity:.85}
+.r-card h3{font-size:17px;font-weight:700;font-family:'Poppins',sans-serif;margin-bottom:6px}.r-card p{font-size:12.5px;opacity:.85}
 .r-card .rc{font-size:22px;font-weight:800;color:var(--gold);margin-top:8px}
 .teachers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
-.t-card{background:#fff;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 2px 20px rgba(0,0,0,.07);border:1px solid #e2e8f0;transition:.3s}
-.t-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(26,86,219,.15)}
+.t-card{background:#fff;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 2px 20px rgba(47,93,138,0.1);border:1px solid #e2e8f0;transition:.3s}
+.t-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(111,168,191,.2)}
 .t-avatar{width:86px;height:86px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:32px;color:#fff;overflow:hidden;border:4px solid var(--gold-light)}
 .t-avatar img{width:100%;height:100%;object-fit:cover}
-.t-card h4{font-size:16px;font-weight:700;color:var(--dark);margin-bottom:4px}
-.t-role{font-size:12.5px;color:var(--primary);font-weight:600;background:var(--primary-light);padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.t-card h4{font-size:16px;font-weight:700;font-family:'Poppins',sans-serif;color:var(--dark);margin-bottom:4px}
+.t-role{font-size:12.5px;color:var(--primary-dark);font-weight:600;background:var(--primary-light);padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:6px}
 .t-sub{font-size:13px;color:var(--gray)}
-.ct-class-badge{font-size:11px;font-weight:700;background:linear-gradient(135deg,#e0e7ff,#c7d2fe);color:#3730a3;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:6px}
+.ct-class-badge{font-size:11px;font-weight:700;background:linear-gradient(135deg,var(--primary-light),#e8f4f8);color:var(--primary-dark);padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:6px}
 .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 @media(max-width:600px){.gallery-grid{grid-template-columns:repeat(2,1fr)}}
-.g-item{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.1)}
+.g-item{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;box-shadow:0 4px 14px rgba(47,93,138,0.15)}
 .g-item img{width:100%;height:100%;object-fit:cover;transition:.4s}.g-item:hover img{transform:scale(1.1)}
-.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(26,86,219,.85),transparent);opacity:0;transition:.3s;display:flex;align-items:flex-end;padding:14px}
+.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(47,93,138,.85),transparent);opacity:0;transition:.3s;display:flex;align-items:flex-end;padding:14px}
 .g-item:hover .g-overlay{opacity:1}.g-overlay span{color:#fff;font-size:13px;font-weight:600}
-.search-box{background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.1);max-width:720px;margin:0 auto}
+.search-box{background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 24px rgba(47,93,138,0.15);max-width:720px;margin:0 auto}
 .search-box h3{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:20px;text-align:center}
 .s-form{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:12px;align-items:end}
 @media(max-width:640px){.s-form{grid-template-columns:1fr 1fr}}
 .fg label{font-size:12px;font-weight:600;color:var(--gray);margin-bottom:5px;display:block}
 .fg select,.fg input{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13.5px;transition:.2s;outline:none;background:#fff}
-.fg select:focus,.fg input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.fg select:focus,.fg input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(47,93,138,.1)}
 .btn-srch{background:var(--primary);color:#fff;padding:11px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
 .btn-srch:hover{background:var(--primary-dark);transform:translateY(-1px)}
-.site-footer{background:#0f172a;color:#94a3b8;padding:52px 20px 24px}
+.site-footer{background:#2F5D8A;color:rgba(255,255,255,0.75);padding:52px 20px 24px}
 .footer-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:36px}
 .footer-col h4{color:#fff;font-size:15px;font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--gold);display:inline-block}
 .footer-col p{font-size:13px;line-height:1.8}
 .footer-col ul{list-style:none}.footer-col ul li{margin-bottom:10px}
-.footer-col ul li a{color:#94a3b8;text-decoration:none;font-size:13px;display:flex;align-items:center;gap:8px;transition:.2s}.footer-col ul li a:hover{color:var(--gold)}
+.footer-col ul li a{color:rgba(255,255,255,.75);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:8px;transition:.2s}.footer-col ul li a:hover{color:var(--gold)}
 .footer-col ul li a i{color:var(--gold);font-size:10px}
 .fc-list li{display:flex;gap:10px;font-size:13px;margin-bottom:10px}.fc-list li i{color:var(--gold);margin-top:2px;flex-shrink:0}
 .f-social{display:flex;gap:10px;margin-top:14px}
-.f-social a{width:36px;height:36px;background:rgba(255,255,255,.08);color:#94a3b8;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.2s;font-size:15px;text-decoration:none}
+.f-social a{width:36px;height:36px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:.2s;font-size:15px;text-decoration:none}
 .f-social a:hover{background:var(--primary);color:#fff}
-.f-bottom{border-top:1px solid #1e293b;margin-top:36px;padding-top:18px;text-align:center;font-size:12px;color:#475569}
+.f-bottom{border-top:1px solid rgba(255,255,255,.15);margin-top:36px;padding-top:18px;text-align:center;font-size:12px;color:rgba(255,255,255,.6)}
 .sml{display:inline-block;width:16px;height:16px;border:2px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:6px}
 @keyframes spin{to{transform:rotate(360deg)}}
-.lb{text-align:center;padding:22px;color:#94a3b8;font-size:13px}
+.lb{text-align:center;padding:22px;color:#6FA8BF;font-size:13px}
 .reveal{opacity:0;transform:translateY(30px);transition:all .7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
 </style>
 {% endblock %}
@@ -151,7 +153,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 <div class="top-bar">
   <div class="wrap">
     <div class="left">
-      <span><i class="fas fa-envelope"></i><span id="sch-email">info@modernideal.edu.bd</span></span>
+      <span><i class="fas fa-envelope"></i><span id="sch-email">info@modernidealschool.edu.bd</span></span>
       <span style="margin-left:18px"><i class="fas fa-phone"></i><span id="sch-phone">—</span></span>
     </div>
     <div style="display:flex;align-items:center;gap:10px">
@@ -170,8 +172,9 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
     </div>
     <div class="school-info-head">
       <div class="estd-line">ESTD: <span id="sch-estd">2005</span> &nbsp;|&nbsp; EIIN: <span id="sch-eiin">—</span></div>
-      <h1 id="sch-name">Modern Ideal Non Government Primary School</h1>
-      <div class="tagline bn" id="sch-tagline">মডার্ন আইডিয়াল নন-গভর্নমেন্ট প্রাইমারি স্কুল | প্রথম শ্রেণি থেকে পঞ্চম শ্রেণি</div>
+      <h1 id="sch-name">Modern Ideal Non-Govt. Primary School</h1>
+      <div class="bangla-name bn" style="font-size:clamp(15px,2vw,21px);font-weight:700;color:#2F5D8A;line-height:1.2;font-family:'Hind Siliguri',sans-serif">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
+      <div class="tagline bn" id="sch-tagline" style="font-size:12.5px;color:#555555;margin-top:3px">প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি | modernidealschool.edu.bd</div>
     </div>
   </div>
 </div>
@@ -191,7 +194,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
     <div class="dropdown">
       <a href="#academic"><i class="fas fa-book-open"></i> Academic <i class="fas fa-chevron-down" style="font-size:9px"></i></a>
       <div class="dropdown-menu">
-        <a href="#academic">Class 1 – 5</a>
+        <a href="#academic">Play, Baby, Nursery, KG – Class 5</a>
         <a href="#academic">Syllabus</a>
         <a href="#academic">Activities</a>
       </div>
@@ -208,7 +211,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
     <a href="#notices"><i class="fas fa-bullhorn"></i> Notice Board</a>
     <a href="#gallery"><i class="fas fa-images"></i> Gallery</a>
     <a href="#contact"><i class="fas fa-envelope"></i> Contact</a>
-    <a href="{{ url_for('templates.login_page') }}" style="margin-left:auto;background:var(--gold);color:#1e293b!important;border-radius:20px;padding:10px 18px;font-weight:700">
+    <a href="{{ url_for('templates.login_page') }}" style="margin-left:auto;background:var(--gold);color:#2F5D8A!important;border-radius:20px;padding:10px 18px;font-weight:700">
       <i class="fas fa-user-graduate"></i> Portal
     </a>
   </div>
@@ -217,17 +220,17 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner" id="ticker-inner">
-    <span class="ticker-item"><i class="fas fa-star"></i>Welcome to Modern Ideal Non Government Primary School</span>
+    <span class="ticker-item"><i class="fas fa-star"></i>মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়-তে আপনাকে স্বাগতম</span>
     <span class="ticker-sep">◆</span>
-    <span class="ticker-item"><i class="fas fa-bell"></i>Admissions Open for Academic Year 2026</span>
+    <span class="ticker-item"><i class="fas fa-bell"></i>ভর্তি চলছে – ২০২৬ শিক্ষাবর্ষ | Admissions Open 2026</span>
     <span class="ticker-sep">◆</span>
-    <span class="ticker-item"><i class="fas fa-trophy"></i>Excellence in Primary Education – Class 1 to Class 5</span>
+    <span class="ticker-item"><i class="fas fa-trophy"></i>প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি | Excellence in Primary Education</span>
     <span class="ticker-sep">◆</span>
-    <span class="ticker-item"><i class="fas fa-star"></i>Welcome to Modern Ideal Non Government Primary School</span>
+    <span class="ticker-item"><i class="fas fa-star"></i>মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়-তে আপনাকে স্বাগতম</span>
     <span class="ticker-sep">◆</span>
-    <span class="ticker-item"><i class="fas fa-bell"></i>Admissions Open for Academic Year 2026</span>
+    <span class="ticker-item"><i class="fas fa-bell"></i>ভর্তি চলছে – ২০২৬ শিক্ষাবর্ষ | Admissions Open 2026</span>
     <span class="ticker-sep">◆</span>
-    <span class="ticker-item"><i class="fas fa-trophy"></i>Excellence in Primary Education – Class 1 to Class 5</span>
+    <span class="ticker-item"><i class="fas fa-trophy"></i>প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি | Excellence in Primary Education</span>
   </div>
 </div>
 
@@ -236,9 +239,9 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
   <div class="hero-p"><span></span><span></span><span></span><span></span></div>
   <div class="hero-content">
     <div class="hero-badge"><i class="fas fa-award" style="color:var(--gold)"></i> Quality Primary Education Since <span id="hero-since">2005</span></div>
-    <h2 id="hero-title">Modern Ideal Non Government Primary School</h2>
-    <div class="bn-title bn" id="hero-title-bn">মডার্ন আইডিয়াল নন-গভর্নমেন্ট প্রাইমারি স্কুল</div>
-    <p>Nurturing Young Minds &bull; Building Bright Futures &bull; Class 1 to Class 5</p>
+    <h2 id="hero-title">Modern Ideal Non-Govt. Primary School</h2>
+    <div class="bn-title bn" id="hero-title-bn" style="font-family:'Hind Siliguri',sans-serif;font-size:clamp(18px,2.8vw,28px);font-weight:800;color:#F2C94C;margin-bottom:8px">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
+    <p>Nurturing Young Minds &bull; Building Bright Futures &bull; Play, Baby, Nursery, KG – Class 5</p>
     <div class="hero-btns">
       <a href="#results" class="hero-btn hero-btn-gold"><i class="fas fa-chart-bar"></i> View Results</a>
       <a href="{{ url_for('templates.login_page') }}" class="hero-btn hero-btn-out"><i class="fas fa-user-graduate"></i> Student Login</a>
@@ -251,7 +254,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
   <div class="stats-inner">
     <div class="stat-box"><div class="stat-label"><i class="fas fa-user-graduate"></i> Total Students</div><div class="stat-value" id="stat-students">—</div></div>
     <div class="stat-box"><div class="stat-label"><i class="fas fa-chalkboard-teacher"></i> Teachers</div><div class="stat-value" id="stat-teachers">—</div></div>
-    <div class="stat-box"><div class="stat-label"><i class="fas fa-door-open"></i> Classes</div><div class="stat-value">1 – 5</div></div>
+    <div class="stat-box"><div class="stat-label"><i class="fas fa-door-open"></i> Classes</div><div class="stat-value" style="font-size:15px;font-weight:800">Play – Class 5</div></div>
     <div class="stat-box"><div class="stat-label"><i class="fas fa-id-card"></i> EIIN No.</div><div class="stat-value" id="stat-eiin2" style="font-size:18px">—</div></div>
   </div>
 </div>
@@ -301,7 +304,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
   <div class="section-inner">
     <div class="section-title"><h2>Why Choose Our School</h2><p class="bn">কেন আমাদের বিদ্যালয় বেছে নেবেন</p><div class="line"></div></div>
     <div class="features-grid">
-      <div class="feature-card reveal"><div class="feature-icon"><i class="fas fa-user-graduate"></i></div><h3>Quality Education</h3><p>Comprehensive curriculum from Class 1 to Class 5 with focus on academic excellence and holistic development of young learners.</p></div>
+      <div class="feature-card reveal"><div class="feature-icon"><i class="fas fa-user-graduate"></i></div><h3>Quality Education</h3><p>Comprehensive curriculum from Play, Baby &amp; Nursery through Class 5 with focus on academic excellence and holistic development.</p></div>
       <div class="feature-card reveal"><div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div><h3>Experienced Teachers</h3><p>Dedicated and qualified teachers who create a nurturing, safe learning environment for every child at every stage.</p></div>
       <div class="feature-card reveal"><div class="feature-icon"><i class="fas fa-child"></i></div><h3>Child-Friendly Campus</h3><p>Spacious, colorful and engaging classrooms designed for young children to learn, explore, and grow safely every day.</p></div>
       <div class="feature-card reveal"><div class="feature-icon"><i class="fas fa-palette"></i></div><h3>Creative Activities</h3><p>Art, craft, music, sports, and cultural programs to develop creativity, motor skills, and overall personality of students.</p></div>
@@ -336,19 +339,20 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
 </div>
 
 <!-- CONTACT -->
-<div class="section" id="contact" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
+<div class="section" id="contact" style="background:linear-gradient(135deg,#2F5D8A,#2F5D8A)">
   <div class="section-inner" id="contact-inner" style="display:grid;grid-template-columns:1fr;gap:40px;align-items:center">
     <div>
       <h2 style="color:#fff;font-size:clamp(18px,2.8vw,26px);font-weight:800;margin-bottom:10px">Contact Us</h2>
-      <p style="color:#94a3b8;margin-bottom:22px;font-size:13px" class="bn">যোগাযোগ করুন</p>
-      <ul style="list-style:none;color:#94a3b8">
-        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-map-marker-alt" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-addr">—</span></li>
-        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-phone" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-phone">—</span></li>
-        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-envelope" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-email">—</span></li>
-        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-clock" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-hours">Sat – Thu: 8:00 AM – 2:00 PM</span></li>
+      <p style="color:#6FA8BF;margin-bottom:22px;font-size:13px" class="bn">যোগাযোগ করুন</p>
+      <ul style="list-style:none;color:#6FA8BF">
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-map-marker-alt" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-addr" style="color:rgba(255,255,255,0.85)">—</span></li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-phone" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-phone" style="color:rgba(255,255,255,0.85)">—</span></li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-envelope" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-email" style="color:rgba(255,255,255,0.85)">info@modernidealschool.edu.bd</span></li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-globe" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><a href="https://modernidealschool.edu.bd" style="color:#F2C94C;font-size:14px">modernidealschool.edu.bd</a></li>
+        <li style="display:flex;gap:12px;margin-bottom:14px;font-size:14px"><i class="fas fa-clock" style="color:var(--gold);width:20px;margin-top:2px;flex-shrink:0"></i><span id="c-hours" style="color:rgba(255,255,255,0.85)">শনি – বৃহস্পতি: সকাল ৮টা – দুপুর ২টা</span></li>
       </ul>
     </div>
-    <div id="map-wrap" style="background:rgba(255,255,255,.05);border-radius:16px;height:240px;display:none;align-items:center;justify-content:center;color:#475569;border:1px solid rgba(255,255,255,.1)">
+    <div id="map-wrap" style="background:rgba(255,255,255,.05);border-radius:16px;height:240px;display:none;align-items:center;justify-content:center;color:#333333;border:1px solid rgba(255,255,255,.1)">
       <div style="text-align:center"><i class="fas fa-map" style="font-size:32px;color:var(--gold);margin-bottom:10px;display:block"></i><span style="font-size:13px">Map coming soon</span></div>
     </div>
   </div>
@@ -359,7 +363,7 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
   <div class="footer-inner">
     <div class="footer-col">
       <h4>About School</h4>
-      <p id="f-about">Modern Ideal Non Government Primary School provides quality primary education from Class 1 to Class 5, nurturing young minds with strong academic foundations.</p>
+      <p id="f-about"><strong class="bn" style="font-family:'Hind Siliguri',sans-serif;display:block;font-size:14px;color:#F2C94C;margin-bottom:4px">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</strong>Modern Ideal Non-Government Primary School provides quality education from Play, Baby, Nursery &amp; KG through Class 5, nurturing young minds with strong foundations.</p>
       <div class="f-social">
         <a id="f-fb" href="#"><i class="fab fa-facebook-f"></i></a>
         <a id="f-yt" href="#"><i class="fab fa-youtube"></i></a>
@@ -390,11 +394,11 @@ body{font-family:'Poppins',sans-serif;background:#f8fafc;color:var(--dark);overf
       <ul class="fc-list">
         <li><i class="fas fa-map-marker-alt"></i><span id="f-addr">—</span></li>
         <li><i class="fas fa-phone"></i><span id="f-phone">—</span></li>
-        <li><i class="fas fa-envelope"></i><span id="f-email">info@modernideal.edu.bd</span></li>
+        <li><i class="fas fa-envelope"></i><span id="f-email">info@modernidealschool.edu.bd</span></li>
       </ul>
     </div>
   </div>
-  <div class="f-bottom">&copy; <span id="fy"></span> <strong id="f-sname">Modern Ideal Non Government Primary School</strong>. All Rights Reserved.</div>
+  <div class="f-bottom">&copy; <span id="fy"></span> <strong id="f-sname">Modern Ideal Non-Govt. Primary School</strong> &nbsp;|&nbsp; <span class="bn" style="font-family:'Hind Siliguri',sans-serif">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</span>. All Rights Reserved.</div>
 </footer>
 
 <script>
@@ -419,7 +423,7 @@ async function loadSchoolInfo(){
       set('sch-name',d.school_name); set('hero-title',d.school_name);
       set('f-sname',d.school_name); document.title=d.school_name+' – School Management';
     }
-    if(d.school_name_bn){set('hero-title-bn',d.school_name_bn);set('sch-tagline',d.school_name_bn+' | Class 1 – 5');}
+    if(d.school_name_bn){set('hero-title-bn',d.school_name_bn);}
     // support both new keys (school_address) and old keys (address)
     const addr=d.school_address||d.address;
     const phone=d.school_phone||d.phone;
@@ -457,7 +461,7 @@ async function loadSchoolInfo(){
       // darken overlay so text stays readable
       let ov=document.getElementById('hero-overlay');
       if(!ov){ov=document.createElement('div');ov.id='hero-overlay';
-        ov.style.cssText='position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,36,114,.78),rgba(26,86,219,.6));z-index:0;';
+        ov.style.cssText='position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,36,114,.78),rgba(47,93,138,.6));z-index:0;';
         hero.insertBefore(ov,hero.firstChild);}
     }
   }catch(e){}
@@ -488,7 +492,7 @@ async function loadAnnouncements(){
       $('ticker-inner').innerHTML=h+h;
     }
     const nl=$('notice-list');
-    if(!items.length){nl.innerHTML='<p style="color:#94a3b8;font-size:13px;padding:8px 0">No notices available.</p>';return;}
+    if(!items.length){nl.innerHTML='<p style="color:#6FA8BF;font-size:13px;padding:8px 0">No notices available.</p>';return;}
     const bc={urgent:'badge-urgent',high:'badge-high',normal:'badge-normal',low:'badge-low'};
     nl.innerHTML=items.slice(0,6).map(a=>{
       const url=a.has_attachment?`/api/school/announcements/${a.id}/attachment`:'#';
@@ -499,13 +503,13 @@ async function loadAnnouncements(){
           <div class="n-text" style="${clickable?'color:var(--primary);font-weight:600':''}">
             ${a.title}
             ${clickable?'<i class="fas fa-file-pdf" style="margin-left:6px;font-size:11px;opacity:.7"></i>':''}
-            ${a.title_bn?`<br><span class="bn" style="font-size:11.5px;color:#64748b;font-weight:400">${a.title_bn}</span>`:''}
+            ${a.title_bn?`<br><span class="bn" style="font-size:11.5px;color:#555555;font-weight:400">${a.title_bn}</span>`:''}
           </div>
           <div class="n-date"><i class="fas fa-calendar-alt" style="margin-right:3px"></i>${(a.publish_date||a.created_at||'').split('T')[0]}${clickable?'&nbsp;·&nbsp;<span style="color:var(--primary);font-size:11px"><i class="fas fa-download"></i> Click to download</span>':''}</div>
         </div>
       </div>`;
     }).join('');
-  }catch(e){$('notice-list').innerHTML='<p style="color:#94a3b8;font-size:13px">Could not load notices.</p>';}
+  }catch(e){$('notice-list').innerHTML='<p style="color:#6FA8BF;font-size:13px">Could not load notices.</p>';}
 }
 
 // Published results
@@ -515,13 +519,13 @@ async function loadPublishedResults(){
     const exams=await fetch('/api/school/term-exams?year='+yr).then(r=>r.json());
     const pub=exams.filter(e=>e.result_published);
     const el=$('result-list');
-    if(!pub.length){el.innerHTML='<p style="color:#94a3b8;font-size:13px;padding:8px 0">No published results yet.</p>';$('term-cards').innerHTML='';return;}
+    if(!pub.length){el.innerHTML='<p style="color:#6FA8BF;font-size:13px;padding:8px 0">No published results yet.</p>';$('term-cards').innerHTML='';return;}
     el.innerHTML=pub.map(e=>`<div class="n-item">
       <span class="n-badge badge-normal"><i class="fas fa-chart-bar"></i></span>
       <div><div class="n-text"><strong>${e.title}</strong></div>
       <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap">
         <a href="/results?exam_id=${e.id}" style="font-size:12px;background:var(--primary);color:#fff;padding:3px 10px;border-radius:4px;text-decoration:none"><i class="fas fa-list"></i> Class Results</a>
-        <a href="/results/transcript?exam_id=${e.id}" style="font-size:12px;background:var(--gold);color:#1e293b;padding:3px 10px;border-radius:4px;text-decoration:none"><i class="fas fa-file-alt"></i> Transcript</a>
+        <a href="/results/transcript?exam_id=${e.id}" style="font-size:12px;background:var(--gold);color:#2F5D8A;padding:3px 10px;border-radius:4px;text-decoration:none"><i class="fas fa-file-alt"></i> Transcript</a>
       </div></div>
     </div>`).join('');
     $('term-cards').innerHTML=pub.map(e=>`<a href="/results?exam_id=${e.id}" class="r-card">
@@ -530,7 +534,7 @@ async function loadPublishedResults(){
       <p>${e.year} Academic Year</p>
       <div class="rc"><i class="fas fa-users" style="font-size:14px"></i> View Results</div>
     </a>`).join('');
-  }catch(e){$('result-list').innerHTML='<p style="color:#94a3b8;font-size:13px">Could not load results.</p>';}
+  }catch(e){$('result-list').innerHTML='<p style="color:#6FA8BF;font-size:13px">Could not load results.</p>';}
 }
 
 // Search classes
@@ -538,7 +542,17 @@ async function loadSClasses(){
   try{
     const cls=await fetch('/api/school/classes').then(r=>r.json());
     const s=$('s-class');
-    cls.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;s.appendChild(o);});
+    const pre=cls.filter(c=>c.class_number<=0), pri=cls.filter(c=>c.class_number>0);
+    if(pre.length){
+      const g=document.createElement('optgroup');g.label='Pre-Primary';
+      pre.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});
+      s.appendChild(g);
+    }
+    if(pri.length){
+      const g=document.createElement('optgroup');g.label='Primary';
+      pri.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});
+      s.appendChild(g);
+    }
   }catch(e){}
 }
 async function loadSSections(){
@@ -554,7 +568,7 @@ async function loadSSections(){
 async function doSearch(){
   const cid=$('s-class').value,sid=$('s-section').value,term=$('s-term').value,out=$('s-out');
   if(!cid||!term){out.innerHTML='<p style="color:#dc2626;font-size:13px"><i class="fas fa-exclamation-triangle"></i> Please select class and term.</p>';return;}
-  out.innerHTML='<p style="color:#64748b;font-size:13px"><span class="sml"></span> Searching…</p>';
+  out.innerHTML='<p style="color:#555555;font-size:13px"><span class="sml"></span> Searching…</p>';
   try{
     const yr=new Date().getFullYear();
     const exams=await fetch('/api/school/term-exams?year='+yr+'&class_id='+cid).then(r=>r.json());

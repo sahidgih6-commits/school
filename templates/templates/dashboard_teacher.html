@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}Teacher Dashboard - Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}Teacher Dashboard - মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}
 
 {% block extra_head %}
 <script src="https://unpkg.com/htmx.org@1.9.6"></script>
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-<!-- Bangla font support -->
+<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-    .font-bangla {
-        font-family: 'Noto Sans Bengali', sans-serif;
-    }
+    body { font-family: 'Roboto', 'Hind Siliguri', sans-serif; }
+    h1,h2,h3,h4,h5,h6,.font-heading { font-family: 'Poppins', sans-serif !important; }
+    .font-bangla { font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif; }
     [x-cloak] { display: none !important; }
+    .sidebar-active { background: #e8f4f8 !important; border-right: 3px solid #6FA8BF !important; color: #2F5D8A !important; }
+    .sidebar-inactive:hover { background: #f4f9fd !important; }
 </style>
 {% endblock %}
 
@@ -47,12 +49,12 @@
         <!-- Sidebar Header -->
         <div class="p-6 border-b border-gray-200">
             <div class="flex items-center">
-                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#6FA8BF,#2F5D8A)">
                     <i class="fas fa-graduation-cap text-white text-lg"></i>
                 </div>
                 <div class="ml-3">
-                    <h2 class="text-lg font-semibold text-gray-900">Teacher Panel</h2>
-                    <p class="text-sm text-blue-600 font-semibold">Management Dashboard</p>
+                    <h2 class="text-base font-bold" style="font-family:'Poppins',sans-serif;color:#2F5D8A">Teacher Panel</h2>
+                    <p class="text-xs font-semibold" style="color:#2F5D8A;font-family:'Poppins',sans-serif">Management Dashboard</p>
                     <p class="text-xs text-gray-500">Welcome, {{ user.first_name }} {{ user.last_name }}!</p>
                 </div>
             </div>
@@ -64,10 +66,7 @@
                 <template x-for="item in menuItems" :key="item.id">
                     <button 
                         @click="activeSection = item.id"
-                        :class="{
-                            'bg-blue-50 border-r-2 border-blue-500 text-blue-700': activeSection === item.id,
-                            'text-gray-600 hover:bg-gray-50 hover:text-gray-900': activeSection !== item.id
-                        }"
+                        :class="activeSection === item.id ? 'sidebar-active' : 'sidebar-inactive text-gray-600 hover:text-gray-900'"
                         class="w-full flex items-center px-3 py-2 text-sm font-medium rounded-l-md transition-colors duration-200">
                         <i :class="item.icon" class="mr-3 text-lg"></i>
                         <span x-text="item.title"></span>

@@ -1,0 +1,29 @@
+[Unit]
+Description=Modern Ideal School – Telegram Attendance Bot
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/var/www/saroyarsir
+# polling mode – safest, no domain/SSL needed
+ExecStart=/var/www/saroyarsir/venv/bin/python telegram_bot.py polling
+# Use "webhook" instead of "polling" if you have HTTPS + domain:
+# ExecStart=/var/www/saroyarsir/venv/bin/python telegram_bot.py webhook
+
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=school-telegram-bot
+
+# Load environment from .env file
+EnvironmentFile=/var/www/saroyarsir/.env
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Marks Entry – Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}Marks Entry – মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}
 {% block extra_head %}
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
   .g-Ap{background:#dcfce7;color:#15803d}.g-A{background:#d1fae5;color:#065f46}
   .g-Am{background:#e0f2fe;color:#0369a1}.g-B{background:#fef3c7;color:#92400e}
   .g-C{background:#fff7ed;color:#c2410c}.g-D{background:#fee2e2;color:#b91c1c}
-  .g-F{background:#f1f5f9;color:#64748b}
+  .g-F{background:#f1f5f9;color:#555555}
   .exam-banner{background:linear-gradient(135deg,#1a56db,#0a2d7a);color:#fff;padding:12px 20px;border-radius:12px;margin-bottom:14px}
   .unsaved-dot{width:8px;height:8px;background:#ef4444;border-radius:50%;display:inline-block;animation:blink 1.2s infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -96,7 +96,12 @@
           <select x-model.number="selClass" @change="onClassChange()"
             class="border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 min-w-32">
             <option value="">-- Class --</option>
-            <template x-for="c in classes" :key="c.id"><option :value="c.id" x-text="c.name"></option></template>
+            <optgroup label="Pre-Primary">
+              <template x-for="c in classes.filter(c => c.class_number <= 0)" :key="c.id"><option :value="c.id" x-text="c.name"></option></template>
+            </optgroup>
+            <optgroup label="Primary">
+              <template x-for="c in classes.filter(c => c.class_number > 0)" :key="c.id"><option :value="c.id" x-text="c.name"></option></template>
+            </optgroup>
           </select>
         </div>
 

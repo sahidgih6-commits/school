@@ -1,96 +1,116 @@
 {% extends "base.html" %}
 
-{% block title %}Login - Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}লগইন | মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}
 
 {% block extra_head %}
 <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<style>
+    .login-page-bg {
+        background: linear-gradient(135deg, #2F5D8A 0%, #2F5D8A 50%, #6FA8BF 100%);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div x-data="loginForm()" class="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-950 relative overflow-hidden">
-    <!-- Background Effects -->
-    <div class="absolute inset-0 opacity-20">
-        <div class="absolute top-10 left-10 w-20 h-20 bg-yellow-400/15 rounded-full blur-xl"></div>
-        <div class="absolute top-32 right-16 w-16 h-16 bg-white/10 rounded-full blur-lg"></div>
-        <div class="absolute bottom-20 left-20 w-24 h-24 bg-yellow-500/12 rounded-full blur-xl"></div>
-        <div class="absolute bottom-40 right-8 w-12 h-12 bg-blue-400/15 rounded-full blur-lg"></div>
+<div x-data="loginForm()" class="login-page-bg min-h-screen relative overflow-hidden">
+    <!-- Background floating circles — brochure style -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-16 -right-16 w-72 h-72 bg-white/5 rounded-full"></div>
+        <div class="absolute top-1/3 -left-20 w-56 h-56 bg-yellow-400/10 rounded-full"></div>
+        <div class="absolute bottom-10 right-1/4 w-40 h-40 bg-white/5 rounded-full"></div>
+        <div class="absolute bottom-32 -right-8 w-24 h-24 bg-yellow-300/10 rounded-full"></div>
     </div>
 
     <div class="relative z-10 flex flex-col items-center justify-center min-h-screen p-4">
         <!-- Header -->
         <div class="text-center mb-8">
-            <div class="flex items-center justify-center mb-6">
-                <div class="bg-gradient-to-r from-yellow-500 to-amber-500 p-6 rounded-3xl shadow-xl">
-                    <i class="fas fa-mobile-alt text-blue-900 text-4xl"></i>
+            <div class="flex items-center justify-center mb-5">
+                <div class="p-5 rounded-3xl shadow-2xl" style="background:linear-gradient(135deg,#F2C94C,#D4A830)">
+                    <i class="fas fa-graduation-cap text-white text-4xl"></i>
                 </div>
             </div>
-            <h1 class="text-3xl font-bold text-white mb-2 leading-tight">
-                Modern Ideal Non Govt.
+            <h1 class="text-3xl font-extrabold text-white mb-1 leading-tight" style="font-family:'Hind Siliguri',sans-serif;letter-spacing:-0.5px">
+                মডার্ণ আইডিয়াল বেসরকারি
             </h1>
-            <h2 class="text-xl font-bold text-yellow-300 mb-1">Primary School</h2>
-            <p class="text-blue-200 text-sm font-medium">
-                Staff &amp; Student Portal
+            <h2 class="text-xl font-bold mb-1" style="color:#F2C94C;font-family:'Hind Siliguri',sans-serif">প্রাথমিক বিদ্যালয়</h2>
+            <p class="text-sm font-medium" style="color:rgba(255,255,255,0.75);font-family:'Roboto',sans-serif;">
+                Modern Ideal Non-Govt. Primary School
             </p>
         </div>
 
         <!-- Login Card -->
-        <div class="w-full max-w-md bg-white/95 backdrop-blur-xl border-2 border-white/20 shadow-2xl rounded-3xl">
-            <div class="text-center space-y-4 p-6 pb-6">
-                <h2 class="text-3xl text-blue-900 font-bold">Login</h2>
-                <p class="text-blue-700 text-lg font-medium">
-                    Enter your phone number and password to access your account
+        <div class="w-full max-w-md bg-white shadow-2xl rounded-3xl overflow-hidden" style="border:3px solid rgba(242,201,76,0.4)">
+            <!-- Card header strip -->
+            <div class="h-2" style="background:linear-gradient(90deg,#F2C94C,#6FA8BF)"></div>
+
+            <div class="text-center px-8 pt-8 pb-4">
+                <h2 class="text-2xl font-extrabold mb-1" style="color:#2F5D8A;font-family:'Poppins',sans-serif;">Welcome Back</h2>
+                <p class="text-sm" style="color:#333333;font-family:'Roboto',sans-serif;">
+                    Enter your credentials to access your account
                 </p>
             </div>
 
-            <div class="p-6 space-y-6">
+            <div class="px-8 pb-8 space-y-5">
                 <form @submit.prevent="handleLogin()" class="space-y-4">
                     <div>
-                        <label class="text-blue-900 text-base font-semibold block mb-2">Phone Number</label>
+                        <label class="block text-sm font-semibold mb-2" style="color:#2F5D8A;font-family:'Poppins',sans-serif;">Phone Number</label>
                         <input
                             type="text"
                             x-model="formData.phoneNumber"
-                            placeholder="For students: use parent phone number"
+                            placeholder="Parent's phone number"
                             required
-                            class="flex h-14 w-full rounded-xl border-2 border-blue-200 bg-white px-4 py-3 text-lg text-blue-900 placeholder:text-blue-400 focus:border-yellow-500 focus:ring-4 focus:ring-yellow-200 focus:outline-none shadow-md transition-all"
+                            class="w-full h-13 rounded-xl px-4 py-3 text-base transition-all outline-none"
+                            style="border:2px solid #e8f4f8;color:#2F5D8A;font-family:'Roboto',sans-serif;"
+                            onfocus="this.style.borderColor='#6FA8BF';this.style.boxShadow='0 0 0 3px rgba(111,168,191,0.15)'"
+                            onblur="this.style.borderColor='#e8f4f8';this.style.boxShadow='none'"
                             autocomplete="tel"
                         />
-                        <p class="text-blue-600 text-sm mt-1">
+                        <p class="text-xs mt-1" style="color:#6FA8BF;font-family:'Roboto',sans-serif;">
                             <i class="fas fa-info-circle mr-1"></i>
                             Students: Use your parent's phone number to login
                         </p>
                     </div>
 
                     <div>
-                        <label class="text-blue-900 text-base font-semibold block mb-2">Password</label>
+                        <label class="block text-sm font-semibold mb-2" style="color:#2F5D8A;font-family:'Poppins',sans-serif;">Password</label>
                         <div class="relative">
                             <input
                                 :type="showPassword ? 'text' : 'password'"
                                 x-model="formData.password"
                                 placeholder="Enter your password"
                                 required
-                                class="flex h-14 w-full rounded-xl border-2 border-blue-200 bg-white px-4 py-3 pr-14 text-lg text-blue-900 placeholder:text-blue-400 focus:border-yellow-500 focus:ring-4 focus:ring-yellow-200 focus:outline-none shadow-md transition-all"
+                                class="w-full h-13 rounded-xl px-4 py-3 pr-14 text-base transition-all outline-none"
+                                style="border:2px solid #e8f4f8;color:#2F5D8A;font-family:'Roboto',sans-serif;"
+                                onfocus="this.style.borderColor='#6FA8BF';this.style.boxShadow='0 0 0 3px rgba(111,168,191,0.15)'"
+                                onblur="this.style.borderColor='#e8f4f8';this.style.boxShadow='none'"
                                 autocomplete="current-password"
                             />
                             <button
                                 type="button"
                                 @click="showPassword = !showPassword"
                                 class="absolute inset-y-0 right-0 pr-4 flex items-center"
+                                style="color:#6FA8BF"
                             >
-                                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-blue-600 text-xl"></i>
+                                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'" class="text-lg"></i>
                             </button>
                         </div>
                     </div>
 
-                    <div x-show="loginError" x-transition class="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
-                        <p class="text-red-400 text-sm text-center" x-text="loginError"></p>
+                    <div x-show="loginError" x-transition class="bg-red-50 border border-red-200 rounded-xl p-3">
+                        <p class="text-red-600 text-sm text-center" x-text="loginError" style="font-family:'Roboto',sans-serif;"></p>
                     </div>
 
                     <button
                         type="submit"
                         :disabled="isLoading"
-                        class="w-full h-16 bg-gradient-to-r from-blue-900 to-blue-800 text-white hover:from-blue-800 hover:to-blue-700 font-bold text-xl rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
+                        class="w-full h-14 text-white font-bold text-lg rounded-xl shadow-lg transition-all duration-300 disabled:opacity-50 mt-2"
+                        style="background:linear-gradient(135deg,#2F5D8A,#6FA8BF);font-family:'Poppins',sans-serif;letter-spacing:0.3px"
+                        onmouseover="if(!this.disabled)this.style.background='linear-gradient(135deg,#2F5D8A,#2F5D8A)'"
+                        onmouseout="this.style.background='linear-gradient(135deg,#2F5D8A,#6FA8BF)'"
                     >
-                        <span x-show="!isLoading">Login</span>
+                        <span x-show="!isLoading">
+                            <i class="fas fa-sign-in-alt mr-2"></i>Login
+                        </span>
                         <span x-show="isLoading" class="flex items-center justify-center gap-2">
                             <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
                             Logging in...
@@ -98,8 +118,8 @@
                     </button>
                 </form>
 
-                <div class="text-center">
-                    <a href="/" class="text-sm text-blue-600 hover:text-blue-800 transition-colors font-medium">
+                <div class="text-center pt-2">
+                    <a href="/" class="text-sm font-medium transition-colors" style="color:#6FA8BF;font-family:'Poppins',sans-serif;">
                         ← Back to Home
                     </a>
                 </div>

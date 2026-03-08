@@ -152,9 +152,16 @@
     <label>Select Class:</label>
     <select id="classSelect" onchange="changeClass()">
       <option value="">-- Choose Class --</option>
-      {% for c in classes %}
-      <option value="{{ c.id }}" {% if class_id == c.id %}selected{% endif %}>{{ c.name }}</option>
-      {% endfor %}
+      <optgroup label="Pre-Primary">
+        {% for c in classes if c.class_number <= 0 %}
+        <option value="{{ c.id }}" {% if class_id == c.id %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </optgroup>
+      <optgroup label="Primary">
+        {% for c in classes if c.class_number > 0 %}
+        <option value="{{ c.id }}" {% if class_id == c.id %}selected{% endif %}>{{ c.name }}</option>
+        {% endfor %}
+      </optgroup>
     </select>
   </div>
   {% if selected_class %}

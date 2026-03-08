@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +7,85 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="version" content="2.0.1-20251022-1930">
-    <title>{% block title %}Modern Ideal Non Government Primary School{% endblock %}</title>
+    <meta name="description" content="মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় | Modern Ideal Non-Government Primary School – প্লে, বেবি, নার্সারি, কেজি থেকে পঞ্চম শ্রেণি">
+    <meta name="keywords" content="Modern Ideal School, মডার্ণ আইডিয়াল বিদ্যালয়, primary school Bangladesh, modernidealschool.edu.bd">
+    <link rel="canonical" href="https://modernidealschool.edu.bd/">
+    <title>{% block title %}মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Google Fonts: Poppins (headings), Roboto (English body), Hind Siliguri (Bangla) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS with custom font config -->
+    <script>
+        window.tailwind = window.tailwind || {};
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            50:  '#e8f4f8',
+                            100: '#D6E9F1',
+                            200: '#AECFDF',
+                            300: '#86B5CE',
+                            400: '#6FA8BF',  // Sky Blue primary
+                            500: '#6FA8BF',  // Sky Blue primary
+                            600: '#2F5D8A',  // Dark Blue
+                            700: '#2F5D8A',  // Dark Blue
+                            800: '#2F5D8A',
+                            900: '#2F5D8A',
+                        },
+                        primary: {
+                            DEFAULT: '#6FA8BF',
+                            dark:    '#2F5D8A',
+                        }
+                    },
+                    fontFamily: {
+                        sans:    ['Roboto', 'Hind Siliguri', 'sans-serif'],
+                        heading: ['Poppins', 'Hind Siliguri', 'sans-serif'],
+                        bangla:  ['Hind Siliguri', 'Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Custom CSS -->
     <style>
+        /* ── Brand color palette (brochure-inspired) ── */
+        :root {
+            --sky:        #6FA8BF;   /* Sky Blue */
+            --sky-dark:   #2F5D8A;   /* Dark Blue */
+            --sky-light:  #e8f4f8;   /* Light tint of Sky Blue */
+            --gold:       #F2C94C;   /* Yellow */
+            --gold-dark:  #D4A830;   /* Darker yellow */
+            --gold-light: #FEF8DC;
+            --navy:       #2F5D8A;   /* Dark Blue for headings */
+            --gray:       #6FA8BF;   /* Mid tone - Sky Blue */
+            --light-bg:   #FFFFFF;   /* White background */
+            --text-dark:  #333333;   /* Dark text */
+        }
+
+        /* ── Typography ── */
+        body {
+            font-family: 'Roboto', 'Hind Siliguri', sans-serif !important;
+            background: var(--light-bg);
+            color: var(--text-dark);
+        }
+        h1, h2, h3, h4, h5, h6,
+        .font-heading {
+            font-family: 'Poppins', 'Hind Siliguri', sans-serif !important;
+        }
+        /* Bangla text helper class */
+        .bn, [lang="bn"], .font-bangla {
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif !important;
+        }
+
         /* Custom animations and styles */
         .fade-in {
             animation: fadeIn 0.3s ease-in-out;
@@ -37,13 +106,13 @@
         
         .card-hover:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(111, 168, 191, 0.25);
         }
         
         /* Loading spinner */
         .spinner {
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
+            border: 2px solid #e8f4f8;
+            border-top: 2px solid var(--sky);
             border-radius: 50%;
             width: 20px;
             height: 20px;
@@ -61,99 +130,147 @@
         }
         
         .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: var(--sky-light);
             border-radius: 3px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
+            background: var(--sky);
             border-radius: 3px;
         }
         
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+            background: var(--sky-dark);
         }
         
-        /* Button styles matching original design */
+        /* Button styles — new sky-blue + gold theme */
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 14px rgba(47, 93, 138, 0.45);
         }
         
         .btn-secondary {
-            background: #6c757d;
+            background: var(--navy);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
         .btn-success {
-            background: #28a745;
+            background: #16a34a;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
         .btn-danger {
-            background: #dc3545;
+            background: #dc2626;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
         
         /* Form styles */
         .form-input {
-            border: 2px solid #e1e5e9;
+            border: 2px solid #d0e8f5;
             border-radius: 8px;
             padding: 12px 16px;
+            font-family: 'Roboto', sans-serif;
             transition: all 0.3s ease;
             width: 100%;
         }
         
         .form-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--sky);
+            box-shadow: 0 0 0 3px rgba(111, 168, 191, 0.2);
         }
         
         /* Card styles */
         .card {
-            background: white;
+            background: #FFFFFF;
             border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 14px rgba(111, 168, 191, 0.15);
             padding: 24px;
             transition: all 0.3s ease;
         }
         
         /* Status badges */
-        .badge-success { background: #28a745; color: white; }
-        .badge-warning { background: #ffc107; color: #212529; }
-        .badge-danger { background: #dc3545; color: white; }
-        .badge-info { background: #17a2b8; color: white; }
-        .badge-secondary { background: #6c757d; color: white; }
+        .badge-success   { background: #16a34a; color: white; }
+        .badge-warning   { background: var(--gold); color: var(--text-dark); }
+        .badge-danger    { background: #dc2626; color: white; }
+        .badge-info      { background: var(--sky); color: white; }
+        .badge-secondary { background: var(--gray); color: white; }
         
         .badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+        }
+
+        /* Navbar override for sky-blue brochure theme */
+        .app-navbar {
+            background: linear-gradient(135deg, var(--sky) 0%, var(--sky-dark) 100%);
+            border-bottom: 3px solid var(--gold);
+        }
+        .app-navbar .brand-text {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+        }
+        .app-navbar .nav-btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.7);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        .app-navbar .nav-btn-outline:hover {
+            background: white;
+            color: var(--sky-dark);
+        }
+        .app-navbar .login-btn {
+            background: var(--gold);
+            color: var(--text-dark);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        .app-navbar .login-btn:hover {
+            background: var(--gold-dark);
+        }
+
+        /* Page-level heading helper */
+        .page-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--text-dark);
         }
     </style>
     
@@ -162,18 +279,19 @@
 <body class="bg-gray-50 min-h-screen">
     {% block navbar %}
     <!-- Navigation Bar -->
-    <nav class="bg-gradient-to-r from-blue-600 to-blue-700 shadow-lg border-b border-blue-800 fixed w-full top-0 z-50">
+    <nav class="app-navbar shadow-lg fixed w-full top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <!-- Logo -->
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-graduation-cap text-2xl text-white mr-2"></i>
-                        <span class="text-xl font-bold text-white">Modern Ideal Non Govt. Primary School</span>
+                        <span class="brand-text text-lg text-white" style="font-family:'Poppins',sans-serif;font-weight:700">Modern Ideal School</span>
+                        <span class="brand-text-bn text-xs" style="display:block;color:#F2C94C;font-family:'Hind Siliguri',sans-serif;font-size:11px;line-height:1.2">মডার্ণ আইডিয়াল বিদ্যালয়</span>
                     </div>
                     
                     <!-- Mobile menu button -->
-                    <button type="button" class="ml-4 md:hidden inline-flex items-center justify-center p-2 rounded-md text-blue-200 hover:text-white hover:bg-blue-600" id="mobile-menu-btn">
+                    <button type="button" class="ml-4 md:hidden inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-white hover:bg-white/20" id="mobile-menu-btn">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -183,30 +301,30 @@
                     {% if user %}
                         <!-- User menu -->
                         <div class="relative" id="user-menu">
-                            <button type="button" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" id="user-menu-btn">
+                            <button type="button" class="flex items-center text-sm rounded-full focus:outline-none" id="user-menu-btn">
                                 <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                                    <span class="text-blue-600 text-sm font-medium">{{ user.first_name[0].upper() if user.first_name else 'U' }}</span>
+                                    <span class="font-heading font-bold" style="color:var(--sky-dark);font-size:14px;">{{ user.first_name[0].upper() if user.first_name else 'U' }}</span>
                                 </div>
-                                <span class="ml-2 text-white">{{ user.first_name or user.name or 'User' }}</span>
-                                <i class="fas fa-chevron-down ml-1 text-blue-200"></i>
+                                <span class="ml-2 text-white font-medium">{{ user.first_name or user.name or 'User' }}</span>
+                                <i class="fas fa-chevron-down ml-1 text-white/70 text-xs"></i>
                             </button>
                             
                             <!-- User dropdown menu -->
-                            <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50" id="user-dropdown">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-user mr-2"></i>Profile
+                            <div class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-1 z-50 border border-sky-100" id="user-dropdown">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700">
+                                    <i class="fas fa-user mr-2 text-sky-500"></i>Profile
                                 </a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-cog mr-2"></i>Settings
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700">
+                                    <i class="fas fa-cog mr-2 text-sky-500"></i>Settings
                                 </a>
                                 <div class="border-t border-gray-100"></div>
-                                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
                                     <i class="fas fa-sign-out-alt mr-2"></i>Logout
                                 </button>
                             </div>
                         </div>
                     {% else %}
-                        <a href="{{ url_for('templates.login_page') }}" class="bg-white text-blue-600 px-6 py-2 rounded-lg font-semibold hover:bg-blue-50 transition-all duration-300 shadow-lg">
+                        <a href="{{ url_for('templates.login_page') }}" class="login-btn px-6 py-2 rounded-lg transition-all duration-300 shadow-md">
                             <i class="fas fa-sign-in-alt mr-2"></i>Login
                         </a>
                     {% endif %}
@@ -216,25 +334,25 @@
         
         <!-- Mobile menu -->
         <div class="hidden md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-blue-700 border-t border-blue-800">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-white/20" style="background:var(--sky-dark)">
                 {% if user %}
                     <div class="flex items-center px-3 py-2">
                         <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-blue-600 text-sm font-medium">{{ user.first_name[0].upper() if user.first_name else 'U' }}</span>
+                            <span class="font-bold" style="color:var(--sky-dark);font-size:14px;">{{ user.first_name[0].upper() if user.first_name else 'U' }}</span>
                         </div>
-                        <span class="ml-3 text-white">{{ user.first_name or user.name or 'User' }}</span>
+                        <span class="ml-3 text-white font-medium">{{ user.first_name or user.name or 'User' }}</span>
                     </div>
-                    <a href="#" class="block px-3 py-2 text-base font-medium text-white hover:text-blue-200 hover:bg-blue-600">
+                    <a href="#" class="block px-3 py-2 text-base font-medium text-white hover:bg-white/20 rounded-lg">
                         <i class="fas fa-user mr-2"></i>Profile
                     </a>
-                    <a href="#" class="block px-3 py-2 text-base font-medium text-white hover:text-blue-200 hover:bg-blue-600">
+                    <a href="#" class="block px-3 py-2 text-base font-medium text-white hover:bg-white/20 rounded-lg">
                         <i class="fas fa-cog mr-2"></i>Settings
                     </a>
-                    <button onclick="logout()" class="block w-full text-left px-3 py-2 text-base font-medium text-white hover:text-blue-200 hover:bg-blue-600">
+                    <button onclick="logout()" class="block w-full text-left px-3 py-2 text-base font-medium text-red-200 hover:bg-white/20 rounded-lg">
                         <i class="fas fa-sign-out-alt mr-2"></i>Logout
                     </button>
                 {% else %}
-                    <a href="{{ url_for('templates.login_page') }}" class="block px-3 py-2 text-base font-medium text-white hover:text-blue-200 hover:bg-blue-600">
+                    <a href="{{ url_for('templates.login_page') }}" class="block px-3 py-2 text-base font-medium text-white hover:bg-white/20 rounded-lg">
                         <i class="fas fa-sign-in-alt mr-2"></i>Login
                     </a>
                 {% endif %}

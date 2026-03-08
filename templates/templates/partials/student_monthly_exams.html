@@ -27,7 +27,7 @@
     function showLoading() {
         document.getElementById('monthlyExamsContent').innerHTML =
             '<div class="flex flex-col items-center justify-center py-16">' +
-            '<div class="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin"></div>' +
+            '<div class="w-12 h-12 border-4 border-sky-200 border-t-sky-500 rounded-full animate-spin"></div>' +
             '<p class="mt-4 text-sm text-gray-500">Loading your exams\u2026</p>' +
             '</div>';
     }
@@ -113,7 +113,7 @@
 
     function showBadge(text) {
         const el = document.createElement('div');
-        el.className = 'fixed top-20 right-4 z-50 bg-indigo-600 text-white text-sm font-medium px-5 py-2.5 rounded-full shadow-lg';
+        el.className = 'fixed top-20 right-4 z-50 bg-sky-500 text-white text-sm font-medium px-5 py-2.5 rounded-full shadow-lg';
         el.innerHTML = '<i class="fas fa-check-circle mr-2"></i>'+text;
         document.body.appendChild(el);
         setTimeout(() => { el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>el.remove(),400); }, 2600);
@@ -136,11 +136,11 @@
                 '<div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 overflow-hidden transition-all duration-200">' +
 
                 // header
-                '<div class="bg-gradient-to-br from-indigo-600 to-blue-700 px-5 py-4 cursor-pointer select-none" onclick="toggleExamDetails('+idx+','+exam.id+')">' +
+                '<div class="bg-gradient-to-br from-sky-500 to-blue-700 px-5 py-4 cursor-pointer select-none" onclick="toggleExamDetails('+idx+','+exam.id+')">' +
                 '<div class="flex items-start justify-between">' +
                 '<div class="flex-1 min-w-0">' +
                 '<h3 class="text-white font-semibold text-base leading-tight truncate">'+escHtml(exam.title)+'</h3>' +
-                '<p class="text-indigo-200 text-xs mt-0.5 truncate">'+escHtml(exam.batch_name)+'</p>' +
+                '<p class="text-sky-200 text-xs mt-0.5 truncate">'+escHtml(exam.batch_name)+'</p>' +
                 '</div>' +
                 '<i id="arrow-'+idx+'" class="fas fa-chevron-down text-white/70 ml-3 mt-0.5 transition-transform duration-200'+(isExpanded[idx]?' rotate-180':'')+'"></i>' +
                 '</div>' +
@@ -163,7 +163,7 @@
                 '<div id="exam-details-'+idx+'" class="'+(isExpanded[idx]?'':'hidden')+'">' +
                 (isExpanded[idx] ? '' :
                     '<div class="px-5 py-6 text-center">' +
-                    '<div class="w-8 h-8 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto"></div>' +
+                    '<div class="w-8 h-8 border-2 border-sky-200 border-t-sky-500 rounded-full animate-spin mx-auto"></div>' +
                     '<p class="text-xs text-gray-400 mt-2">Loading details\u2026</p></div>') +
                 '</div>' +
 
@@ -213,7 +213,7 @@
             // action bar
             html += '<div class="px-5 py-3 bg-gray-50 flex flex-wrap gap-2">';
             html += '<a href="/api/monthly-exams/'+examId+'/ranking" target="_blank" '+
-                    'class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors shadow-sm">' +
+                    'class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-xs font-semibold transition-colors shadow-sm">' +
                     '<i class="fas fa-trophy"></i>Full Rankings</a>';
             if (exam.result_published_at) {
                 html += '<a href="/api/monthly-exams/'+examId+'/section-result" target="_blank" '+
@@ -228,9 +228,9 @@
                 html += '<p class="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">My Result</p>';
                 html += '<div class="grid sm:grid-cols-2 gap-3">';
                 myRanks.forEach(r => {
-                    const gc = r.grade==='A+'||r.grade==='A'?'text-emerald-600':r.grade==='F'?'text-red-600':'text-indigo-600';
-                    html += '<div class="rounded-xl border border-indigo-100 bg-gradient-to-br from-indigo-50 to-white p-4 flex items-center gap-4">' +
-                            '<div class="w-14 h-14 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0">' +
+                    const gc = r.grade==='A+'||r.grade==='A'?'text-emerald-600':r.grade==='F'?'text-red-600':'text-sky-600';
+                    html += '<div class="rounded-xl border border-sky-100 bg-gradient-to-br from-sky-50 to-white p-4 flex items-center gap-4">' +
+                            '<div class="w-14 h-14 rounded-full bg-sky-500 text-white flex items-center justify-center shrink-0">' +
                             '<span class="text-lg font-black">#'+r.position+'</span></div>' +
                             '<div class="min-w-0">' +
                             '<p class="font-semibold text-gray-800 truncate">'+escHtml(r.student_name)+'</p>' +
@@ -261,7 +261,7 @@
                     const absent = sm?.is_absent;
                     const obt    = sm ? (absent ? 'Absent' : sm.marks_obtained) : '\u2014';
                     const grade  = sm && !absent ? sm.grade : '';
-                    const gc     = grade==='A+'||grade==='A'?'bg-emerald-100 text-emerald-700':grade==='F'?'bg-red-100 text-red-700':'bg-indigo-100 text-indigo-700';
+                    const gc     = grade==='A+'||grade==='A'?'bg-emerald-100 text-emerald-700':grade==='F'?'bg-red-100 text-red-700':'bg-sky-100 text-indigo-700';
 
                     html += '<tr class="'+(absent?'bg-red-50':'')+' hover:bg-gray-50 transition-colors">' +
                             '<td class="px-4 py-2.5 font-medium text-gray-800">'+escHtml(ie.subject||ie.title)+'</td>' +
@@ -275,7 +275,7 @@
                 });
 
                 html += '</tbody></table></div>';
-                html += '<div class="mt-3 flex items-center justify-between rounded-xl bg-indigo-600 text-white px-4 py-2.5">' +
+                html += '<div class="mt-3 flex items-center justify-between rounded-xl bg-sky-500 text-white px-4 py-2.5">' +
                         '<span class="font-semibold text-sm">Total</span>' +
                         '<span class="text-xl font-black">'+(myRanks[0]?myRanks[0].total_exam_marks:'\u2014')+'<span class="text-sm font-normal opacity-70">/'+exam.total_marks+'</span></span>' +
                         '</div>';
@@ -299,16 +299,16 @@
                 rankings.forEach((r,i) => {
                     const isMine = allIds.includes(r.user_id);
                     const medal  = i===0?'🥇':i===1?'🥈':i===2?'🥉':'';
-                    const rc     = isMine ? 'bg-indigo-50 font-semibold ring-1 ring-inset ring-indigo-200' : 'hover:bg-gray-50';
-                    const gc     = r.grade==='A+'||r.grade==='A'?'bg-emerald-100 text-emerald-700':r.grade==='F'?'bg-red-100 text-red-700':'bg-indigo-100 text-indigo-700';
+                    const rc     = isMine ? 'bg-sky-50 font-semibold ring-1 ring-inset ring-sky-200' : 'hover:bg-gray-50';
+                    const gc     = r.grade==='A+'||r.grade==='A'?'bg-emerald-100 text-emerald-700':r.grade==='F'?'bg-red-100 text-red-700':'bg-sky-100 text-indigo-700';
 
                     html += '<tr class="'+rc+' transition-colors">' +
                             '<td class="px-3 py-2.5 text-center">' +
                             '<span class="inline-flex w-7 h-7 items-center justify-center rounded-full bg-gray-100 text-xs font-bold text-gray-600">'+
                             (medal ? medal : r.position)+'</span></td>' +
-                            '<td class="px-3 py-2.5 text-gray-800">'+escHtml(r.student_name)+(isMine?' <span class="text-xs text-indigo-500">(you)</span>':'')+'</td>' +
+                            '<td class="px-3 py-2.5 text-gray-800">'+escHtml(r.student_name)+(isMine?' <span class="text-xs text-sky-500">(you)</span>':'')+'</td>' +
                             '<td class="px-3 py-2.5 text-center font-semibold text-gray-900">'+r.total_exam_marks+'<span class="text-gray-400 font-normal">/'+exam.total_marks+'</span></td>' +
-                            '<td class="px-3 py-2.5 text-center text-indigo-600 font-semibold">'+r.percentage.toFixed(1)+'%</td>' +
+                            '<td class="px-3 py-2.5 text-center text-sky-600 font-semibold">'+r.percentage.toFixed(1)+'%</td>' +
                             '<td class="px-3 py-2.5 text-center"><span class="text-xs font-semibold px-2 py-0.5 rounded-full '+gc+'">'+r.grade+'</span></td>' +
                             '</tr>';
                 });

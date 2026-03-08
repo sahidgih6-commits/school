@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Result Search – Modern Ideal Non Government Primary School</title>
+<title>Result Search – মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
@@ -14,16 +14,16 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
 /* ── School header card ── */
 .school-header {
   background: #fff;
-  border-top: 6px solid #b8962e;
+  border-top: 6px solid #F2C94C;
   border-radius: 8px;
   padding: 22px 24px 16px;
   text-align: center;
   box-shadow: 0 2px 12px rgba(0,0,0,.10);
   margin-bottom: 24px;
 }
-.school-name { font-size: 24px; font-weight: bold; color: #b8962e; letter-spacing: 1px; }
-.school-sub  { font-size: 12px; color: #666; margin-top: 2px; }
-.page-title  { font-size: 15px; font-weight: bold; color: #fff; background: #b8962e;
+.school-name { font-size: 24px; font-weight: bold; color: #F2C94C; letter-spacing: 1px; }
+.school-sub  { font-size: 12px; color: #333333; margin-top: 2px; }
+.page-title  { font-size: 15px; font-weight: bold; color: #fff; background: #F2C94C;
                display: inline-block; padding: 4px 22px; border-radius: 20px; margin-top: 10px; letter-spacing: 2px; }
 
 /* ── Search card ── */
@@ -34,7 +34,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
   padding: 28px 28px 22px;
   margin-bottom: 28px;
 }
-.search-card h2 { font-size: 16px; color: #333; margin-bottom: 18px; border-bottom: 2px solid #b8962e; padding-bottom: 8px; }
+.search-card h2 { font-size: 16px; color: #333; margin-bottom: 18px; border-bottom: 2px solid #F2C94C; padding-bottom: 8px; }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
@@ -43,12 +43,12 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
   border: 1px solid #ccc; border-radius: 5px; padding: 9px 12px; font-size: 13px;
   transition: border .2s;
 }
-.form-group input:focus { outline: none; border-color: #b8962e; box-shadow: 0 0 0 3px rgba(184,150,46,.15); }
+.form-group input:focus { outline: none; border-color: #F2C94C; box-shadow: 0 0 0 3px rgba(184,150,46,.15); }
 .form-group .hint { font-size: 10px; color: #999; }
 
 .search-btn {
   margin-top: 18px; width: 100%; padding: 12px;
-  background: #b8962e; color: #fff; border: none; border-radius: 6px;
+  background: #F2C94C; color: #fff; border: none; border-radius: 6px;
   font-size: 15px; font-weight: bold; cursor: pointer; letter-spacing: 1px;
   transition: background .2s;
 }
@@ -59,7 +59,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
 .spinner { display: none; text-align: center; padding: 20px; color: #888; font-size: 13px; }
 .spinner.active { display: block; }
 .spin { display: inline-block; width: 28px; height: 28px; border: 3px solid #eee;
-        border-top-color: #b8962e; border-radius: 50%; animation: spin .8s linear infinite; }
+        border-top-color: #F2C94C; border-radius: 50%; animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Error / info ── */
@@ -73,7 +73,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 12px rgba(0,0,0,.10);
-  border-left: 5px solid #b8962e;
+  border-left: 5px solid #F2C94C;
   overflow: hidden;
 }
 .result-card.fail { border-left-color: #c00; }
@@ -94,7 +94,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
 .card-body { padding: 14px 18px; }
 .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
 .card-stat { text-align: center; }
-.card-stat .val { font-size: 20px; font-weight: bold; color: #b8962e; }
+.card-stat .val { font-size: 20px; font-weight: bold; color: #F2C94C; }
 .card-stat .lbl { font-size: 10px; color: #888; margin-top: 1px; }
 .card-stat.pass .val { color: #006600; }
 .card-stat.fail .val { color: #c00; }
@@ -102,7 +102,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
 .card-footer { padding: 10px 18px; background: #f7f7f7; display: flex; justify-content: space-between; align-items: center; }
 .pub-date { font-size: 11px; color: #999; }
 .view-btn {
-  background: #b8962e; color: #fff; padding: 7px 18px; border-radius: 5px;
+  background: #F2C94C; color: #fff; padding: 7px 18px; border-radius: 5px;
   font-size: 12px; font-weight: bold; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
 }
 .view-btn:hover { background: #9a7b23; }
@@ -133,7 +133,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
 
   <!-- ── School Header ── -->
   <div class="school-header">
-    <div class="school-name">Modern Ideal Non Government Primary School</div>
+    <div class="school-name">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
     <div class="school-sub">Rabeya Polly, Mohadebpur, Naogaon | Ph: 01712-185138</div>
     <div class="page-title">RESULT SEARCH</div>
   </div>
@@ -181,7 +181,7 @@ body { font-family: Arial, sans-serif; background: #f0f4fa; min-height: 100vh; }
   <!-- ── Class Result Link (shown after search) ── -->
   <div id="classResultLink" style="display:none;"></div>
 
-  <div class="footer">© Modern Ideal Non Government Primary School &nbsp;|&nbsp; Result Portal</div>
+  <div class="footer">© মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় &nbsp;|&nbsp; Result Portal</div>
 
 </div><!-- /wrapper -->
 

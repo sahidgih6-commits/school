@@ -1,32 +1,32 @@
 {% extends "base.html" %}
-{% block title %}Student Transcript – Modern Ideal Non Government Primary School{% endblock %}
+{% block title %}Student Transcript – মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়{% endblock %}
 {% block extra_head %}
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--primary:#1a56db;--gold:#f59e0b;--green:#059669;--red:#dc2626;--dark:#1e293b;--gray:#64748b;--gradient:linear-gradient(135deg,#1a56db,#0a2d7a)}
+:root{--primary:#1a56db;--gold:#f59e0b;--green:#059669;--red:#dc2626;--dark:#333333;--gray:#555555;--gradient:linear-gradient(135deg,#1a56db,#0a2d7a)}
 body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:var(--dark)}
 .bn{font-family:'Hind Siliguri','Poppins',sans-serif}
 .page-header{background:var(--gradient);padding:36px 20px;text-align:center;color:#fff}
 .page-header h1{font-size:clamp(20px,3.5vw,32px);font-weight:800;margin-bottom:6px}
 .page-header p{font-size:14px;opacity:.85}
 .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-.search-area{background:#fff;border-radius:0 0 16px 16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:28px}
+.search-area{background:#fff;border-radius:0 0 16px 16px;padding:20px;box-shadow:0 4px 20px rgba(47,93,138,0.12);margin-bottom:28px}
 .s-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:end}
 .fg label{font-size:12px;font-weight:600;color:var(--gray);margin-bottom:5px;display:block}
 .fg select,.fg input{width:100%;padding:10px 14px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13.5px;outline:none;background:#fff;transition:.2s}
-.fg select:focus,.fg input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1)}
+.fg select:focus,.fg input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(47,93,138,.1)}
 .btn-load{background:var(--primary);color:#fff;padding:11px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
 .btn-load:hover{background:#1238a0;transform:translateY(-1px)}
-.btn-print{background:var(--gold);color:#1e293b;padding:11px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.btn-print{background:var(--gold);color:#2F5D8A;padding:11px 22px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;cursor:pointer}
 .btn-print:hover{background:#d97706}
-.empty-state{text-align:center;padding:60px 20px;color:#94a3b8;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.empty-state{text-align:center;padding:60px 20px;color:#6FA8BF;background:#fff;border-radius:16px;box-shadow:0 2px 12px rgba(47,93,138,0.08)}
 .empty-state i{font-size:48px;margin-bottom:16px;display:block}
 .empty-state h3{font-size:18px;font-weight:600;margin-bottom:8px}
 .sml{display:inline-block;width:18px;height:18px;border:2px solid #e2e8f0;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── TRANSCRIPT CARD ── */
-.transcript-card{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.1);overflow:hidden;margin-bottom:32px}
+.transcript-card{background:#fff;border-radius:16px;box-shadow:0 4px 24px rgba(47,93,138,0.15);overflow:hidden;margin-bottom:32px}
 .tc-header{background:var(--gradient);padding:28px;text-align:center;color:#fff;position:relative}
 .tc-school-name{font-size:clamp(16px,2.5vw,22px);font-weight:800;margin-bottom:4px}
 .tc-school-bn{font-family:'Hind Siliguri',sans-serif;font-size:clamp(13px,2vw,16px);color:rgba(255,255,255,.85);margin-bottom:10px}
@@ -62,7 +62,7 @@ body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:var(--dark)}
 .progress-bar{background:#e2e8f0;border-radius:50px;height:10px;overflow:hidden;margin-top:6px}
 .progress-inner{height:100%;border-radius:50px;background:linear-gradient(90deg,var(--primary),var(--gold));transition:width 1.2s ease}
 .tc-footer{border-top:1px solid #e2e8f0;padding:20px 28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;text-align:center}
-.sig-box .sig-line{border-top:1.5px solid #64748b;margin-top:40px;padding-top:8px;font-size:12.5px;color:var(--gray);font-weight:500}
+.sig-box .sig-line{border-top:1.5px solid #555555;margin-top:40px;padding-top:8px;font-size:12.5px;color:var(--gray);font-weight:500}
 .back-btn{display:inline-flex;align-items:center;gap:8px;color:var(--primary);text-decoration:none;font-size:14px;font-weight:600;margin-bottom:20px;transition:.2s}
 .back-btn:hover{color:#1238a0}
 
@@ -81,7 +81,7 @@ body{font-family:'Poppins',sans-serif;background:#f0f4f8;color:var(--dark)}
 <div class="page-header">
   <div class="wrap">
     <h1><i class="fas fa-file-alt" style="margin-right:10px"></i>Student Transcript</h1>
-    <p class="bn">Modern Ideal Non Government Primary School – মার্কশিট / ট্রান্সক্রিপ্ট</p>
+    <p class="bn">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয় – মার্কশিট / ট্রান্সক্রিপ্ট</p>
   </div>
 </div>
 
@@ -152,7 +152,17 @@ async function loadClasses(){
   try{
     const cls = await fetch('/api/school/classes').then(r=>r.json());
     const s = $('t-class');
-    cls.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;s.appendChild(o);});
+    const pre=cls.filter(c=>c.class_number<=0), pri=cls.filter(c=>c.class_number>0);
+    if(pre.length){
+      const g=document.createElement('optgroup');g.label='Pre-Primary';
+      pre.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});
+      s.appendChild(g);
+    }
+    if(pri.length){
+      const g=document.createElement('optgroup');g.label='Primary';
+      pri.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;g.appendChild(o);});
+      s.appendChild(g);
+    }
     // Pre-fill from URL
     const p=new URLSearchParams(location.search);
     if(p.get('exam_id') && p.get('student_id')){
@@ -173,7 +183,7 @@ async function loadStudentList(){
   if(!cid||!term){ alert('Please select class and term'); return; }
 
   $('student-list-area').style.display='none';
-  $('transcript-output').innerHTML='<div style="text-align:center;padding:40px;color:#64748b"><span class="sml"></span> Loading students…</div>';
+  $('transcript-output').innerHTML='<div style="text-align:center;padding:40px;color:#555555"><span class="sml"></span> Loading students…</div>';
 
   try{
     const exams = await fetch(`/api/school/term-exams?year=${year}&class_id=${cid}`).then(r=>r.json());
@@ -223,7 +233,7 @@ function filterStudents(){
 }
 
 async function loadTranscript(studentId, examId){
-  $('transcript-output').innerHTML='<div style="text-align:center;padding:60px;color:#64748b"><span class="sml"></span> Generating transcript…</div>';
+  $('transcript-output').innerHTML='<div style="text-align:center;padding:60px;color:#555555"><span class="sml"></span> Generating transcript…</div>';
   try{
     const d = await fetch(`/api/school/results/transcript/${studentId}?exam_id=${examId}`).then(r=>r.json());
     if(d.error){ $('transcript-output').innerHTML=`<div class="empty-state"><i class="fas fa-times-circle"></i><h3>Error</h3><p>${d.error}</p></div>`; return; }
@@ -243,7 +253,7 @@ function renderTranscript(d){
   // Build subject rows
   const subRows = sub.map((r,i)=>`<tr>
     <td>${i+1}</td>
-    <td>${r.subject_name}${r.subject_name_bn?'<br><small class="bn" style="color:#94a3b8;font-size:11px">'+r.subject_name_bn+'</small>':''}</td>
+    <td>${r.subject_name}${r.subject_name_bn?'<br><small class="bn" style="color:#6FA8BF;font-size:11px">'+r.subject_name_bn+'</small>':''}</td>
     <td>${r.full_marks}</td>
     <td>${r.is_absent?'<span style="color:#dc2626">Absent</span>':r.marks_obtained}</td>
     <td>${r.is_absent?'—':((r.marks_obtained/r.full_marks)*100).toFixed(1)+'%'}</td>
@@ -264,7 +274,7 @@ function renderTranscript(d){
   <div class="transcript-card">
     <!-- HEADER -->
     <div class="tc-header">
-      <div class="tc-school-name" id="tc-sname">Modern Ideal Non Government Primary School</div>
+      <div class="tc-school-name" id="tc-sname">মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়</div>
       <div class="tc-school-bn bn">মডার্ন আইডিয়াল নন-গভর্নমেন্ট প্রাইমারি স্কুল</div>
       <div class="tc-exam-title">${e.title}</div>
     </div>

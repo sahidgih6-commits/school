@@ -7,7 +7,7 @@
             <a href="/students/list-print" target="_blank" class="bg-gradient-to-r from-yellow-600 to-yellow-700 hover:from-yellow-700 hover:to-yellow-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200" title="Print Student List with Photos">
                 <i class="fas fa-print mr-2"></i>Print List
             </a>
-            <a href="/students/admit-cards" target="_blank" class="bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200" title="Generate Admit Cards">
+            <a href="/students/admit-cards" target="_blank" class="bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-500 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200" title="Generate Admit Cards">
                 <i class="fas fa-id-card mr-2"></i>Admit Cards
             </a>
             <button @click="loadStudents()" class="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200" title="Refresh Data">
@@ -35,9 +35,16 @@
             <div class="min-w-[200px]">
                 <select x-model="filterBatch" @change="filterStudents()" class="form-input">
                     <option value="">All Classes</option>
-                    <template x-for="cls in schoolClasses" :key="'c'+cls.id">
-                        <option :value="'c'+cls.id" x-text="cls.name"></option>
-                    </template>
+                    <optgroup label="Pre-Primary">
+                        <template x-for="cls in schoolClasses.filter(c => c.class_number <= 0)" :key="'c'+cls.id">
+                            <option :value="'c'+cls.id" x-text="cls.name"></option>
+                        </template>
+                    </optgroup>
+                    <optgroup label="Primary">
+                        <template x-for="cls in schoolClasses.filter(c => c.class_number > 0)" :key="'c'+cls.id">
+                            <option :value="'c'+cls.id" x-text="cls.name"></option>
+                        </template>
+                    </optgroup>
                     <template x-for="batch in batches" :key="'b'+batch.id">
                         <option :value="'b'+batch.id" x-text="batch.name"></option>
                     </template>
@@ -97,7 +104,7 @@
                             </td>
                             <!-- Roll Number -->
                             <td class="px-3 py-4 text-center">
-                                <span x-show="student.roll_number" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-indigo-100 text-indigo-800 font-semibold text-sm" x-text="student.roll_number"></span>
+                                <span x-show="student.roll_number" class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-sky-100 text-sky-800 font-semibold text-sm" x-text="student.roll_number"></span>
                                 <span x-show="!student.roll_number" class="text-gray-400 text-xs">-</span>
                             </td>
                             <!-- Student Code (ID) -->
@@ -336,9 +343,16 @@
                         </label>
                         <select x-model="studentForm.schoolClassId" @change="onFormClassChange()" class="form-input">
                             <option value="">-- Select Class --</option>
-                            <template x-for="cls in schoolClasses" :key="cls.id">
-                                <option :value="cls.id" x-text="cls.name"></option>
-                            </template>
+                            <optgroup label="Pre-Primary">
+                                <template x-for="cls in schoolClasses.filter(c => c.class_number <= 0)" :key="cls.id">
+                                    <option :value="cls.id" x-text="cls.name"></option>
+                                </template>
+                            </optgroup>
+                            <optgroup label="Primary">
+                                <template x-for="cls in schoolClasses.filter(c => c.class_number > 0)" :key="cls.id">
+                                    <option :value="cls.id" x-text="cls.name"></option>
+                                </template>
+                            </optgroup>
                         </select>
                     </div>
 

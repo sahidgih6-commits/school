@@ -27,7 +27,7 @@
             <label x-show="field.type!=='header'" class="block text-xs font-semibold text-gray-500 mb-1.5" x-text="field.label"></label>
             <!-- section header divider -->
             <template x-if="field.type==='header'">
-              <div class="border-t-2 border-dashed border-indigo-200 pt-2 text-xs font-bold text-indigo-500 tracking-widest uppercase" x-text="field.label"></div>
+              <div class="border-t-2 border-dashed border-indigo-200 pt-2 text-xs font-bold text-sky-500 tracking-widest uppercase" x-text="field.label"></div>
             </template>
             <!-- image upload -->
             <template x-if="field.type==='image'">
@@ -75,7 +75,7 @@
           <template x-for="cls in classes" :key="'ct'+cls.id">
             <div class="border border-gray-100 rounded-xl p-4 bg-gray-50 space-y-3">
               <!-- header -->
-              <div class="text-xs font-bold text-indigo-600 uppercase tracking-wide flex items-center gap-1">
+              <div class="text-xs font-bold text-sky-600 uppercase tracking-wide flex items-center gap-1">
                 <i class="fas fa-chalkboard-teacher"></i>
                 <span x-text="cls.name + ' — Class Teacher'"></span>
               </div>
@@ -106,7 +106,7 @@
                   <label class="flex items-center gap-2 cursor-pointer">
                     <input type="file" accept="image/*"
                       @change="onInfoImageChange($event, 'class_teacher_photo_'+cls.id)"
-                      class="block w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer border border-gray-200 rounded-lg p-1">
+                      class="block w-full text-xs text-gray-500 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer border border-gray-200 rounded-lg p-1">
                   </label>
                 </div>
               </div>
@@ -280,8 +280,18 @@
             <input type="text" x-model="clsForm.name_bn" placeholder="প্রথম শ্রেণি" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
           </div>
           <div>
-            <label class="text-xs font-semibold text-gray-500 block mb-1">Class Number</label>
-            <input type="number" x-model="clsForm.class_number" min="1" max="5" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400">
+            <label class="text-xs font-semibold text-gray-500 block mb-1">Class Level</label>
+            <select x-model.number="clsForm.class_number" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-400 bg-white">
+              <option value="-3">Play (প্লে)</option>
+              <option value="-2">Baby (বেবি)</option>
+              <option value="-1">Nursery (নার্সারি)</option>
+              <option value="0">KG (কেজি)</option>
+              <option value="1">Class 1</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+              <option value="5">Class 5</option>
+            </select>
           </div>
           <button @click="addClass()" class="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition"><i class="fas fa-plus"></i> Add Class</button>
         </div>
@@ -392,7 +402,7 @@
   <div x-show="activeTab==='results'" x-cloak>
 
     <!-- ── BULK GENERATE ── -->
-    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 mb-6 text-white shadow-lg">
+    <div class="bg-gradient-to-r from-blue-600 to-sky-600 rounded-2xl p-6 mb-6 text-white shadow-lg">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div class="flex-1">
           <h3 class="text-lg font-bold mb-1 flex items-center gap-2"><i class="fas fa-magic"></i> Auto-Generate All Exams</h3>
@@ -491,7 +501,7 @@
           <template x-for="cls in examClasses" :key="cls.id">
             <div class="border border-gray-100 rounded-xl overflow-hidden">
               <!-- Class header -->
-              <div class="bg-gradient-to-r from-blue-50 to-indigo-50 px-4 py-2.5 flex items-center justify-between">
+              <div class="bg-gradient-to-r from-blue-50 to-sky-50 px-4 py-2.5 flex items-center justify-between">
                 <span class="font-bold text-blue-800 text-sm" x-text="cls.name"></span>
                 <span class="text-xs text-blue-500" x-text="examsForClass(cls.id).length+' exams'"></span>
               </div>
@@ -549,15 +559,15 @@
     <div class="bg-white rounded-xl shadow p-6">
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-lg font-bold text-gray-900 flex items-center gap-3">
-          <div class="w-9 h-9 bg-indigo-100 rounded-lg flex items-center justify-center"><i class="fas fa-chalkboard-teacher text-indigo-600"></i></div>
+          <div class="w-9 h-9 bg-sky-100 rounded-lg flex items-center justify-center"><i class="fas fa-chalkboard-teacher text-sky-600"></i></div>
           Teaching Staff
         </h3>
-        <button @click="showAddTeacherModal=true" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition flex items-center gap-2"><i class="fas fa-plus"></i> Add Teacher</button>
+        <button @click="showAddTeacherModal=true" class="bg-sky-500 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-sky-600 transition flex items-center gap-2"><i class="fas fa-plus"></i> Add Teacher</button>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <template x-for="t in teachers" :key="t.id">
           <div class="border border-gray-100 rounded-xl p-4 hover:shadow-md transition text-center">
-            <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 overflow-hidden">
+            <div class="w-16 h-16 bg-gradient-to-br from-sky-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 overflow-hidden">
               <template x-if="t.profile_image">
                 <img :src="t.profile_image" :alt="t.first_name" class="w-full h-full object-cover">
               </template>
@@ -585,33 +595,33 @@
   <div x-show="activeTab==='gallery'" x-cloak x-effect="if(activeTab==='gallery' && !galleryPhotos.length && !galleryLoading) loadGallery()">
     <div class="bg-white rounded-xl shadow p-6">
       <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-        <i class="fas fa-images text-indigo-600"></i> Photo Gallery
+        <i class="fas fa-images text-sky-600"></i> Photo Gallery
       </h3>
       <p class="text-sm text-gray-500 mb-6">Upload photos that will appear on the public website gallery. Max 5 MB each.</p>
 
       <!-- Upload form -->
-      <div class="border-2 border-dashed border-indigo-200 rounded-xl p-5 mb-6 bg-indigo-50">
+      <div class="border-2 border-dashed border-indigo-200 rounded-xl p-5 mb-6 bg-sky-50">
         <div class="flex flex-col sm:flex-row gap-4 items-start">
           <!-- preview -->
           <div class="w-28 h-28 rounded-xl border-2 border-indigo-200 overflow-hidden bg-white flex items-center justify-center flex-shrink-0">
             <img x-show="galleryPreview" :src="galleryPreview" class="w-full h-full object-cover">
-            <i x-show="!galleryPreview" class="fas fa-image text-4xl text-indigo-200"></i>
+            <i x-show="!galleryPreview" class="fas fa-image text-4xl text-sky-200"></i>
           </div>
           <div class="flex-1 space-y-3">
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1">Caption / Title (optional)</label>
               <input type="text" x-model="galleryForm.title" placeholder="e.g. Annual Sports Day 2025"
-                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 outline-none">
+                class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:border-sky-400 focus:ring-2 focus:ring-sky-100 outline-none">
             </div>
             <div>
               <label class="block text-xs font-semibold text-gray-600 mb-1">Photo <span class="text-gray-400">(JPG / PNG / WEBP)</span></label>
               <input type="file" accept="image/*" x-ref="galleryFileInput"
                 @change="onGalleryFileChange($event)"
-                class="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer">
+                class="block w-full text-sm text-gray-500 file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-sky-500 file:text-white hover:file:bg-sky-600 cursor-pointer">
             </div>
             <button @click="addGalleryPhoto()"
               :disabled="!galleryForm.image_data || galleryUploading"
-              class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2">
+              class="bg-sky-500 text-white px-5 py-2 rounded-lg text-sm font-semibold hover:bg-sky-600 disabled:opacity-50 disabled:cursor-not-allowed transition flex items-center gap-2">
               <i class="fas" :class="galleryUploading?'fa-spinner fa-spin':'fa-upload'"></i>
               <span x-text="galleryUploading?'Uploading…':'Upload Photo'"></span>
             </button>
@@ -658,7 +668,7 @@ function schoolCMS(){
     ],
     // School info
     infoFields:[
-      {key:'school_name',label:'School Name (English)',placeholder:'Modern Ideal Non Government Primary School'},
+      {key:'school_name',label:'School Name (English)',placeholder:'মডার্ণ আইডিয়াল বেসরকারি প্রাথমিক বিদ্যালয়'},
       {key:'school_name_bn',label:'School Name (Bengali)',placeholder:'মডার্ন আইডিয়াল...'},
       {key:'school_email',label:'Email Address',type:'email',placeholder:'info@school.edu.bd'},
       {key:'school_phone',label:'Phone Number',placeholder:'+880 1700-000000'},
@@ -697,7 +707,7 @@ function schoolCMS(){
     selectedClass:null,
     sections:[],
     subjects:[],
-    clsForm:{name:'',name_bn:'',class_number:1},
+    clsForm:{name:'',name_bn:'',class_number:-3},
     secForm:{name:'',room_number:'',capacity:40},
     subForm:{name:'',name_bn:'',full_marks:100,pass_marks:33},
     // Term results
@@ -797,7 +807,7 @@ function schoolCMS(){
       if(!this.clsForm.name) return;
       try{
         const r=await fetch('/api/school/classes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(this.clsForm)});
-        if((await r.json()).success){ this.clsForm={name:'',name_bn:'',class_number:1}; this.loadClasses(); }
+        if((await r.json()).success){ this.clsForm={name:'',name_bn:'',class_number:-3}; this.loadClasses(); }
       }catch(e){}
     },
     async addSection(){

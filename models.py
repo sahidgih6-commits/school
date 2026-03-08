@@ -757,7 +757,7 @@ class OnlineStudentAnswer(db.Model):
 # ============================================================
 
 class SchoolClass(db.Model):
-    """Represents Class 1–5 in the school"""
+    """School classes: Play(-3), Baby(-2), Nursery(-1), KG(0), Class 1–5"""
     __tablename__ = 'school_classes'
 
     id = db.Column(db.Integer, primary_key=True)
