@@ -102,21 +102,18 @@ def login():
             except Exception:
                 pass
 
-            # Try werkzeug first (usually for werkzeug-generated hashes)
+            # Route by hash type: bcrypt hashes start with $2b$ or $2a$
+            if isinstance(stored_hash, str) and stored_hash.startswith(('$2b$', '$2a$', '$2y$')):
+                try:
+                    from utils.auth import check_password_hash as bcrypt_check
+                    return bool(bcrypt_check(stored_hash, plain_password))
+                except Exception:
+                    return False
+
+            # Werkzeug-style hashes (pbkdf2:sha256:... or scrypt:...)
             try:
                 from werkzeug.security import check_password_hash as werk_check
-                try:
-                    if isinstance(stored_hash, str):
-                        return werk_check(stored_hash, plain_password)
-                except Exception:
-                    pass
-            except Exception:
-                pass
-
-            # Fallback to bcrypt-based checker from utils.auth
-            try:
-                from utils.auth import check_password_hash as bcrypt_check
-                return bool(bcrypt_check(stored_hash, plain_password))
+                return werk_check(stored_hash, plain_password)
             except Exception:
                 return False
 
